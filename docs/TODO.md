@@ -486,7 +486,7 @@ Legend
 - [ ] GitHub / GitLab PR creation behind explicit user authorization
 - [ ] Real WhatsApp adapter (Twilio / WhatsApp Cloud API)
 - [~] Secret scanning + policy plugins + run replay UI — patch-content secret scan landed (`scanPatchContentForSecrets`, wired into `checkPatchSafety` so apply refuses on AWS/GitHub/Slack/Stripe/Google/Anthropic/PEM hits); policy plugins + run replay UI still pending
-- [ ] Interactive terminal in the dashboard (currently logs are read-only)
+- [x] Interactive terminal in the dashboard — opt-in per-run shell behind `policies.allowInteractiveTerminal` (default false). PTY I/O over WebSocket only; no command string crosses HTTP. CWD restricted to known run worktrees, project root refused. node-pty is optional; missing native module → honest disabled state in the panel.
 
 ---
 
