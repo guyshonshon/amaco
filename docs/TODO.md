@@ -485,7 +485,7 @@ Legend
 - [ ] Docker / cloud execution backends
 - [ ] GitHub / GitLab PR creation behind explicit user authorization
 - [ ] Real WhatsApp adapter (Twilio / WhatsApp Cloud API)
-- [~] Secret scanning + policy plugins + run replay UI — patch-content secret scan (`scanPatchContentForSecrets`) AND YAML-based user policy plugins (`.amaco/policies/*.yml`, `suggestion-apply` + `bundle-apply` surfaces, block-only, regex + glob matchers, CLI + dashboard, no JS plugins) both shipped; run replay UI still pending
+- [x] Secret scanning + policy plugins + run replay UI — patch-content secret scan (`scanPatchContentForSecrets`), YAML-based user policy plugins (`.amaco/policies/*.yml`, `suggestion-apply` + `bundle-apply` surfaces, block-only, regex + glob matchers, CLI + dashboard, no JS plugins), and the read-only Run Replay tab (`GET /api/runs/:id/replay` + `LazyReplayPanel`) all shipped
 - [x] Interactive terminal in the dashboard — opt-in per-run shell behind `policies.allowInteractiveTerminal` (default false). PTY I/O over WebSocket only; no command string crosses HTTP. CWD restricted to known run worktrees, project root refused. node-pty is optional; missing native module → honest disabled state in the panel.
 
 ---
