@@ -473,10 +473,10 @@ Legend
 
 ## Near-term polish
 
-- [ ] Profile usage counters (telemetry-only)
-- [ ] Did-you-mean for stale profile references in doctor
-- [ ] Live SSE for suggestion / bundle lists (currently 5 s polling)
-- [ ] `amaco validation profile doctor --all` to lift the 50-run audit cap
+- [x] Profile usage counters (telemetry-only) — `validation-profile-usage-service.ts`, CLI `amaco validation usage`, `GET /api/validation/profile-usage`, surfaced per-row in `ProfileMaintenancePanel`
+- [x] Did-you-mean for stale profile references in doctor — `suggestProfileName` (edit-distance ≤ 2) wired into `doctor-service.ts` and the new `validation profile doctor` CLI
+- [x] Live SSE for suggestion / bundle lists — `SuggestionsPanel` and `ReviewPassPanel` both subscribe via `streamRunEvents`; the 5 s `setInterval` is a fallback only
+- [x] `amaco validation profile doctor --all` to lift the 50-run audit cap — new subcommand with `--all` / `--run <id>` / `--json`; audit service accepts a scope
 
 ## Larger scope (deliberately deferred)
 
