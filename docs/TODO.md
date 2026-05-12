@@ -485,7 +485,7 @@ Legend
 - [ ] Docker / cloud execution backends
 - [ ] GitHub / GitLab PR creation behind explicit user authorization
 - [ ] Real WhatsApp adapter (Twilio / WhatsApp Cloud API)
-- [ ] Secret scanning + policy plugins + run replay UI
+- [~] Secret scanning + policy plugins + run replay UI — patch-content secret scan landed (`scanPatchContentForSecrets`, wired into `checkPatchSafety` so apply refuses on AWS/GitHub/Slack/Stripe/Google/Anthropic/PEM hits); policy plugins + run replay UI still pending
 - [ ] Interactive terminal in the dashboard (currently logs are read-only)
 
 ---
