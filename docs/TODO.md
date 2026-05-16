@@ -313,6 +313,7 @@ Legend
 - [x] Per-phase smokes (notifications, codebase, suggestions ingest → apply → validate → revert, smart apply, profile editing) covered by integration tests
 - [x] Run Replay tick-able checklist — [`docs/smoke-tests-replay.md`](./smoke-tests-replay.md) (CLI, dashboard, deep-links, cross-links, filter, permalink, keyboard, posture)
 - [x] Pause / resume tick-able checklist — [`docs/smoke-tests-pause-resume.md`](./smoke-tests-pause-resume.md) (state primitives, CLI, server routes, RunHeader buttons, orchestrator round-trip, posture)
+- [x] Effort + read-only tick-able checklist — [`docs/smoke-tests-task-effort-readonly.md`](./smoke-tests-task-effort-readonly.md) (resolver, CLI, dashboard task panel, route 409 refusals on read-only, abbreviated workflow, permission override)
 
 ## 38. Acceptance Criteria
 
@@ -327,6 +328,8 @@ Legend
 - [ ] Docker / cloud execution backends (V1+)
 - [ ] GitHub PR creation / GitLab support / auto-merge under strict gates (V1+)
 - [~] Provider presets for Codex / OpenCode / Aider (V1+) — Codex starter preset shipped (`src/providers/presets/codex.ts`, `buildCodexPresetConfig`, `amaco provider setup` wizard offers it as a choice, `KNOWN_PROVIDERS` notes updated, 8 new tests). OpenCode + Aider deferred to V2 because their flag matrices are less stable; honest "detected, needs setup" path remains.
+- [x] Per-task effort + provider override (unmerged, on `feature/task-effort-and-readonly`) — `Task.effort` / `Task.providerOverride`, project-shared `providers.effortMap`, pure resolver in `src/core/effort-resolver.ts` (7 new tests), orchestrator picks the effective provider, CLI `--effort` / `--provider` on `amaco run` + `amaco tasks add`, PATCH `/api/tasks/:id` accepts the new fields, dashboard task-detail dropdowns, run-header chips for effort + resolved provider.
+- [x] Read-only tasks (unmerged, on `feature/task-effort-and-readonly`) — `Task.readOnly`, `RunState.readOnly`, orchestrator skips executor + fix loop + verifying, forces `readOnly` permission profile on every agent, server refuses apply/validate/revert (409) on read-only runs, dashboard READ-ONLY badge in `RunHeader`, suggestion-row actions hidden, CLI `--read-only` on `amaco run` + `amaco tasks add`.
 - [x] Secret scanning / policy plugins / run replay UI — all shipped (see Open Backlog entries below and Shipped Phases `abf5304`, `d39bd21`, `3bb9a00`)
 - [ ] Replace WhatsApp placeholder with real Twilio / Cloud-API adapter (V1+)
 
