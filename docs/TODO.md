@@ -326,7 +326,7 @@ Legend
 - [ ] Pluggable workflow DAGs / parallel agents (V1+)
 - [ ] Docker / cloud execution backends (V1+)
 - [ ] GitHub PR creation / GitLab support / auto-merge under strict gates (V1+)
-- [ ] Provider presets for Codex / OpenCode / Aider (V1+)
+- [~] Provider presets for Codex / OpenCode / Aider (V1+) — Codex starter preset shipped (`src/providers/presets/codex.ts`, `buildCodexPresetConfig`, `amaco provider setup` wizard offers it as a choice, `KNOWN_PROVIDERS` notes updated, 8 new tests). OpenCode + Aider deferred to V2 because their flag matrices are less stable; honest "detected, needs setup" path remains.
 - [x] Secret scanning / policy plugins / run replay UI — all shipped (see Open Backlog entries below and Shipped Phases `abf5304`, `d39bd21`, `3bb9a00`)
 - [ ] Replace WhatsApp placeholder with real Twilio / Cloud-API adapter (V1+)
 
