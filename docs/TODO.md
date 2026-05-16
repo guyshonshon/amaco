@@ -312,6 +312,7 @@ Legend
 - [x] V0 fake-provider smoke (per spec)
 - [x] Per-phase smokes (notifications, codebase, suggestions ingest → apply → validate → revert, smart apply, profile editing) covered by integration tests
 - [x] Run Replay tick-able checklist — [`docs/smoke-tests-replay.md`](./smoke-tests-replay.md) (CLI, dashboard, deep-links, cross-links, filter, permalink, keyboard, posture)
+- [x] Pause / resume tick-able checklist — [`docs/smoke-tests-pause-resume.md`](./smoke-tests-pause-resume.md) (state primitives, CLI, server routes, RunHeader buttons, orchestrator round-trip, posture)
 
 ## 38. Acceptance Criteria
 
@@ -320,7 +321,7 @@ Legend
 
 ## 39. Roadmap to Document, Not Implement
 
-- [ ] Pause / resume runs (V1)
+- [x] Pause / resume runs — `state.pauseRequested` + `pausedAtStatus`, orchestrator pause gates at the major stage boundaries, `amaco pause` / `amaco resume` CLI, `POST /api/runs/:id/{pause,resume}` routes, RunHeader Pause/Resume buttons (`paused` status badge, `pause queued` chip when buffered while non-paused), 11 new unit tests for the state primitives
 - [x] Interactive approval gates (richer transition surfaces) — structured approvals + per-stage policy approvals shipped (see Shipped Phases `9347194`)
 - [ ] Pluggable workflow DAGs / parallel agents (V1+)
 - [ ] Docker / cloud execution backends (V1+)
@@ -489,7 +490,7 @@ Legend
 
 ## Larger scope (deliberately deferred)
 
-- [ ] Pause / resume active runs from CLI + UI
+- [x] Pause / resume active runs from CLI + UI — see Near-term polish entry above (state-machine extension, orchestrator pause gates, CLI, server routes, dashboard buttons; will get its own Shipped Phases entry on merge)
 - [ ] Custom workflow DAGs and parallel agents within a single task
 - [ ] Docker / cloud execution backends
 - [ ] GitHub / GitLab PR creation behind explicit user authorization
