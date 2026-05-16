@@ -105,6 +105,43 @@ In the dashboard or via curl against a known read-only run:
 
 ---
 
+## 7b. Heuristic effort auto-detect (Phase C)
+
+The classifier is pure and free — same input always returns the same output.
+Trust the 11 unit tests in `tests/effort-heuristic.test.ts`, or spot-check:
+
+- [ ] `pnpm test tests/effort-heuristic.test.ts` — 11/11 green.
+
+CLI surface:
+
+- [ ] `amaco tasks add "fix a typo in the README" --files README.md` prints, after the "✓ Task added" header, a line: `effort: (none) — suggested low @ 1; pass --auto-effort or --effort low to apply` plus up to three reason bullets ("Short task …", "Low-effort keyword: typo.", "All targeted files are docs …").
+- [ ] `amaco tasks add "..." --effort low` shows `(matches suggestion @ N)` when the heuristic agrees.
+- [ ] `amaco tasks add "refactor scheduler architecture" --files src/scheduler/scheduler.ts --effort low` shows `(suggested high @ N)` — the user's explicit choice still wins; the line is honest about the disagreement.
+- [ ] `amaco tasks add "..." --auto-effort` (no `--effort`) applies the heuristic verdict; the saved task carries it.
+- [ ] `amaco run "fix typo"` (no `--task`) prints the same verdict line before kickoff.
+- [ ] `amaco run "fix typo" --auto-effort` runs with the heuristic-picked effort; `state.json` shows it.
+- [ ] An LLM is **never** called. Verify with `grep provider.started .amaco/runs/<runId>/events.ndjson` — heuristic output happens before any provider invocation.
+
+Server route:
+
+- [ ] `curl -X POST http://localhost:4317/api/effort/classify -H 'Content-Type: application/json' -d '{"text":"refactor","files":[]}'` returns `{ effort: "high", confidence: <n>, reasons: […] }`.
+- [ ] Same input → same output across multiple POSTs (determinism).
+- [ ] An empty body returns `{ effort: "medium", confidence: 0.1, reasons: ["Empty task — defaulting to medium."] }` — never throws.
+
+Dashboard:
+
+- [ ] Open a task whose effort is unset (or set to a value the heuristic disagrees with). The effort/provider/read-only panel shows a soft-accent banner: "heuristic suggests X @ N" with an **apply** button and an expandable "why?" listing the reasons verbatim.
+- [ ] Click **apply** — the dropdown immediately reflects the new value; banner disappears; a quieter "✓ effort matches the heuristic suggestion @ N" hint replaces it.
+- [ ] Change the task's title or touchedFiles (via CLI in a side terminal) — re-poll picks up the new heuristic verdict on the next interval; banner re-renders if the verdict now disagrees with the saved effort.
+- [ ] When effort matches the heuristic, the green ✓ hint is present (regression guard so the suggestion-source-of-truth is visible).
+
+Posture:
+
+- [ ] Classifier never calls a provider. Never reads `.env` or any file outside the task text + the provided file paths (it only looks at the paths' extensions, not their contents).
+- [ ] CLI verdict line still prints when running offline / with no providers configured (heuristic is local).
+
+---
+
 ## 8. Effort × read-only interactions
 
 - [ ] A task with both `effort: low` and `readOnly: true` runs as read-only AND with the resolved low-effort provider on every agent.
