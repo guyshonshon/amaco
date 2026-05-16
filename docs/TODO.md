@@ -71,7 +71,7 @@ Legend
 
 ## 6. Repository Structure
 
-- [x] `src/{cli,core,execution,git,notifications,project,providers,permissions,reviews,roadmap,scheduler,server,setup,skills,ui,utils}/`
+- [x] `src/{agents,cli,core,execution,git,notes,notifications,permissions,policies,project,providers,reviews,roadmap,scheduler,server,setup,skills,terminal,ui,utils,workflow}/`
 - [x] `tests/` mirrors source layout; `tests/integration/` for full-chain smokes
 
 ## 7. Core Concepts
@@ -249,7 +249,10 @@ Legend
 - [x] `amaco editor detect/set/test`
 - [x] `amaco suggestions list/show/approve/reject/apply/validate/revert/profile`
 - [x] `amaco bundles list/create/add/remove/preflight/approve/reject/apply/smart-apply/validate/revert/profile`
-- [x] `amaco validation profiles` + `amaco validation profile show <name>`
+- [x] `amaco validation profiles/profile show/usage/migrate/rename/clear-references/profile doctor/migrations`
+- [x] `amaco policies list/check <patchFile>/doctor`
+- [x] `amaco terminal list/close <sessionId>`
+- [x] `amaco replay <runId> [--json]` — read-only projection mirroring the dashboard's Replay tab
 
 ## 29. Final Report
 
@@ -308,6 +311,7 @@ Legend
 
 - [x] V0 fake-provider smoke (per spec)
 - [x] Per-phase smokes (notifications, codebase, suggestions ingest → apply → validate → revert, smart apply, profile editing) covered by integration tests
+- [x] Run Replay tick-able checklist — [`docs/smoke-tests-replay.md`](./smoke-tests-replay.md) (CLI, dashboard, deep-links, cross-links, filter, permalink, keyboard, posture)
 
 ## 38. Acceptance Criteria
 
@@ -317,12 +321,12 @@ Legend
 ## 39. Roadmap to Document, Not Implement
 
 - [ ] Pause / resume runs (V1)
-- [ ] Interactive approval gates (richer transition surfaces; V1)
+- [x] Interactive approval gates (richer transition surfaces) — structured approvals + per-stage policy approvals shipped (see Shipped Phases `9347194`)
 - [ ] Pluggable workflow DAGs / parallel agents (V1+)
 - [ ] Docker / cloud execution backends (V1+)
 - [ ] GitHub PR creation / GitLab support / auto-merge under strict gates (V1+)
 - [ ] Provider presets for Codex / OpenCode / Aider (V1+)
-- [ ] Secret scanning / policy plugins / run replay UI (V1+)
+- [x] Secret scanning / policy plugins / run replay UI — all shipped (see Open Backlog entries below and Shipped Phases `abf5304`, `d39bd21`, `3bb9a00`)
 - [ ] Replace WhatsApp placeholder with real Twilio / Cloud-API adapter (V1+)
 
 ## 40. Development Order
@@ -370,6 +374,7 @@ Legend
 - [x] Roadmap / tasks / queue / proposals / scheduler
 - [x] Notifications / gateways / project / tree / file / git / agent-work / code-references / codebase-events
 - [x] Editor / suggestions / suggestion-bundles / validation/profiles
+- [x] Policies / terminal / runs/:id/replay
 
 ## 7. Real-Time Visibility
 
@@ -395,7 +400,7 @@ Legend
 ### 10.2 Run Detail
 
 - [x] Worktree block (branch / dirty / ahead-behind / latest commit) + freshness indicator
-- [x] Inspector tabs: Diff / Artifact / Suggestions / Agent work / Git / Validation / Logs / Notes / Skills / Approvals / Metrics
+- [x] Inspector tabs: Diff / Artifact / Suggestions / Agent work / Git / Validation / Terminal / Replay / Logs / Notes / Skills / Approvals / Metrics
 
 ### 10.3 Workflow Timeline
 
@@ -428,7 +433,8 @@ Legend
 
 ## 13. Important UI Scope Discipline
 
-- [x] No editing, no terminal, no auth, no model APIs
+- [x] No editing, no auth, no model APIs
+- [x] Interactive terminal is **opt-in** (`policies.allowInteractiveTerminal`, default false). PTY I/O over WebSocket only; CWD restricted to the run worktree; project root refused. `node-pty` is optional — missing → honest disabled state.
 - [x] One narrow write surface: gated suggestion / bundle apply / validate / revert + editor handoff
 
 ## 14. Security for UI
