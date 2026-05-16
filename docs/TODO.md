@@ -477,6 +477,7 @@ Legend
 - [x] Did-you-mean for stale profile references in doctor — `suggestProfileName` (edit-distance ≤ 2) wired into `doctor-service.ts` and the new `validation profile doctor` CLI
 - [x] Live SSE for suggestion / bundle lists — `SuggestionsPanel` and `ReviewPassPanel` both subscribe via `streamRunEvents`; the 5 s `setInterval` is a fallback only
 - [x] `amaco validation profile doctor --all` to lift the 50-run audit cap — new subcommand with `--all` / `--run <id>` / `--json`; audit service accepts a scope
+- [~] Run Replay integration polish (unmerged, on `feature/run-replay-ui`) — deep-link route fields (`?tab=replay&replayEvent=<n> | replayPhase=<key> | replayMatch=<suggestion|approval|notification>:<id>`), pure `parseHashRoute` / `serializeRoute` in `src/ui/app/route.ts`, focus resolver + `scrollIntoView` + unresolved-focus banner in `ReplayPanel`, "Replay" cross-links on Suggestions / Approvals / Notifications rows, per-row "Replay" button in `RunList`, synthetic `notification.created` events now carry `data.id` for cross-link matching. 12 new tests (`tests/ui-route.test.ts` + extension to `tests/run-replay.test.ts`).
 
 ## Larger scope (deliberately deferred)
 
