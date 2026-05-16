@@ -466,6 +466,7 @@ Legend
 - [x] **Integrated QA + smart apply + auto-revert (`4612493`)** — opt-in validate-then-revert + smart-apply-step-by-step
 - [x] **Validation profiles (`37025d4`)** — named profiles, marker support, smart-apply per-step profiles
 - [x] **Profile-aware doctor + editable profiles (`9111ee3`)** — audit service, doctor section, PATCH endpoints, dashboard dropdown
+- [x] **Run Replay UI + deep-link integration (`abf5304`, `d39bd21`, `3bb9a00`)** — read-only `GET /api/runs/:id/replay` projection + `LazyReplayPanel` (phase + event scrubber, run-wide summary cards, synthetic notification / terminal rows, missing-or-malformed honesty), then deep-link plumbing (`?tab=…&replayEvent=… | replayPhase=… | replayMatch=…`), focus resolver + scroll-into-view, and "Replay" cross-links on Suggestions / Approvals / Notifications rows + per-row link in `RunList`
 
 ---
 
@@ -477,7 +478,7 @@ Legend
 - [x] Did-you-mean for stale profile references in doctor — `suggestProfileName` (edit-distance ≤ 2) wired into `doctor-service.ts` and the new `validation profile doctor` CLI
 - [x] Live SSE for suggestion / bundle lists — `SuggestionsPanel` and `ReviewPassPanel` both subscribe via `streamRunEvents`; the 5 s `setInterval` is a fallback only
 - [x] `amaco validation profile doctor --all` to lift the 50-run audit cap — new subcommand with `--all` / `--run <id>` / `--json`; audit service accepts a scope
-- [~] Run Replay integration polish (unmerged, on `feature/run-replay-ui`) — deep-link route fields (`?tab=replay&replayEvent=<n> | replayPhase=<key> | replayMatch=<suggestion|approval|notification>:<id>`), pure `parseHashRoute` / `serializeRoute` in `src/ui/app/route.ts`, focus resolver + `scrollIntoView` + unresolved-focus banner in `ReplayPanel`, "Replay" cross-links on Suggestions / Approvals / Notifications rows, per-row "Replay" button in `RunList`, synthetic `notification.created` events now carry `data.id` for cross-link matching. 12 new tests (`tests/ui-route.test.ts` + extension to `tests/run-replay.test.ts`).
+- [x] Run Replay integration polish — deep-link route fields (`?tab=replay&replayEvent=<n> | replayPhase=<key> | replayMatch=<suggestion|approval|notification>:<id>`), pure `parseHashRoute` / `serializeRoute` in `src/ui/app/route.ts`, focus resolver + `scrollIntoView` + unresolved-focus banner in `ReplayPanel`, "Replay" cross-links on Suggestions / Approvals / Notifications rows, per-row "Replay" button in `RunList`, synthetic `notification.created` events now carry `data.id` for cross-link matching. 12 new tests (`tests/ui-route.test.ts` + extension to `tests/run-replay.test.ts`).
 
 ## Larger scope (deliberately deferred)
 
