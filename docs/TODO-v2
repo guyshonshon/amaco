@@ -1,0 +1,48 @@
+
+- Another feature is that a user might have tasks that deliberately requires a lower effort model,
+so we could "jump" to context on another cli, also we might want a "READ-ONLY" task which should prohibit the agent
+from writing, to ensure unwanted invocations. 
+
+- Have the system detect which model is the most sufficient for the task, effort levels, etc
+- Decoupling with queues? 
+- Allow agents and skills run mcp servers 
+And cloud integration for running models beside just cli
+
+- Maybe integrate ML open some telemetry integration with langfuse etc for agent compliance and quality ?
+
+
+- AI Integration helpers (running against local AI model or cli) Claude -p for example 
+
+
+V On UI, we want to "teach" the CLI usage for each action, so, beside switching menus, we should have
+some hint icon at the bottom right that when you click / hover it expands into the command
+and a brief explaination about usage and how it could've been done via cli (i.e executing
+a task with low effort, codex...)
+
+
+V Amaco should be some interactive shell, so it is more dynamic than just commands on terminal,
+that way, we can have a much more resilient and functional terminal shell with ongoing commands,
+as amaco cli should be an interactive panel, so it should also show orchestrator, current task, agent, effort, skill using now
+etc, and it should obviously reflect real thing, and with the panel we should have easy control over all stuff
+such as pause, resume, inspect or whatever other stuff we have.
+
+
+I want to add some new feature like "GUIDES" [perhaps similar to SKILLS] which I can select from (premade templates) which could be suggested
+or manually used, for example, we want a "CTO" review like we used for Guify, we want to make the agents "play ping-pong"
+where as the productized version is probably a **Quality Arbitration Mode**:
+
+Plan: Claude
+Review: Codex
+Implement: Claude
+Review: Codex
+Challenge/Respond: Claude
+Second Review: Codex/GPT
+Decision Summary: Amaco
+
+That’s not just “multi-agent hype” — it gives you a repeatable way to compare model judgment, catch polished-but-wrong code, and build a dataset of which model is better at which task.
+
+the important thing is that we need to think of how we can communicate those models as CLI , and not shut them off everytime because we don't want them to lose context constantly
+and we want to try to be as efficient as possible with tokens too.
+
+I want you to review the current system and analyze it deeply, fully, from every aspect, and concrete a plan that checks the quality of code, architecture, and what's missing 
+and next steps to achieve such behavior.
