@@ -1,0 +1,35 @@
+{
+  "enabled": true,
+  "cli": {
+    "enabled": true
+  },
+  "inApp": {
+    "enabled": true
+  },
+  "browser": {
+    "enabled": true
+  },
+  "desktop": {
+    "enabled": false
+  },
+  "defaultMinSeverity": "info",
+  "enabledCategories": [
+    "run",
+    "approval",
+    "task",
+    "scheduler",
+    "conflict",
+    "validation",
+    "review",
+    "system",
+    "gateway"
+  ],
+  "quietCategories": [],
+  "notifyOnApprovalRequested": true,
+  "notifyOnRunCompleted": true,
+  "notifyOnRunBlocked": true,
+  "notifyOnRunFailed": true,
+  "notifyOnValidationFailed": true,
+  "notifyOnSchedulerConflict": true,
+  "notifyOnTaskBlocked": true
+}

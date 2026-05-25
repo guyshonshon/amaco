@@ -1,0 +1,113 @@
+project:
+  name: "amaco"
+  type: generic
+
+git:
+  mainBranch: main
+  branchPrefix: amaco/
+  worktreeDir: ../.amaco-worktrees
+  requireCleanMain: false
+  allowAutoMerge: false
+  allowAutoPush: false
+
+workflow:
+  id: default-plan-build-review
+  maxReviewLoops: 2
+  requireHumanMerge: true
+
+execution:
+  backend: local-worktree
+
+providers:
+  claude:
+    type: cli
+    command: claude
+    args:
+      - -p
+    input: stdin
+
+agents:
+  planner:
+    provider: claude
+    prompt: .amaco/agents/planner.md
+    permissions: read_only
+    skills:
+      - impeccable
+
+  architect:
+    provider: claude
+    prompt: .amaco/agents/architect.md
+    permissions: read_only
+    skills: []
+
+  executor:
+    provider: claude
+    prompt: .amaco/agents/executor.md
+    permissions: code_write
+    skills: []
+
+  fixer:
+    provider: claude
+    prompt: .amaco/agents/fixer.md
+    permissions: code_write
+    skills: []
+
+  reviewer:
+    provider: claude
+    prompt: .amaco/agents/reviewer.md
+    permissions: read_only
+    skills: []
+
+  verifier:
+    provider: claude
+    prompt: .amaco/agents/verifier.md
+    permissions: read_only
+    skills: []
+
+commands:
+  validate:
+    - pnpm lint
+    - pnpm typecheck
+    - pnpm test
+
+permissions:
+  profiles:
+    read_only:
+      allowWrite: false
+      allowShell: false
+      cwd: worktree
+    code_write:
+      allowWrite: true
+      allowShell: true
+      cwd: worktree
+      forbiddenPaths:
+        - ".env"
+        - ".env.*"
+      forbiddenOperations:
+        - "push"
+        - "merge"
+        - "delete-worktree"
+
+policies:
+  forbidMainBranchWrites: true
+  forbidSecretsAccess: true
+  forbidAutoPush: true
+  forbidAutoMerge: true
+  preserveArtifacts: true
+  # Stages where Amaco MUST pause for human approval before continuing.
+  # Allowed values: planning, architecting, executing, validating, reviewing, fixing, verifying.
+  # Example: requireApprovalAtStages: ["architecting", "verifying"]
+  requireApprovalAtStages: []
+
+scheduler:
+  # Concurrency for the local task scheduler (`amaco queue run`).
+  # Default 1 = one task run at a time. Increase to opt in to parallel runs;
+  # each task still gets its own branch and worktree.
+  maxConcurrentRuns: 1
+  maxConcurrentWriteAgents: 1
+  # warn  → start the second task and surface a warning if files overlap
+  # block → keep the second task queued until the first finishes
+  conflictPolicy: warn
+  # fifo     → run in enqueue order
+  # priority → run high before medium before low (FIFO within a priority)
+  queuePolicy: fifo

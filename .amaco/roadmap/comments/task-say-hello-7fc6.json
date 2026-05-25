@@ -1,0 +1,14 @@
+[
+  {
+    "id": "6d3364a9-84b2-45f8-bf64-0e7f21393d38",
+    "taskId": "task-say-hello-7fc6",
+    "createdAt": "2026-05-16T19:43:01.089Z",
+    "updatedAt": "2026-05-16T19:43:01.089Z",
+    "author": "local-user",
+    "body": "shit",
+    "resolved": false,
+    "resolvedAt": null,
+    "target": "task",
+    "targetRef": null
+  }
+]

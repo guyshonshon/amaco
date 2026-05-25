@@ -1,0 +1,9 @@
+{
+  "paused": false,
+  "runningTaskIds": [],
+  "lastUpdatedAt": "2026-05-25T17:49:59.888Z",
+  "maxConcurrentRuns": 1,
+  "conflictPolicy": "warn",
+  "queuePolicy": "fifo",
+  "sourceQuotas": {}
+}
