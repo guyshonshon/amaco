@@ -26,41 +26,41 @@ providers:
       - -p
     input: stdin
 
-agents:
+roles:
   planner:
     provider: claude
-    prompt: .amaco/agents/planner.md
+    prompt: .amaco/roles/planner.md
     permissions: read_only
     skills:
       - impeccable
 
   architect:
     provider: claude
-    prompt: .amaco/agents/architect.md
+    prompt: .amaco/roles/architect.md
     permissions: read_only
     skills: []
 
   executor:
     provider: claude
-    prompt: .amaco/agents/executor.md
+    prompt: .amaco/roles/executor.md
     permissions: code_write
     skills: []
 
   fixer:
     provider: claude
-    prompt: .amaco/agents/fixer.md
+    prompt: .amaco/roles/fixer.md
     permissions: code_write
     skills: []
 
   reviewer:
     provider: claude
-    prompt: .amaco/agents/reviewer.md
+    prompt: .amaco/roles/reviewer.md
     permissions: read_only
     skills: []
 
   verifier:
     provider: claude
-    prompt: .amaco/agents/verifier.md
+    prompt: .amaco/roles/verifier.md
     permissions: read_only
     skills: []
 
