@@ -2,12 +2,12 @@
 
 Tick-able checklist for the pause/resume phase landed on
 `feature/replay-filter-search` (`pauseRequested` + `pausedAtStatus`,
-orchestrator pause gates, `vibestrate pause` / `vibestrate resume`,
+orchestrator pause gates, `vibe pause` / `vibe resume`,
 `POST /api/runs/:id/{pause,resume}`, RunHeader buttons).
 
-> Setup: an `vibestrate init`-ed project, a real long-running provider
+> Setup: an `vibe init`-ed project, a real long-running provider
 > configured (so you can pause between stages and see the round-trip),
-> and the dashboard running via `vibestrate ui`.
+> and the dashboard running via `vibe ui`.
 
 ---
 
@@ -45,13 +45,13 @@ Spot-check what the assertions actually cover:
 
 ## 2. CLI
 
-- [ ] `vibestrate pause <runId>` on an in-flight run prints "Pause requested for …" and exits 0. Re-running it is idempotent — same exit, no error.
-- [ ] `vibestrate resume <runId>` on a paused run prints "Resume requested for …" and exits 0.
-- [ ] `vibestrate resume <runId>` on a still-running run with a pending pause request also exits 0 (cancels the pending pause).
-- [ ] `vibestrate pause` on a terminal run prints "Run is in terminal state … pause has no effect." and exits 2.
-- [ ] `vibestrate pause` on a non-existent run prints "Run not found: …" and exits 1.
-- [ ] `vibestrate resume` on a non-paused, non-pending run prints "Run is not paused and has no pending pause request …" and exits 2.
-- [ ] After `vibestrate pause <runId>`, `events.ndjson` for that run grows by exactly one `run.pause_requested` row (verify with `tail -n 1`).
+- [ ] `vibe pause <runId>` on an in-flight run prints "Pause requested for …" and exits 0. Re-running it is idempotent — same exit, no error.
+- [ ] `vibe resume <runId>` on a paused run prints "Resume requested for …" and exits 0.
+- [ ] `vibe resume <runId>` on a still-running run with a pending pause request also exits 0 (cancels the pending pause).
+- [ ] `vibe pause` on a terminal run prints "Run is in terminal state … pause has no effect." and exits 2.
+- [ ] `vibe pause` on a non-existent run prints "Run not found: …" and exits 1.
+- [ ] `vibe resume` on a non-paused, non-pending run prints "Run is not paused and has no pending pause request …" and exits 2.
+- [ ] After `vibe pause <runId>`, `events.ndjson` for that run grows by exactly one `run.pause_requested` row (verify with `tail -n 1`).
 - [ ] No git operation, no provider call, no worktree write happens as a side effect of pause/resume — `git status` / file mtimes in the worktree are unchanged.
 
 ---
@@ -75,16 +75,16 @@ In the dashboard or via `curl`:
 Start an actual run with a non-trivial provider (so stages take long enough to observe pause):
 
 ```bash
-vibestrate run "make a tiny script that prints hello"
+vibe run "make a tiny script that prints hello"
 ```
 
 In a second terminal:
 
-- [ ] `vibestrate pause <runId>` while the run is in `planning`. The orchestrator's progress prints in terminal #1 continue *until the current stage finishes*, then stop. The run's status transitions to `paused` and `events.ndjson` records `run.paused`.
+- [ ] `vibe pause <runId>` while the run is in `planning`. The orchestrator's progress prints in terminal #1 continue *until the current stage finishes*, then stop. The run's status transitions to `paused` and `events.ndjson` records `run.paused`.
 - [ ] `state.json` shows `pausedAtStatus: "planned"` (or whichever stage was about to start).
-- [ ] `vibestrate resume <runId>`. The orchestrator picks up within ~1.5s (the default poll interval). Status transitions back to `pausedAtStatus`, `events.ndjson` records `run.resumed`, and the next stage runs.
-- [ ] Pause then abort (`vibestrate abort <runId>` while paused). The orchestrator observes the terminal state and exits cleanly with the right final report (no `run.resumed` row written after the abort).
-- [ ] Pause before the run starts: `vibestrate run …` in one terminal, immediately `vibestrate pause <runId>` (or use `--task` and pre-stage the pause). The very first pause gate fires and the run pauses at `created` without running any agent.
+- [ ] `vibe resume <runId>`. The orchestrator picks up within ~1.5s (the default poll interval). Status transitions back to `pausedAtStatus`, `events.ndjson` records `run.resumed`, and the next stage runs.
+- [ ] Pause then abort (`vibe abort <runId>` while paused). The orchestrator observes the terminal state and exits cleanly with the right final report (no `run.resumed` row written after the abort).
+- [ ] Pause before the run starts: `vibe run …` in one terminal, immediately `vibe pause <runId>` (or use `--task` and pre-stage the pause). The very first pause gate fires and the run pauses at `created` without running any agent.
 
 ---
 

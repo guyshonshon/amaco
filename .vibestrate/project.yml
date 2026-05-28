@@ -106,7 +106,7 @@ policies:
   requireApprovalAtStages: []
 
 scheduler:
-  # Concurrency for the local task scheduler (`vibestrate queue run`).
+  # Concurrency for the local task scheduler (`vibe queue run`).
   # Default 1 = one task run at a time. Increase to opt in to parallel runs;
   # each task still gets its own branch and worktree.
   maxConcurrentRuns: 1

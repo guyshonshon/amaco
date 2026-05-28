@@ -4,8 +4,8 @@ Tick-able checklist for the Phase A + Phase B work landed on
 `feature/task-effort-and-readonly` (task effort + provider override +
 read-only investigation-only runs).
 
-> Setup: `vibestrate init` in a project, two providers configured (e.g.
-> `claude` + `codex`), and the dashboard running via `vibestrate ui`. For
+> Setup: `vibe init` in a project, two providers configured (e.g.
+> `claude` + `codex`), and the dashboard running via `vibe ui`. For
 > `effortMap` checks add an `effortMap:` block under your top-level
 > config in `project.yml`.
 
@@ -37,12 +37,12 @@ Trust the 7 unit tests in `tests/effort-resolver.test.ts`, or spot-check:
 
 ## 2. CLI for effort + provider
 
-- [ ] `vibestrate run "tiny task" --effort low` starts a run; `state.json` carries `effort: "low"`. If `effortMap.low` is set, `resolvedProviderId` matches; otherwise `null` and a `policy.warning` row in `events.ndjson` explains the fallback.
-- [ ] `vibestrate run "tiny task" --provider codex` starts a run; `state.providerOverride === "codex"`, `state.resolvedProviderId === "codex"`. Agent invocations use `codex` regardless of `agents.<id>.provider`.
-- [ ] `vibestrate run "tiny task" --effort low --provider codex` → `providerOverride` wins, `resolvedProviderId === "codex"`.
-- [ ] `vibestrate run "x" --effort huge` rejects with exit 2 and a clear message ("must be one of low|medium|high").
-- [ ] `vibestrate tasks add "..." --effort low --provider codex --read-only` creates a task carrying all three fields. Verify with `vibestrate tasks show <id> --json`.
-- [ ] `vibestrate run "..." --task <id>` inherits effort/provider/read-only from the task when the CLI doesn't pass its own flags.
+- [ ] `vibe run "tiny task" --effort low` starts a run; `state.json` carries `effort: "low"`. If `effortMap.low` is set, `resolvedProviderId` matches; otherwise `null` and a `policy.warning` row in `events.ndjson` explains the fallback.
+- [ ] `vibe run "tiny task" --provider codex` starts a run; `state.providerOverride === "codex"`, `state.resolvedProviderId === "codex"`. Agent invocations use `codex` regardless of `agents.<id>.provider`.
+- [ ] `vibe run "tiny task" --effort low --provider codex` → `providerOverride` wins, `resolvedProviderId === "codex"`.
+- [ ] `vibe run "x" --effort huge` rejects with exit 2 and a clear message ("must be one of low|medium|high").
+- [ ] `vibe tasks add "..." --effort low --provider codex --read-only` creates a task carrying all three fields. Verify with `vibe tasks show <id> --json`.
+- [ ] `vibe run "..." --task <id>` inherits effort/provider/read-only from the task when the CLI doesn't pass its own flags.
 - [ ] When the CLI passes `--effort high`, it overrides what the task carries.
 
 ---
@@ -53,7 +53,7 @@ Trust the 7 unit tests in `tests/effort-resolver.test.ts`, or spot-check:
 - [ ] Change effort from "— none —" to "low" → task updates immediately; reload shows the new value persisted.
 - [ ] Type a provider id, blur the input → PATCH fires and the chip appears.
 - [ ] Clear the provider input, blur → PATCH sets it to null.
-- [ ] An unknown provider id is accepted by the PATCH (validation happens at run start, not at PATCH time). When you later `vibestrate run --task <id>`, the run logs the honest fallback warning.
+- [ ] An unknown provider id is accepted by the PATCH (validation happens at run start, not at PATCH time). When you later `vibe run --task <id>`, the run logs the honest fallback warning.
 - [ ] Run a task that has effort/provider set. The run header shows the effort chip (`Zap` icon) and the resolved-provider chip (`Cpu` icon, accent tint).
 - [ ] A run with `state.providerOverride` set but no resolution (e.g. typo) shows the effort chip but no resolved-provider chip. The replay tab carries the `policy.warning` row with the explanation.
 
@@ -61,8 +61,8 @@ Trust the 7 unit tests in `tests/effort-resolver.test.ts`, or spot-check:
 
 ## 4. CLI for read-only
 
-- [ ] `vibestrate run "audit the login flow" --read-only` starts a run. `state.readOnly === true`. `events.ndjson` carries the "Read-only run: …" `policy.warning` line at startup.
-- [ ] The run stages stay within: created → planning → planned → architecting → architected → reviewing → merge_ready / blocked. No `executing`, no `validating`, no `fixing`, no `verifying`. Confirm with `vibestrate replay <runId>`.
+- [ ] `vibe run "audit the login flow" --read-only` starts a run. `state.readOnly === true`. `events.ndjson` carries the "Read-only run: …" `policy.warning` line at startup.
+- [ ] The run stages stay within: created → planning → planned → architecting → architected → reviewing → merge_ready / blocked. No `executing`, no `validating`, no `fixing`, no `verifying`. Confirm with `vibe replay <runId>`.
 - [ ] No files in the worktree are modified during the run. `git status` in the run worktree before and after is unchanged (empty).
 - [ ] Reviewer reads `plan + architecture` priors only (no execution artifact).
 - [ ] A `CHANGES_REQUESTED` review on a read-only run flips to `BLOCKED` (no fix loop possible).
@@ -114,12 +114,12 @@ Trust the 11 unit tests in `tests/effort-heuristic.test.ts`, or spot-check:
 
 CLI surface:
 
-- [ ] `vibestrate tasks add "fix a typo in the README" --files README.md` prints, after the "✓ Task added" header, a line: `effort: (none) — suggested low @ 1; pass --auto-effort or --effort low to apply` plus up to three reason bullets ("Short task …", "Low-effort keyword: typo.", "All targeted files are docs …").
-- [ ] `vibestrate tasks add "..." --effort low` shows `(matches suggestion @ N)` when the heuristic agrees.
-- [ ] `vibestrate tasks add "refactor scheduler architecture" --files src/scheduler/scheduler.ts --effort low` shows `(suggested high @ N)` — the user's explicit choice still wins; the line is honest about the disagreement.
-- [ ] `vibestrate tasks add "..." --auto-effort` (no `--effort`) applies the heuristic verdict; the saved task carries it.
-- [ ] `vibestrate run "fix typo"` (no `--task`) prints the same verdict line before kickoff.
-- [ ] `vibestrate run "fix typo" --auto-effort` runs with the heuristic-picked effort; `state.json` shows it.
+- [ ] `vibe tasks add "fix a typo in the README" --files README.md` prints, after the "✓ Task added" header, a line: `effort: (none) — suggested low @ 1; pass --auto-effort or --effort low to apply` plus up to three reason bullets ("Short task …", "Low-effort keyword: typo.", "All targeted files are docs …").
+- [ ] `vibe tasks add "..." --effort low` shows `(matches suggestion @ N)` when the heuristic agrees.
+- [ ] `vibe tasks add "refactor scheduler architecture" --files src/scheduler/scheduler.ts --effort low` shows `(suggested high @ N)` — the user's explicit choice still wins; the line is honest about the disagreement.
+- [ ] `vibe tasks add "..." --auto-effort` (no `--effort`) applies the heuristic verdict; the saved task carries it.
+- [ ] `vibe run "fix typo"` (no `--task`) prints the same verdict line before kickoff.
+- [ ] `vibe run "fix typo" --auto-effort` runs with the heuristic-picked effort; `state.json` shows it.
 - [ ] An LLM is **never** called. Verify with `grep provider.started .vibestrate/runs/<runId>/events.ndjson` — heuristic output happens before any provider invocation.
 
 Server route:
@@ -145,7 +145,7 @@ Posture:
 ## 8. Effort × read-only interactions
 
 - [ ] A task with both `effort: low` and `readOnly: true` runs as read-only AND with the resolved low-effort provider on every agent.
-- [ ] `vibestrate run "..." --effort low --read-only` similarly carries both.
+- [ ] `vibe run "..." --effort low --read-only` similarly carries both.
 - [ ] The README's "Pause and resume" still works on a read-only run — it pauses between stages and resumes as before.
 
 ---

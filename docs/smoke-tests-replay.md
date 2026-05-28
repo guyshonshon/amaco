@@ -9,9 +9,9 @@ Render this file in any markdown viewer that supports GFM task lists
 
 > All steps assume:
 >
-> - a project initialized with `vibestrate init` (`.vibestrate/` present),
+> - a project initialized with `vibe init` (`.vibestrate/` present),
 > - at least one finished run under `.vibestrate/runs/`,
-> - the dashboard started with `vibestrate ui` (or `pnpm dev` in dev),
+> - the dashboard started with `vibe ui` (or `pnpm dev` in dev),
 > - the latest commit of `feature/replay-filter-search` checked out.
 >
 > Whenever you see `<runId>`, use a real id from `.vibestrate/runs/`.
@@ -30,9 +30,9 @@ section starts. If you trust the last CI / local run, leave them ticked.
 
 ---
 
-## 1. CLI: `vibestrate replay <runId>`
+## 1. CLI: `vibe replay <runId>`
 
-- [ ] `vibestrate replay <runId>` prints a `Run …` header line, status, branch, worktree, event count.
+- [ ] `vibe replay <runId>` prints a `Run …` header line, status, branch, worktree, event count.
 - [ ] Phase section is present when the run has events; numbers per phase look plausible.
 - [ ] Approvals / Suggestions / Bundles / Policy refusals / Notifications / Terminal sessions sections appear only when non-empty.
 - [ ] Terminal sessions section ends with the "Metadata only — Vibestrate never persists terminal stdout/stderr." dim note.
@@ -40,9 +40,9 @@ section starts. If you trust the last CI / local run, leave them ticked.
 - [ ] If the run has truncation, the count line shows the yellow `(truncated from N)` suffix.
 - [ ] If the run is missing optional files, a yellow `Skipped N file(s)…` block lists them with reasons.
 - [ ] Last line is the dim hint pointing at `#/runs/<runId>?tab=replay`.
-- [ ] `vibestrate replay <runId> --json` emits parseable JSON; piping to `jq '.events | length'` returns a number.
-- [ ] `vibestrate replay does-not-exist` prints `Run not found: …` in red and exits with code **1** (`echo $?`).
-- [ ] `vibestrate replay <runId>` does **not** touch the worktree or run any provider (no new commits, no `.env` reads, no shell exec beyond the projection's reads). Spot-check with `git status` in the run worktree before / after.
+- [ ] `vibe replay <runId> --json` emits parseable JSON; piping to `jq '.events | length'` returns a number.
+- [ ] `vibe replay does-not-exist` prints `Run not found: …` in red and exits with code **1** (`echo $?`).
+- [ ] `vibe replay <runId>` does **not** touch the worktree or run any provider (no new commits, no `.env` reads, no shell exec beyond the projection's reads). Spot-check with `git status` in the run worktree before / after.
 
 ---
 
@@ -146,7 +146,7 @@ These are sanity checks; none should ever pass against a malicious link.
 - [ ] The Replay panel never reads `.env` content (open a run worktree that has a `.env` file with secrets; the value never appears in the timeline, in the right-side card, or in the JSON of any event).
 - [ ] `GET /api/runs/../../etc/passwd/replay` returns 400 (path traversal refused at the route guard).
 - [ ] `GET /api/runs/unknown-id/replay` returns 404 with the `RunReplayError` shape.
-- [ ] `vibestrate replay <runId>` and `vibestrate replay <runId> --json` do not touch `git`, do not run validation, do not call providers (check `git reflog` / process tree if in doubt).
+- [ ] `vibe replay <runId>` and `vibe replay <runId> --json` do not touch `git`, do not run validation, do not call providers (check `git reflog` / process tree if in doubt).
 - [ ] Permalink URL contains only the runId and the event index — no event payload, no project path, no secret leaks. Inspect any generated permalink before sharing.
 
 ---
