@@ -1,8 +1,8 @@
-# Amaco Implementation TODO
+# Vibestrate Implementation TODO
 
 A running, spec-aligned checklist. Top-level sections mirror
-[`amaco-claude-code-implementation-spec.md`](./amaco-claude-code-implementation-spec.md)
-and [`amaco-ui-supervisor-addendum.md`](./amaco-ui-supervisor-addendum.md);
+[`vibestrate-claude-code-implementation-spec.md`](./vibestrate-claude-code-implementation-spec.md)
+and [`vibestrate-ui-supervisor-addendum.md`](./vibestrate-ui-supervisor-addendum.md);
 the shipped-phases section at the bottom tracks the post-V0 work we've
 landed against `main`.
 
@@ -16,7 +16,7 @@ Legend
 
 ## 1. What We Are Building
 
-- [x] V0 of Amaco — local-first multi-agent orchestrator for software tasks
+- [x] V0 of Vibestrate — local-first multi-agent orchestrator for software tasks
 
 ## 2. Core Product Philosophy
 
@@ -29,7 +29,7 @@ Legend
 
 ### Must Implement Now
 
-- [x] `amaco init`, `run`, `status`, `abort`, `doctor`
+- [x] `vibestrate init`, `run`, `status`, `abort`, `doctor`
 - [x] Provider abstraction (Claude Code + generic CLI)
 - [x] Plan → Architect → Execute → Validate → Review → Fix → Verify workflow
 - [x] Per-stage prompts and per-agent permission profiles
@@ -43,7 +43,7 @@ Legend
 ### Must Design For, But Not Fully Implement Now
 
 - [x] Supervisor dashboard (delivered as a sequence of UI phases — see below)
-- [x] Multi-task scheduler beyond per-task `amaco queue` — `queuePolicy: "fair"`, per-source `sourceQuotas`, `defaultSourceConcurrency`, pure `pickNextEntry`. See Shipped Phases.
+- [x] Multi-task scheduler beyond per-task `vibestrate queue` — `queuePolicy: "fair"`, per-source `sourceQuotas`, `defaultSourceConcurrency`, pure `pickNextEntry`. See Shipped Phases.
 - [ ] Cloud / Docker execution backends (interface in place; only local-worktree implemented)
 - [ ] Pluggable workflow DAGs (single linear workflow ships)
 
@@ -86,13 +86,13 @@ Legend
 
 - [x] planner / architect / executor / fixer / reviewer / verifier
 - [x] Per-agent provider + prompt + permissions + skills
-- [x] User-extendable via `.amaco/project.yml`
+- [x] User-extendable via `.vibestrate/project.yml`
 
 ### 7.3 Providers
 
 - [x] `cli` (generic) + `claude-code` discriminated union
 - [x] Provider detection wizard
-- [x] `amaco provider set/list/detect/setup/test`
+- [x] `vibestrate provider set/list/detect/setup/test`
 
 ### 7.4 Workflows
 
@@ -106,20 +106,20 @@ Legend
 
 ### 7.6 Skills
 
-- [x] Discover `.amaco/skills/` + Claude Code skills (`~/.claude/skills/`)
+- [x] Discover `.vibestrate/skills/` + Claude Code skills (`~/.claude/skills/`)
 - [x] Assign skills to agents (CLI + dashboard)
-- [x] `amaco skills list/show/assign/unassign`
+- [x] `vibestrate skills list/show/assign/unassign`
 
 ## 8. Project Installation Model
 
-- [x] `pnpm dlx amaco init` scaffolds `.amaco/`
-- [x] Setup wizard for vibe-coders (`amaco setup`)
+- [x] `pnpm dlx vibestrate init` scaffolds `.vibestrate/`
+- [x] Setup wizard for vibe-coders (`vibestrate setup`)
 
-## 9. Default `.amaco/project.yml`
+## 9. Default `.vibestrate/project.yml`
 
 - [x] Generated template covers project meta, git, workflow, execution, providers, agents, commands, permissions, policies, scheduler, editor, validationProfiles
 
-## 10. Default `.amaco/rules.md`
+## 10. Default `.vibestrate/rules.md`
 
 - [x] Generated rules template with project overview / architecture / code-style / testing / security / product / agent-behavior sections
 
@@ -133,8 +133,8 @@ Legend
 - [x] Architect — Architecture / Risk Decision sections
 - [x] Executor — Implementation Summary sections
 - [x] Fixer — Fix Summary sections
-- [x] Reviewer — Review sections + AMACO_FINAL_DECISION
-- [x] Verifier — Final Verification sections + AMACO_FINAL_DECISION
+- [x] Reviewer — Review sections + VIBESTRATE_FINAL_DECISION
+- [x] Verifier — Final Verification sections + VIBESTRATE_FINAL_DECISION
 
 ## 13. Skills System
 
@@ -162,7 +162,7 @@ Legend
 
 ## 18. Run Folder Structure
 
-- [x] `.amaco/runs/<runId>/{state.json, events.ndjson, artifacts/, metrics/, approvals.json, ...}`
+- [x] `.vibestrate/runs/<runId>/{state.json, events.ndjson, artifacts/, metrics/, approvals.json, ...}`
 - [x] Suggestion / bundle artifacts (`suggestions.json`, `suggestion-bundles.json`, `suggestion-patches/`, `suggestion-validations/`, `suggestion-bundle-validations/`, `suggestion-bundles/`)
 
 ## 19. Run ID
@@ -175,7 +175,7 @@ Legend
 
 ## 21. Event Log
 
-- [x] `events.ndjson` append-only, typed `AmacoEventType` union (covers run / agent / provider / approval / skill / notification / editor / suggestion / bundle / validation_profile_updated events)
+- [x] `events.ndjson` append-only, typed `VibestrateEventType` union (covers run / agent / provider / approval / skill / notification / editor / suggestion / bundle / validation_profile_updated events)
 
 ## 22. Git Behavior
 
@@ -197,8 +197,8 @@ Legend
 
 ## 25. Review Parser
 
-- [x] Parses Reviewer artifact for decision + AMACO_FINAL_DECISION
-- [x] Parses `AMACO_SUGGESTION` marker blocks (title / file / lines / body / proposed patch / validation profile)
+- [x] Parses Reviewer artifact for decision + VIBESTRATE_FINAL_DECISION
+- [x] Parses `VIBESTRATE_SUGGESTION` marker blocks (title / file / lines / body / proposed patch / validation profile)
 
 ## 26. Verification Parser
 
@@ -210,25 +210,25 @@ Legend
 
 ## 28. CLI Commands
 
-### 28.1 `amaco init`
+### 28.1 `vibestrate init`
 
-- [x] Scaffold `.amaco/`, optional setup wizard
+- [x] Scaffold `.vibestrate/`, optional setup wizard
 
-### 28.2 `amaco run`
+### 28.2 `vibestrate run`
 
 - [x] Run a task end-to-end
 - [x] `--task <taskId>` to link to a roadmap task
 - [x] `--ui` / `--ui-port` shortcuts to start dashboard alongside
 
-### 28.3 `amaco status`
+### 28.3 `vibestrate status`
 
 - [x] List runs (JSON or table)
 
-### 28.4 `amaco abort <run-id>`
+### 28.4 `vibestrate abort <run-id>`
 
 - [x] Mark run aborted (preserves worktree)
 
-### 28.5 `amaco doctor`
+### 28.5 `vibestrate doctor`
 
 - [x] git / project / providers / agents / validation checks
 - [x] Notification gateway / env-var checks
@@ -237,22 +237,22 @@ Legend
 
 ### Additional command groups (post-V0)
 
-- [x] `amaco config get/set/show/validate`
-- [x] `amaco provider detect/list/set/setup/test`
-- [x] `amaco skills list/show/assign/unassign`
-- [x] `amaco approvals list/show/decide`
-- [x] `amaco roadmap items/tasks/plan/proposals/accept`
-- [x] `amaco tasks list/show/queue/cancel/report/comments`
-- [x] `amaco queue list/add/run/status/conflicts`
-- [x] `amaco notifications list/read/resolve/settings/test`
-- [x] `amaco gateways list/test/enable/disable`
-- [x] `amaco editor detect/set/test`
-- [x] `amaco suggestions list/show/approve/reject/apply/validate/revert/profile`
-- [x] `amaco bundles list/create/add/remove/preflight/approve/reject/apply/smart-apply/validate/revert/profile`
-- [x] `amaco validation profiles/profile show/usage/migrate/rename/clear-references/profile doctor/migrations`
-- [x] `amaco policies list/check <patchFile>/doctor`
-- [x] `amaco terminal list/close <sessionId>`
-- [x] `amaco replay <runId> [--json]` — read-only projection mirroring the dashboard's Replay tab
+- [x] `vibestrate config get/set/show/validate`
+- [x] `vibestrate provider detect/list/set/setup/test`
+- [x] `vibestrate skills list/show/assign/unassign`
+- [x] `vibestrate approvals list/show/decide`
+- [x] `vibestrate roadmap items/tasks/plan/proposals/accept`
+- [x] `vibestrate tasks list/show/queue/cancel/report/comments`
+- [x] `vibestrate queue list/add/run/status/conflicts`
+- [x] `vibestrate notifications list/read/resolve/settings/test`
+- [x] `vibestrate gateways list/test/enable/disable`
+- [x] `vibestrate editor detect/set/test`
+- [x] `vibestrate suggestions list/show/approve/reject/apply/validate/revert/profile`
+- [x] `vibestrate bundles list/create/add/remove/preflight/approve/reject/apply/smart-apply/validate/revert/profile`
+- [x] `vibestrate validation profiles/profile show/usage/migrate/rename/clear-references/profile doctor/migrations`
+- [x] `vibestrate policies list/check <patchFile>/doctor`
+- [x] `vibestrate terminal list/close <sessionId>`
+- [x] `vibestrate replay <runId> [--json]` — read-only projection mirroring the dashboard's Replay tab
 
 ## 29. Final Report
 
@@ -274,7 +274,7 @@ Legend
 
 ## 31. GUI Future-Proofing
 
-- [x] All run state lives in `.amaco/runs/`; UI reads the same files the CLI writes
+- [x] All run state lives in `.vibestrate/runs/`; UI reads the same files the CLI writes
 
 ## 32. Cloud Future-Proofing
 
@@ -322,15 +322,15 @@ Legend
 
 ## 39. Roadmap to Document, Not Implement
 
-- [x] Pause / resume runs — `state.pauseRequested` + `pausedAtStatus`, orchestrator pause gates at the major stage boundaries, `amaco pause` / `amaco resume` CLI, `POST /api/runs/:id/{pause,resume}` routes, RunHeader Pause/Resume buttons (`paused` status badge, `pause queued` chip when buffered while non-paused), 11 new unit tests for the state primitives
+- [x] Pause / resume runs — `state.pauseRequested` + `pausedAtStatus`, orchestrator pause gates at the major stage boundaries, `vibestrate pause` / `vibestrate resume` CLI, `POST /api/runs/:id/{pause,resume}` routes, RunHeader Pause/Resume buttons (`paused` status badge, `pause queued` chip when buffered while non-paused), 11 new unit tests for the state primitives
 - [x] Interactive approval gates (richer transition surfaces) — structured approvals + per-stage policy approvals shipped (see Shipped Phases `9347194`)
 - [ ] Pluggable workflow DAGs / parallel agents (V1+)
 - [ ] Docker / cloud execution backends (V1+)
 - [ ] GitHub PR creation / GitLab support / auto-merge under strict gates (V1+)
-- [~] Provider presets for Codex / Ollama / OpenCode / Aider (V1+) — Codex starter preset shipped (`src/providers/presets/codex.ts`, `buildCodexPresetConfig`). Ollama starter preset shipped (`src/providers/presets/ollama.ts`, `buildOllamaPresetConfig`) with explicit `ollama pull qwen3.5` / `amaco provider test ollama` follow-up and install hints when absent. OpenCode + Aider deferred to V2 because their flag matrices are less stable; honest "detected, needs setup" path remains.
-- [x] Per-task effort + provider override — `Task.effort` / `Task.providerOverride`, project-shared `providers.effortMap`, pure resolver in `src/core/effort-resolver.ts` (7 new tests), orchestrator picks the effective provider, CLI `--effort` / `--provider` on `amaco run` + `amaco tasks add`, PATCH `/api/tasks/:id` accepts the new fields, dashboard task-detail dropdowns, run-header chips for effort + resolved provider.
-- [x] Read-only tasks — `Task.readOnly`, `RunState.readOnly`, orchestrator skips executor + fix loop + verifying, forces `readOnly` permission profile on every agent, server refuses apply/validate/revert (409) on read-only runs, dashboard READ-ONLY badge in `RunHeader`, suggestion-row actions hidden, CLI `--read-only` on `amaco run` + `amaco tasks add`.
-- [x] Heuristic effort auto-detect — pure `classifyEffort({ text, files })` in `src/core/effort-heuristic.ts` (11 new tests). CLI: `amaco run` + `amaco tasks add` always print a one-line "(suggested effort: X — reasons)" verdict; `--auto-effort` applies it when `--effort` isn't passed. Server: `POST /api/effort/classify`. Dashboard: task-detail panel surfaces the verdict + one-click "apply" when the heuristic disagrees, ✓-match hint when they agree.
+- [~] Provider presets for Codex / Ollama / OpenCode / Aider (V1+) — Codex starter preset shipped (`src/providers/presets/codex.ts`, `buildCodexPresetConfig`). Ollama starter preset shipped (`src/providers/presets/ollama.ts`, `buildOllamaPresetConfig`) with explicit `ollama pull qwen3.5` / `vibestrate provider test ollama` follow-up and install hints when absent. OpenCode + Aider deferred to V2 because their flag matrices are less stable; honest "detected, needs setup" path remains.
+- [x] Per-task effort + provider override — `Task.effort` / `Task.providerOverride`, project-shared `providers.effortMap`, pure resolver in `src/core/effort-resolver.ts` (7 new tests), orchestrator picks the effective provider, CLI `--effort` / `--provider` on `vibestrate run` + `vibestrate tasks add`, PATCH `/api/tasks/:id` accepts the new fields, dashboard task-detail dropdowns, run-header chips for effort + resolved provider.
+- [x] Read-only tasks — `Task.readOnly`, `RunState.readOnly`, orchestrator skips executor + fix loop + verifying, forces `readOnly` permission profile on every agent, server refuses apply/validate/revert (409) on read-only runs, dashboard READ-ONLY badge in `RunHeader`, suggestion-row actions hidden, CLI `--read-only` on `vibestrate run` + `vibestrate tasks add`.
+- [x] Heuristic effort auto-detect — pure `classifyEffort({ text, files })` in `src/core/effort-heuristic.ts` (11 new tests). CLI: `vibestrate run` + `vibestrate tasks add` always print a one-line "(suggested effort: X — reasons)" verdict; `--auto-effort` applies it when `--effort` isn't passed. Server: `POST /api/effort/classify`. Dashboard: task-detail panel surfaces the verdict + one-click "apply" when the heuristic disagrees, ✓-match hint when they agree.
 - [x] Secret scanning / policy plugins / run replay UI — all shipped (see Open Backlog entries below and Shipped Phases `abf5304`, `d39bd21`, `3bb9a00`)
 - [ ] Replace WhatsApp placeholder with real Twilio / Cloud-API adapter (V1+)
 
@@ -349,15 +349,15 @@ Legend
 
 ---
 
-# Supervisor UI Addendum (`amaco-ui-supervisor-addendum.md`)
+# Supervisor UI Addendum (`vibestrate-ui-supervisor-addendum.md`)
 
 ## 1. UI Product Goal
 
-- [x] Local-first dashboard that supervises Amaco runs; same data the CLI uses
+- [x] Local-first dashboard that supervises Vibestrate runs; same data the CLI uses
 
 ## 2. CLI + UI Relationship
 
-- [x] Both speak to `.amaco/` directly; UI never duplicates orchestration
+- [x] Both speak to `.vibestrate/` directly; UI never duplicates orchestration
 
 ## 3. Recommended Architecture
 
@@ -370,7 +370,7 @@ Legend
 
 ## 5. Local Server
 
-- [x] `amaco ui` boots Fastify + serves the bundle
+- [x] `vibestrate ui` boots Fastify + serves the bundle
 - [x] Origin allow-list (`localhost` / `127.0.0.1`)
 
 ## 6. API Shape
@@ -473,27 +473,27 @@ Legend
 - [x] **Codebase-aware UI (`2baf5dc`)** — project metadata, file viewer, git status / history, agent-work attribution
 - [x] **Live freshness + gated actions (`653f4ff`)** — SSE freshness, open-in-editor, suggestion capture + gated apply
 - [x] **Post-apply validation + bundles + revert (`1e7fe79`, `81f39d4` parser fix)** — explicit validation, review-pass bundles, safe revert
-- [x] **Read-mode syntax highlighting (`75efe94`)** — highlight.js wrapper + amaco-themed CSS, file viewer integration
+- [x] **Read-mode syntax highlighting (`75efe94`)** — highlight.js wrapper + vibestrate-themed CSS, file viewer integration
 - [x] **Integrated QA + smart apply + auto-revert (`4612493`)** — opt-in validate-then-revert + smart-apply-step-by-step
 - [x] **Validation profiles (`37025d4`)** — named profiles, marker support, smart-apply per-step profiles
 - [x] **Profile-aware doctor + editable profiles (`9111ee3`)** — audit service, doctor section, PATCH endpoints, dashboard dropdown
 - [x] **Run Replay UI + deep-link integration (`abf5304`, `d39bd21`, `3bb9a00`)** — read-only `GET /api/runs/:id/replay` projection + `LazyReplayPanel` (phase + event scrubber, run-wide summary cards, synthetic notification / terminal rows, missing-or-malformed honesty), then deep-link plumbing (`?tab=…&replayEvent=… | replayPhase=… | replayMatch=…`), focus resolver + scroll-into-view, and "Replay" cross-links on Suggestions / Approvals / Notifications rows + per-row link in `RunList`
-- [x] **Run Replay concept finish (`cc2dec0`, `8b19f8e`, `11415c7`)** — client-side filter bar over `ev.type + ev.message` + multi-select phase chips; permalink button on the selected-event card; keyboard scrubber (`↑`/`k`, `↓`/`j`, `Home`, `End`); CLI `amaco replay <runId>` (text + `--json`); per-row "Replay" link in `RunList`; `docs/smoke-tests-replay.md` checklist. 21 new tests.
-- [x] **Pause / resume (`9842b22`)** — `paused` status + `pauseRequested` / `pausedAtStatus` on `RunState`; orchestrator pause gates at five major stage boundaries with safe external-abort handling; `amaco pause` / `amaco resume` CLI; `POST /api/runs/:id/{pause,resume}` routes; RunHeader Pause/Resume buttons + `pause queued` chip + `paused` status badge; 11 new tests; `docs/smoke-tests-pause-resume.md` checklist.
+- [x] **Run Replay concept finish (`cc2dec0`, `8b19f8e`, `11415c7`)** — client-side filter bar over `ev.type + ev.message` + multi-select phase chips; permalink button on the selected-event card; keyboard scrubber (`↑`/`k`, `↓`/`j`, `Home`, `End`); CLI `vibestrate replay <runId>` (text + `--json`); per-row "Replay" link in `RunList`; `docs/smoke-tests-replay.md` checklist. 21 new tests.
+- [x] **Pause / resume (`9842b22`)** — `paused` status + `pauseRequested` / `pausedAtStatus` on `RunState`; orchestrator pause gates at five major stage boundaries with safe external-abort handling; `vibestrate pause` / `vibestrate resume` CLI; `POST /api/runs/:id/{pause,resume}` routes; RunHeader Pause/Resume buttons + `pause queued` chip + `paused` status badge; 11 new tests; `docs/smoke-tests-pause-resume.md` checklist.
 - [x] **Codex starter preset (`12b2fa1`)** — opt-in starter preset for OpenAI Codex CLI (`src/providers/presets/codex.ts`, `buildCodexPresetConfig`); the setup wizard offers it when codex is on PATH; doctor --fix never auto-configures it (presetReady stays false in detection). 8 new tests.
-- [x] **Per-task effort + read-only runs (`0446373`)** — `effort` (low/medium/high) + `providerOverride` on `Task` + `RunState` routed via project-shared `providers.effortMap`; pure resolver in `src/core/effort-resolver.ts` (7 new tests); `readOnly` task flag drives an investigation-only run (orchestrator skips executor/fix/verify, forces readOnly permission profile, server refuses apply/validate/revert with 409); CLI flags on `amaco run` + `amaco tasks add`; task-detail panel + run-header chips + suggestion-row gating.
+- [x] **Per-task effort + read-only runs (`0446373`)** — `effort` (low/medium/high) + `providerOverride` on `Task` + `RunState` routed via project-shared `providers.effortMap`; pure resolver in `src/core/effort-resolver.ts` (7 new tests); `readOnly` task flag drives an investigation-only run (orchestrator skips executor/fix/verify, forces readOnly permission profile, server refuses apply/validate/revert with 409); CLI flags on `vibestrate run` + `vibestrate tasks add`; task-detail panel + run-header chips + suggestion-row gating.
 - [x] **Panel Phase 3 — Roadmap + task CRUD (`2ba893c`)** — full kanban Roadmap page with 9 columns (Backlog, Ready, Queued, Running, Approval, Review, Blocked, Done, Closed=failed+cancelled), live cursor (`←/→/h/l` skips empty columns; `↑/↓/k/j` walks within), task detail pane below the board. Create / edit / delete / queue all happen inside the panel: `n` opens the New Task form, `e` opens the same form pre-seeded with the selected task's values, `d` asks for `y/N` confirmation then deletes (refused by `RoadmapService.deleteTask` when the task is linked to an active run), `Q` queues with `source=user`, `c` cycles a backlog task to ready. Form has tab-cycled focus across title/description/priority/effort/providerOverride/readOnly, enum pickers with `←/→`, space toggles readOnly, `D` suspends the panel into `$EDITOR` (argv-only spawn, no shell, temp file 0o600) to edit descriptions, Enter saves with pure `validateTaskForm` checking title presence and normalizing empty effort/providerOverride to null. Pure modules + tests: `board.ts` (column grouping + empty-skipping cursor), `form.ts` (reducer + validator). App-level keymap reshaped so lowercase `q` stays quit and uppercase `Q` is freed for page-specific use; App's useInput bails when the roadmap form / delete-confirm owns input so 'q' in a title field doesn't quit. 15 new tests across board, form, and the new `RoadmapService.deleteTask`.
-- [x] **Panel Phase 2 — Dashboard + Runs detail (`962d853`)** — new Dashboard home (default landing tab) with overview stat cards (active runs, queue depth, pending approvals/suggestions, scheduler state), Active Runs short list, Recent Activity feed merged across all runs newest-first, Recently Finished block. Runs page upgraded to a two-column layout: narrow left list (with `a<n>` / `s<n>` chips for pending approvals/suggestions per run) and a rich right-side inspector with three sub-tabs — Overview (full fact sheet incl. effort, override, mode, paused-at, live skills + MCP), Events (event tail with type-colored rows and a `/` filter via ink-text-input that scopes by case-insensitive substring across `type + message`, with X/Y match counter), and Validation (last-N validation events with a "no validation yet" honest empty state). Keys: `tab` cycles sub-tabs, `o/e/v` jumps directly, `/` opens the filter (auto-jumps to Events), Esc closes it; `page.set` clears modal layers so cycling tabs never strands a half-open filter. Snapshot extended with `pendingApprovals` + `pendingSuggestions` per run, an `aggregates` block (also exposed via `amaco shell --once`), and a sorted `recentActivity` feed across all runs. 13 new tests across snapshot aggregates, reducer (inspector cycle + filter open + filter-text persistence across tab switches), and the pure `filterEvents` helper.
-- [x] **Panel Phase 1 — ink foundation (`df90373`)** — rewrote `amaco shell` on top of `ink` (React for the terminal) so we get focus, flex layout, text-input, and modal layering for free. New surface: top tab bar with `1-0` hotkeys for every future page (Dashboard, Runs, Roadmap, Queue, Agents, Skills, Approvals, Suggestions, Notifs, Doctor), context-sensitive footer keymap, toast layer with auto-dismiss, vim-style `:` command palette with fuzzy filter + `↵`/Esc handling, `?` help overlay, `q`/Ctrl+C quit. Runs page is fully ported (no regression — same list + inspector + queue snippet + pause/resume/abort/y-N confirm). Other tabs render an honest "Phase N" placeholder so the structure is visible from day one. Pure modules: `ui-state.ts` (reducer + per-page selection cursors + toast cap), `palette.ts` (catalog + subsequence scorer + cap). 17 new tests. Old hand-rolled `shell-render.ts` + `shell-runtime.ts` removed; `shell-snapshot.ts` + `shell-actions.ts` reused as-is.
-- [x] **Interactive shell / TUI panel (`3e80f3a`)** — new `amaco shell` command opens a full-screen alt-screen TUI that reflects live orchestrator state: active runs (id, status, current agent, provider, effort, read-only, pause flags), per-run inspector pane (effort/override, current skills + MCP servers, last N events colored by type), queue snapshot (source + priority + counts), and scheduler header (policy, max concurrent, quotas, paused indicator). Keyboard controls: ↑/↓/k/j navigate, p pause selected, r resume selected, a abort (with y/N confirmation), i toggle inspector, ? help overlay, q/Ctrl+C quit. Pure `buildShellSnapshot` reads state.json + events.ndjson + scheduler files (no in-process subscription needed — works against any project root, including watching another process's run). Pure `renderShell` returns a paint-once frame string so the loop only writes when the frame changed. Actions reuse `pause-service` + the same abort transition the existing `amaco abort` uses, so the orchestrator picks them up via its normal polling — no new IPC surface. 13 new tests covering snapshot derivation, action writes, frame rendering, confirm dialog, help overlay. Also exposes `--once` flag that emits the snapshot as JSON for scripting / smoke tests.
-- [x] **Queue fairness + per-source quotas (`b878e6c`)** — every `QueueEntry` now carries a `source` (default `"user"`); scheduler config adds `queuePolicy: "fair"` (round-robin by source load, FIFO within a source), `sourceQuotas: { <source>: <max-in-flight> }`, and `defaultSourceConcurrency`. Pure `pickNextEntry` in `src/scheduler/picker.ts` (11 new tests) — verdicts are `pick | at-capacity | empty | all-blocked(reasons[])`. Scheduler service drives the picker, tracks in-flight source counts, and logs `source quota exhausted` when an entry is held. CLI `amaco queue add --source <name>` and the QueuePage surfaces the source chip + active quotas. Old queues without `source` parse back as `"user"`, preserving FIFO/priority behaviour.
-- [x] **Agent + skill MCP servers (`7679b75`)** — agents declare `mcpServers` in `.amaco/project.yml`; skills declare them in a sibling `.mcp.json` next to `SKILL.md`. `src/mcp/{mcp-schema, mcp-resolve, mcp-config-writer}` (zod schema rejecting shell metachars, pure agent/skill merge with agent>earlier-skill precedence and collision report, 0o600 `mcp.json` writer). Orchestrator materializes one config per agent invocation under `mcp/<stage>-<agent>.json`, emits a new `mcp.attached` event with server names + sources, and threads `mcpConfigPath` through `runProvider`. `claude-code` provider auto-injects `--mcp-config <path>`; every provider also exports `AMACO_MCP_CONFIG=<path>` so any CLI provider can opt in. Skills API + SkillsPanel surface an "N MCP" chip + an inline `.mcp.json error` chip when validation fails. 18 new tests (mcp-resolve, mcp-config-writer, skill-discovery .mcp.json + error path).
-- [x] **CLI hint overlay (`99eeea5`)** — bottom-right floating `Terminal` button on every dashboard view expands into a card with the equivalent `amaco …` commands for the current Route + run/task ID interpolation + flag tips (`--effort`, `--read-only`, `--provider`); pure `hintForRoute` in `src/ui/lib/cli-hints.ts` (5 new tests), `CliHintOverlay` component, wired in `App.tsx`.
-- [x] **Heuristic effort auto-detect (`2bfe34f`)** — pure `classifyEffort({ text, files })` in `src/core/effort-heuristic.ts` (11 new tests); CLI prints a per-task verdict + reasons on every `amaco run` / `amaco tasks add`; `--auto-effort` applies; `POST /api/effort/classify` exposes the same logic; dashboard task-detail panel surfaces the verdict with a one-click apply when it disagrees.
-- [x] **Mission Control v3 redesign (this branch, `feature/app-redesign-v3`)** — rebuild of the dashboard around the Amaco.html design handoff: ink/fog/violet token palette + Geist / Geist Mono / Instrument Serif fonts + glass / bevel-violet / phase-rail / pulse-dot CSS primitives in `src/ui/index.css`; new top-bar shell (`src/ui/components/layout/TopBar.tsx`) replacing the legacy left sidebar with brand + project breadcrumb + Mission / Flows / Board / Queue / Codebase / More nav-tabs + Jump-to-K / Bell / Avatar cluster; design primitives library under `src/ui/components/design/` (Chip, KBD, ToneDot, Button, PhaseRail, SectionEyebrow, Brand, MiniTerminal, LiveTerminal, role-tone mapping, fmtElapsed / relTime). Mission Control rebuilt around the v2a "Brief → Flow → Crew → Run" composer (`src/ui/components/mission/v3/Composer.tsx`) wired to real `api.listGuides` / `api.listProviders` / `api.listSkills` / `api.spawnRun` with auto-growing brief, full-shape flow chips with step pips, click-to-pick crew cards per guide slot, skills chip, read-only / auto-branch / default provider chips, and ⌘⏎ Send-to-crew button — plus Live Runs grid with mini-terminals streamed from the existing SSE aggregate, Recent Runs table, and a right rail (Approvals · Workspace · Notifications · Shortcuts) backed by real approval/run/notification data. Run Detail rebuilt in the same visual family (`src/ui/components/runs/v3/*`): breadcrumb header, Status section with phase rail and Pause/Abort or Approve/Reject controls, Crew strip derived from the guide-run state, Live Execution wrapping the existing `LiveOutputPanel` provider-CLI tail, Current Agent / Diff stats panels driven by `RuntimeMetrics`, Step Timeline from `run.guide.steps`, and an Inspector drawer with Events / Artifacts / Validation tabs that reuses the existing data panels. New Flow Builder page (`src/ui/app/routes/FlowBuilderPage.tsx`) at the `flow` route — discovered-guide grid + editable name + step list + Step Inspector + Policies + Flow preview. `Route` extended with `{ kind: "flow"; guideId }`, `App.tsx` and `route.ts` updated, CLI hint added in `cli-hints.ts`.
-- [x] **Mission v3 cleanup + Flow Builder persistence + Composer presets (this branch, follow-up)** — deleted the dead legacy components (`MissionBar`, `AttentionBar`, `SecondaryPanels`, `ExecutionCanvas`, `SortableSection`, old `Composer`, `PromptBar`, `ContextMenu`, `groupNotifications`, `useNumberedNav`, `phaseRail`, `Sidebar`) along with their three orphan tests, and split the `NavId` type into `src/ui/components/layout/nav-id.ts`. Added `PATCH /api/guides/:guideId` backed by a pure `mergeGuidePatch` validator + `applyGuidePatch` atomic writer (tempfile + rename, 0o600, path-guarded under `.amaco/guides/`) — `src/guides/runtime/guide-patch.ts`. Refuses builtin / fixture sources with 409, refuses unknown step ids with 400, validates the merged definition through the existing zod schema. 7 new tests in `tests/guide-patch.test.ts`. Flow Builder now drives `draftLabel` + `draftStepLabels` as controlled inputs, surfaces an "Editable / Read-only" badge, and persists changes via `api.patchGuide` with success / error toasts. Added `POST /api/composer/presets` + `GET` + `DELETE /:name` backed by `src/server/composer-presets.ts` (slug-keyed upsert in `.amaco/composer-presets.json`, atomic write, schema-validated payload). 5 new tests in `tests/composer-presets.test.ts`. Composer's "Save crew as preset" / "Save as template" buttons now actually save via a `window.prompt`-named flow, and a presets dropdown at the bottom of the composer lets the user load / delete saved presets — wired through new `api.listComposerPresets` / `api.saveComposerPreset` / `api.deleteComposerPreset`. Final verify: typecheck clean, 98 test files / 789 tests passing, build green (UI 528 kB main chunk).
+- [x] **Panel Phase 2 — Dashboard + Runs detail (`962d853`)** — new Dashboard home (default landing tab) with overview stat cards (active runs, queue depth, pending approvals/suggestions, scheduler state), Active Runs short list, Recent Activity feed merged across all runs newest-first, Recently Finished block. Runs page upgraded to a two-column layout: narrow left list (with `a<n>` / `s<n>` chips for pending approvals/suggestions per run) and a rich right-side inspector with three sub-tabs — Overview (full fact sheet incl. effort, override, mode, paused-at, live skills + MCP), Events (event tail with type-colored rows and a `/` filter via ink-text-input that scopes by case-insensitive substring across `type + message`, with X/Y match counter), and Validation (last-N validation events with a "no validation yet" honest empty state). Keys: `tab` cycles sub-tabs, `o/e/v` jumps directly, `/` opens the filter (auto-jumps to Events), Esc closes it; `page.set` clears modal layers so cycling tabs never strands a half-open filter. Snapshot extended with `pendingApprovals` + `pendingSuggestions` per run, an `aggregates` block (also exposed via `vibestrate shell --once`), and a sorted `recentActivity` feed across all runs. 13 new tests across snapshot aggregates, reducer (inspector cycle + filter open + filter-text persistence across tab switches), and the pure `filterEvents` helper.
+- [x] **Panel Phase 1 — ink foundation (`df90373`)** — rewrote `vibestrate shell` on top of `ink` (React for the terminal) so we get focus, flex layout, text-input, and modal layering for free. New surface: top tab bar with `1-0` hotkeys for every future page (Dashboard, Runs, Roadmap, Queue, Agents, Skills, Approvals, Suggestions, Notifs, Doctor), context-sensitive footer keymap, toast layer with auto-dismiss, vim-style `:` command palette with fuzzy filter + `↵`/Esc handling, `?` help overlay, `q`/Ctrl+C quit. Runs page is fully ported (no regression — same list + inspector + queue snippet + pause/resume/abort/y-N confirm). Other tabs render an honest "Phase N" placeholder so the structure is visible from day one. Pure modules: `ui-state.ts` (reducer + per-page selection cursors + toast cap), `palette.ts` (catalog + subsequence scorer + cap). 17 new tests. Old hand-rolled `shell-render.ts` + `shell-runtime.ts` removed; `shell-snapshot.ts` + `shell-actions.ts` reused as-is.
+- [x] **Interactive shell / TUI panel (`3e80f3a`)** — new `vibestrate shell` command opens a full-screen alt-screen TUI that reflects live orchestrator state: active runs (id, status, current agent, provider, effort, read-only, pause flags), per-run inspector pane (effort/override, current skills + MCP servers, last N events colored by type), queue snapshot (source + priority + counts), and scheduler header (policy, max concurrent, quotas, paused indicator). Keyboard controls: ↑/↓/k/j navigate, p pause selected, r resume selected, a abort (with y/N confirmation), i toggle inspector, ? help overlay, q/Ctrl+C quit. Pure `buildShellSnapshot` reads state.json + events.ndjson + scheduler files (no in-process subscription needed — works against any project root, including watching another process's run). Pure `renderShell` returns a paint-once frame string so the loop only writes when the frame changed. Actions reuse `pause-service` + the same abort transition the existing `vibestrate abort` uses, so the orchestrator picks them up via its normal polling — no new IPC surface. 13 new tests covering snapshot derivation, action writes, frame rendering, confirm dialog, help overlay. Also exposes `--once` flag that emits the snapshot as JSON for scripting / smoke tests.
+- [x] **Queue fairness + per-source quotas (`b878e6c`)** — every `QueueEntry` now carries a `source` (default `"user"`); scheduler config adds `queuePolicy: "fair"` (round-robin by source load, FIFO within a source), `sourceQuotas: { <source>: <max-in-flight> }`, and `defaultSourceConcurrency`. Pure `pickNextEntry` in `src/scheduler/picker.ts` (11 new tests) — verdicts are `pick | at-capacity | empty | all-blocked(reasons[])`. Scheduler service drives the picker, tracks in-flight source counts, and logs `source quota exhausted` when an entry is held. CLI `vibestrate queue add --source <name>` and the QueuePage surfaces the source chip + active quotas. Old queues without `source` parse back as `"user"`, preserving FIFO/priority behaviour.
+- [x] **Agent + skill MCP servers (`7679b75`)** — agents declare `mcpServers` in `.vibestrate/project.yml`; skills declare them in a sibling `.mcp.json` next to `SKILL.md`. `src/mcp/{mcp-schema, mcp-resolve, mcp-config-writer}` (zod schema rejecting shell metachars, pure agent/skill merge with agent>earlier-skill precedence and collision report, 0o600 `mcp.json` writer). Orchestrator materializes one config per agent invocation under `mcp/<stage>-<agent>.json`, emits a new `mcp.attached` event with server names + sources, and threads `mcpConfigPath` through `runProvider`. `claude-code` provider auto-injects `--mcp-config <path>`; every provider also exports `VIBESTRATE_MCP_CONFIG=<path>` so any CLI provider can opt in. Skills API + SkillsPanel surface an "N MCP" chip + an inline `.mcp.json error` chip when validation fails. 18 new tests (mcp-resolve, mcp-config-writer, skill-discovery .mcp.json + error path).
+- [x] **CLI hint overlay (`99eeea5`)** — bottom-right floating `Terminal` button on every dashboard view expands into a card with the equivalent `vibestrate …` commands for the current Route + run/task ID interpolation + flag tips (`--effort`, `--read-only`, `--provider`); pure `hintForRoute` in `src/ui/lib/cli-hints.ts` (5 new tests), `CliHintOverlay` component, wired in `App.tsx`.
+- [x] **Heuristic effort auto-detect (`2bfe34f`)** — pure `classifyEffort({ text, files })` in `src/core/effort-heuristic.ts` (11 new tests); CLI prints a per-task verdict + reasons on every `vibestrate run` / `vibestrate tasks add`; `--auto-effort` applies; `POST /api/effort/classify` exposes the same logic; dashboard task-detail panel surfaces the verdict with a one-click apply when it disagrees.
+- [x] **Mission Control v3 redesign (this branch, `feature/app-redesign-v3`)** — rebuild of the dashboard around the Vibestrate.html design handoff: ink/fog/violet token palette + Geist / Geist Mono / Instrument Serif fonts + glass / bevel-violet / phase-rail / pulse-dot CSS primitives in `src/ui/index.css`; new top-bar shell (`src/ui/components/layout/TopBar.tsx`) replacing the legacy left sidebar with brand + project breadcrumb + Mission / Flows / Board / Queue / Codebase / More nav-tabs + Jump-to-K / Bell / Avatar cluster; design primitives library under `src/ui/components/design/` (Chip, KBD, ToneDot, Button, PhaseRail, SectionEyebrow, Brand, MiniTerminal, LiveTerminal, role-tone mapping, fmtElapsed / relTime). Mission Control rebuilt around the v2a "Brief → Flow → Crew → Run" composer (`src/ui/components/mission/v3/Composer.tsx`) wired to real `api.listGuides` / `api.listProviders` / `api.listSkills` / `api.spawnRun` with auto-growing brief, full-shape flow chips with step pips, click-to-pick crew cards per guide slot, skills chip, read-only / auto-branch / default provider chips, and ⌘⏎ Send-to-crew button — plus Live Runs grid with mini-terminals streamed from the existing SSE aggregate, Recent Runs table, and a right rail (Approvals · Workspace · Notifications · Shortcuts) backed by real approval/run/notification data. Run Detail rebuilt in the same visual family (`src/ui/components/runs/v3/*`): breadcrumb header, Status section with phase rail and Pause/Abort or Approve/Reject controls, Crew strip derived from the guide-run state, Live Execution wrapping the existing `LiveOutputPanel` provider-CLI tail, Current Agent / Diff stats panels driven by `RuntimeMetrics`, Step Timeline from `run.guide.steps`, and an Inspector drawer with Events / Artifacts / Validation tabs that reuses the existing data panels. New Flow Builder page (`src/ui/app/routes/FlowBuilderPage.tsx`) at the `flow` route — discovered-guide grid + editable name + step list + Step Inspector + Policies + Flow preview. `Route` extended with `{ kind: "flow"; guideId }`, `App.tsx` and `route.ts` updated, CLI hint added in `cli-hints.ts`.
+- [x] **Mission v3 cleanup + Flow Builder persistence + Composer presets (this branch, follow-up)** — deleted the dead legacy components (`MissionBar`, `AttentionBar`, `SecondaryPanels`, `ExecutionCanvas`, `SortableSection`, old `Composer`, `PromptBar`, `ContextMenu`, `groupNotifications`, `useNumberedNav`, `phaseRail`, `Sidebar`) along with their three orphan tests, and split the `NavId` type into `src/ui/components/layout/nav-id.ts`. Added `PATCH /api/guides/:guideId` backed by a pure `mergeGuidePatch` validator + `applyGuidePatch` atomic writer (tempfile + rename, 0o600, path-guarded under `.vibestrate/guides/`) — `src/guides/runtime/guide-patch.ts`. Refuses builtin / fixture sources with 409, refuses unknown step ids with 400, validates the merged definition through the existing zod schema. 7 new tests in `tests/guide-patch.test.ts`. Flow Builder now drives `draftLabel` + `draftStepLabels` as controlled inputs, surfaces an "Editable / Read-only" badge, and persists changes via `api.patchGuide` with success / error toasts. Added `POST /api/composer/presets` + `GET` + `DELETE /:name` backed by `src/server/composer-presets.ts` (slug-keyed upsert in `.vibestrate/composer-presets.json`, atomic write, schema-validated payload). 5 new tests in `tests/composer-presets.test.ts`. Composer's "Save crew as preset" / "Save as template" buttons now actually save via a `window.prompt`-named flow, and a presets dropdown at the bottom of the composer lets the user load / delete saved presets — wired through new `api.listComposerPresets` / `api.saveComposerPreset` / `api.deleteComposerPreset`. Final verify: typecheck clean, 98 test files / 789 tests passing, build green (UI 528 kB main chunk).
 - [x] **Richer guide step inspector — kind / slot / agentId / approval gate (this branch, follow-up)** — extended `guidePatchInputSchema` and `mergeGuidePatch` with `kind`, `slot` (nullable), `agentId` (nullable), `approval` (nullable, full gate metadata) on a per-step basis. The pure merger preserves the "absent / null / value" tri-state contract so a single PATCH can both clear and re-assign fields. The Step Inspector grew dedicated editors for each: kind picker, slot select sourced from the guide's slots map, agent override input, and a collapsible Approval block (reason, requestedAction, userMessage, riskLevel chips). A pure `diffStep` helper reduces drafts to the minimal patch payload so the wire surface only carries real changes. 5 new tests in `tests/guide-patch.test.ts` (12 total) cover slot re-routing, agentId clear-via-null, the kind↔approval invariant in both directions, and approval-metadata overwrite.
-- [x] **Notifications drawer — pixel-perfect & fully wired (this branch, follow-up)** — net-new `src/ui/components/notifications/NotificationsSidebar.tsx` matching the design's slide-in panel (440px / 92vw cap, backdrop with click-to-close + Esc, body-scroll lock, edge violet glow). Header surfaces `Inbox · N total` + serif "X new" or "All caught up" + Mark-all-read + Close; filter tabs (All / Approvals / Runs / System) with live per-tab counts; buckets (Today / Yesterday / Earlier) derived per `createdAt`. Per-notification card: per-kind icon + tone, unread tick, title + relative time, body, meta row (runId / category chip / risk pill), and contextual actions ("Review approval" for approvals, "Retry" for failed, "Preview" for scheduler, plus a universal "Open" + "Dismiss"). Wired to real backend: `api.listNotifications` (4s poll), optimistic `api.markNotificationRead` on open/click, `api.resolveNotification` on dismiss, `api.markAllNotificationsRead` on Mark-all. Pure `classifyKind` projects `NotificationCategory` × `NotificationSeverity` onto the design's eight visual kinds. TopBar bell relit in the v3 chrome (square button, ring badge in violet-soft / ink-0), wired to a new `amaco:open-notifications` event so the chord can pop it from anywhere. New `g h` / `g f` / `g a` / `g m` / `g n` keyboard chords in `App.tsx` mirror the design's app.jsx contract. Legacy `NotificationCenter.tsx` and `NotificationItem.tsx` deleted. Final verify: typecheck clean, 99 test files / 800 tests passing, build green (UI 577 kB main chunk).
+- [x] **Notifications drawer — pixel-perfect & fully wired (this branch, follow-up)** — net-new `src/ui/components/notifications/NotificationsSidebar.tsx` matching the design's slide-in panel (440px / 92vw cap, backdrop with click-to-close + Esc, body-scroll lock, edge violet glow). Header surfaces `Inbox · N total` + serif "X new" or "All caught up" + Mark-all-read + Close; filter tabs (All / Approvals / Runs / System) with live per-tab counts; buckets (Today / Yesterday / Earlier) derived per `createdAt`. Per-notification card: per-kind icon + tone, unread tick, title + relative time, body, meta row (runId / category chip / risk pill), and contextual actions ("Review approval" for approvals, "Retry" for failed, "Preview" for scheduler, plus a universal "Open" + "Dismiss"). Wired to real backend: `api.listNotifications` (4s poll), optimistic `api.markNotificationRead` on open/click, `api.resolveNotification` on dismiss, `api.markAllNotificationsRead` on Mark-all. Pure `classifyKind` projects `NotificationCategory` × `NotificationSeverity` onto the design's eight visual kinds. TopBar bell relit in the v3 chrome (square button, ring badge in violet-soft / ink-0), wired to a new `vibestrate:open-notifications` event so the chord can pop it from anywhere. New `g h` / `g f` / `g a` / `g m` / `g n` keyboard chords in `App.tsx` mirror the design's app.jsx contract. Legacy `NotificationCenter.tsx` and `NotificationItem.tsx` deleted. Final verify: typecheck clean, 99 test files / 800 tests passing, build green (UI 577 kB main chunk).
 - [x] **Metrics + Agents pages — real-data analytics (this branch, follow-up)** — built on top of the RaQ6IIeD design handoff. New pure aggregator `src/core/overview-aggregator.ts` rolls cross-run + cross-agent stats off of the existing on-disk run state files (`RunStateStore` outputs) and per-run `runtime-metrics.json` (`MetricsStore`): daily outcome buckets (merged/changes/failed) for 24h/7d/30d/90d, spend-by-agent, phase latency (p50/p95 keyed off `AgentMetrics.stageId`), 7×24 activity heatmap, leaderboard with current-vs-prior-window delta, and KPI sparklines. 6 new tests in `tests/overview-aggregator.test.ts`. New routes `GET /api/metrics/overview?range=` and `GET /api/agents/overview` extend `src/server/routes/metrics.ts` and stitch the aggregator into the existing `detectAllProviders` + `loadConfig` pipeline (so the providers payload knows which models are detected + configured). MetricsPage (`src/ui/app/routes/MetricsPage.tsx`) renders the design pixel-perfect: 4-KPI strip with sparklines, stacked area chart with TODAY line, donut, horizontal spend bars, p50/p95 latency bars, hour×weekday heatmap, sortable leaderboard, all with empty states + an "Export CSV" button that builds the file in-browser. AgentsPage (`src/ui/app/routes/AgentsPage.tsx`) renders the master-detail layout: KPI strip (online / runs·24h / spend·24h / p95), roster rows (avatar, online dot, configured chip, 5-capability tick row), detail panel with bevel-violet chrome, capability radar derived from real latency / success / cost numbers, throughput sparkline, trained-skills chips from `AgentMetrics.skillsAttached`, status row. New `Route` cases `{ kind: "metrics" }` / `{ kind: "agents" }`, two new nav tabs in `TopBar` (Queue moved into the More menu to make room), new entries in `cli-hints.ts`. Shared `Sparkline` + `MiniBars` primitives in `src/ui/components/design/Sparkline.tsx`. Final verify: typecheck clean, 99 test files / 800 tests passing, UI build 571 kB main chunk.
 
 ---
@@ -502,30 +502,30 @@ Legend
 
 ## Near-term polish
 
-- [x] Profile usage counters (telemetry-only) — `validation-profile-usage-service.ts`, CLI `amaco validation usage`, `GET /api/validation/profile-usage`, surfaced per-row in `ProfileMaintenancePanel`
+- [x] Profile usage counters (telemetry-only) — `validation-profile-usage-service.ts`, CLI `vibestrate validation usage`, `GET /api/validation/profile-usage`, surfaced per-row in `ProfileMaintenancePanel`
 - [x] Did-you-mean for stale profile references in doctor — `suggestProfileName` (edit-distance ≤ 2) wired into `doctor-service.ts` and the new `validation profile doctor` CLI
 - [x] Live SSE for suggestion / bundle lists — `SuggestionsPanel` and `ReviewPassPanel` both subscribe via `streamRunEvents`; the 5 s `setInterval` is a fallback only
-- [x] `amaco validation profile doctor --all` to lift the 50-run audit cap — new subcommand with `--all` / `--run <id>` / `--json`; audit service accepts a scope
+- [x] `vibestrate validation profile doctor --all` to lift the 50-run audit cap — new subcommand with `--all` / `--run <id>` / `--json`; audit service accepts a scope
 - [x] Run Replay integration polish — deep-link route fields (`?tab=replay&replayEvent=<n> | replayPhase=<key> | replayMatch=<suggestion|approval|notification>:<id>`), pure `parseHashRoute` / `serializeRoute` in `src/ui/app/route.ts`, focus resolver + `scrollIntoView` + unresolved-focus banner in `ReplayPanel`, "Replay" cross-links on Suggestions / Approvals / Notifications rows, per-row "Replay" button in `RunList`, synthetic `notification.created` events now carry `data.id` for cross-link matching. 12 new tests (`tests/ui-route.test.ts` + extension to `tests/run-replay.test.ts`).
-- [x] Live skills observability + concise mode + diff chip on home (`5f28b30`) — `agent.started` events now carry `skillsAttached`/`skillsConfigured`/`skillsFromRuntime` so the RunFlowCard can honestly surface what the model saw (tooltip notes the provider's model decides whether to actually use them); per-run `concise` flag end-to-end (RunState · Orchestrator · prompt-builder adds a brevity directive · `amaco run --concise` · `POST /api/runs` body · Composer chip · `cliFor` · `deriveRerunArgs`); `+X / −Y` diff chip on each active RunFlowCard sourced from `api.getDiff` on the 2s poll, click jumps to RunDetail with the Diff inspector tab active via new `onShowRunDiff` deep-link prop.
-- [x] Dynamic home layout + per-action CLI right-click (`19ff177`) — `usePersistedState` (localStorage-backed) hook; resizable sidebar (4px hit zone, 1px line, 200–560px clamp, double-click reset, arrow-key nudge, ARIA `role="separator"`); each Home secondary panel gets a `GripVertical` drag handle (HTML5 DnD, no library) and a collapse chevron; order + collapsed state persist; numbered shortcuts ([1]–[6]) stay tied to PanelKey not visual slot; self-healing if persisted order misses a key; new pure `cliFor()` mapper returns the equivalent `amaco …` command for each known UI action (null when no CLI parity); right-click menus on RunFlowCard, TaskRow, QueueRow, ApprovalCard each include "Copy CLI: <verb>" entries; 4 new tests.
-- [x] Run control stream (between-stage directives) + header Back button (`49181a6`) — new `src/core/run-control.ts` (append-only NDJSON at `.amaco/runs/<runId>/control.ndjson`, two directive kinds: `inject-note` and `compact`, pure helpers `pendingControls()` + `renderControlNotes()` are unit-tested); orchestrator reads pending directives before each agent invocation, renders them as a markdown block, passes via `additionalNotes` in `buildAgentPrompt`, marks consumed + emits `control.applied` event; new `GET`/`POST /api/runs/:id/control` routes (length-bounded); `RunControlPanel` on run detail with free-text inject-note (⌘↵ to queue), "Compact context" button, queued + applied drawers, honest copy that controls apply at the next stage boundary (no live REPL for one-shot providers). Header `Back` button in `AppShell` (lucide ArrowLeft) calls `history.back()` when there's history, falls through to Home otherwise; listens for `popstate` + `hashchange` to stay accurate. 5 new tests.
-- [x] Mission Control overhaul — composer + execution canvas + numbered nav (`7bc0ed0`, `71618bd`, `986b792`) — three-zone Home redesign: top `MissionBar` (workspace · scheduler liveness · default provider · pending approvals / unresolved issues · last refresh, icon+label, never color alone); terminal-style `Composer` with provider dropdown (`GET /api/providers` from `provider-detection.ts` + project config, 60s cache), effort chips, searchable skills selector (per-run, plumbed end-to-end: `runStateSchema.runtimeSkills`, orchestrator merge into each agent's skill list, `amaco run --skills <csv>` CLI flag, `POST /api/runs` `skills[]`, `deriveRerunArgs --skills` for retry), read-only toggle, visible keyboard-hint legend; `ExecutionCanvas` with strong phase rail (Plan → Architect → Execute → Validate → Review → Fix → Verify → Ready), per-card status pill, provider, current agent, per-run skill count, elapsed time, "what it's waiting on", latest event preview, substantive empty state; `SecondaryPanels` with six numbered sections ([1] Backlog · [2] Ready · [3] Queue · [4] Approvals · [5] Suggestions · [6] Notifications), inline Approve/Reject on approval cards, grouped notifications via pure `groupNotifications` (deduped by `(category, fingerprint(message))`, highest severity wins, distinct runIds tracked); `useNumberedNav` hook wires 1–6 to focus + scroll panels; `?` fires `amaco:help-overlay` event. Footer keyboard-reference + scheduler-control row. 12 new tests for the pure phase-rail + notification-group helpers.
+- [x] Live skills observability + concise mode + diff chip on home (`5f28b30`) — `agent.started` events now carry `skillsAttached`/`skillsConfigured`/`skillsFromRuntime` so the RunFlowCard can honestly surface what the model saw (tooltip notes the provider's model decides whether to actually use them); per-run `concise` flag end-to-end (RunState · Orchestrator · prompt-builder adds a brevity directive · `vibestrate run --concise` · `POST /api/runs` body · Composer chip · `cliFor` · `deriveRerunArgs`); `+X / −Y` diff chip on each active RunFlowCard sourced from `api.getDiff` on the 2s poll, click jumps to RunDetail with the Diff inspector tab active via new `onShowRunDiff` deep-link prop.
+- [x] Dynamic home layout + per-action CLI right-click (`19ff177`) — `usePersistedState` (localStorage-backed) hook; resizable sidebar (4px hit zone, 1px line, 200–560px clamp, double-click reset, arrow-key nudge, ARIA `role="separator"`); each Home secondary panel gets a `GripVertical` drag handle (HTML5 DnD, no library) and a collapse chevron; order + collapsed state persist; numbered shortcuts ([1]–[6]) stay tied to PanelKey not visual slot; self-healing if persisted order misses a key; new pure `cliFor()` mapper returns the equivalent `vibestrate …` command for each known UI action (null when no CLI parity); right-click menus on RunFlowCard, TaskRow, QueueRow, ApprovalCard each include "Copy CLI: <verb>" entries; 4 new tests.
+- [x] Run control stream (between-stage directives) + header Back button (`49181a6`) — new `src/core/run-control.ts` (append-only NDJSON at `.vibestrate/runs/<runId>/control.ndjson`, two directive kinds: `inject-note` and `compact`, pure helpers `pendingControls()` + `renderControlNotes()` are unit-tested); orchestrator reads pending directives before each agent invocation, renders them as a markdown block, passes via `additionalNotes` in `buildAgentPrompt`, marks consumed + emits `control.applied` event; new `GET`/`POST /api/runs/:id/control` routes (length-bounded); `RunControlPanel` on run detail with free-text inject-note (⌘↵ to queue), "Compact context" button, queued + applied drawers, honest copy that controls apply at the next stage boundary (no live REPL for one-shot providers). Header `Back` button in `AppShell` (lucide ArrowLeft) calls `history.back()` when there's history, falls through to Home otherwise; listens for `popstate` + `hashchange` to stay accurate. 5 new tests.
+- [x] Mission Control overhaul — composer + execution canvas + numbered nav (`7bc0ed0`, `71618bd`, `986b792`) — three-zone Home redesign: top `MissionBar` (workspace · scheduler liveness · default provider · pending approvals / unresolved issues · last refresh, icon+label, never color alone); terminal-style `Composer` with provider dropdown (`GET /api/providers` from `provider-detection.ts` + project config, 60s cache), effort chips, searchable skills selector (per-run, plumbed end-to-end: `runStateSchema.runtimeSkills`, orchestrator merge into each agent's skill list, `vibestrate run --skills <csv>` CLI flag, `POST /api/runs` `skills[]`, `deriveRerunArgs --skills` for retry), read-only toggle, visible keyboard-hint legend; `ExecutionCanvas` with strong phase rail (Plan → Architect → Execute → Validate → Review → Fix → Verify → Ready), per-card status pill, provider, current agent, per-run skill count, elapsed time, "what it's waiting on", latest event preview, substantive empty state; `SecondaryPanels` with six numbered sections ([1] Backlog · [2] Ready · [3] Queue · [4] Approvals · [5] Suggestions · [6] Notifications), inline Approve/Reject on approval cards, grouped notifications via pure `groupNotifications` (deduped by `(category, fingerprint(message))`, highest severity wins, distinct runIds tracked); `useNumberedNav` hook wires 1–6 to focus + scroll panels; `?` fires `vibestrate:help-overlay` event. Footer keyboard-reference + scheduler-control row. 12 new tests for the pure phase-rail + notification-group helpers.
 - [x] Always-visible prompt bar on Home + Home/All-runs sidebar split (`d7bd976`) — new `PromptBar` (textarea above the active-runs grid, free text spawns a run, slash commands `/run` / `/task` / `/queue` / `/board` / `/runs` / `/settings` / `/help`, Enter submits, Shift+Enter newline, Cmd/Ctrl+K focuses, effort + read-only as toolbar chips, live preview hint of the dispatch verb). Mission Control wires it directly under `AttentionBar` and drops the old `+ Run a task` toggle. Sidebar now has a dedicated **Home** entry (Home icon, mission route) plus a separate **All runs** entry (History icon, runs route) so the deep-inspection page is its own destination. `AppShell` + `App.tsx` add `onShowHome` and route `currentNav` to a new `home` id. 9 new tests for the pure `parsePromptInput` helper.
-- [x] Retry-with-same-args across CLI, server, panel, and dashboard (`cb87df9`) — pure `deriveRerunArgs()` in `src/scheduler/rerun-args.ts` (shared by panel R-key handler + new server route so they produce byte-identical argv), `POST /api/runs/:runId/retry` (refuses non-terminal runs with 409, spawns `amaco run …` detached with `AMACO_SPAWNED_BY=dashboard-retry` + `AMACO_RETRY_OF=<runId>` so retries are distinguishable in the audit trail), "Retry with same args" entry in the Mission Control RunCard context menu (disabled until terminal), visible "Retry" button next to Pause/Resume in `RunHeader` for terminal runs. Original run record stays on disk untouched — retry gets a fresh runId. 4 new tests.
+- [x] Retry-with-same-args across CLI, server, panel, and dashboard (`cb87df9`) — pure `deriveRerunArgs()` in `src/scheduler/rerun-args.ts` (shared by panel R-key handler + new server route so they produce byte-identical argv), `POST /api/runs/:runId/retry` (refuses non-terminal runs with 409, spawns `vibestrate run …` detached with `VIBESTRATE_SPAWNED_BY=dashboard-retry` + `VIBESTRATE_RETRY_OF=<runId>` so retries are distinguishable in the audit trail), "Retry with same args" entry in the Mission Control RunCard context menu (disabled until terminal), visible "Retry" button next to Pause/Resume in `RunHeader` for terminal runs. Original run record stays on disk untouched — retry gets a fresh runId. 4 new tests.
 - [x] Loud presence for approvals + failed runs (`4bb9941`) — new `AttentionBar` (pinned banner under the Mission Control header, pulses red when an approval or failed run is waiting, lists waiting approvals / failed runs / open suggestions / unread notifications, hides when everything is zero and the user has answered the desktop-notification prompt) + `desktopNotify` (Web Notifications API wrapper, permission requested from the banner's click handler, deduped by stable id, no run output in the body) + SSE wiring in `MissionControlPage` so `approval.requested` / `run.failed` / `run.aborted` fire desktop pushes that focus the matching run on click. "Open inbox →" scrolls the right-rail aside into view (or opens the Issues panel as a fallback on narrow screens where the rail is hidden).
 - [x] Structured error formatter across CLI + server + panel + UI (`fd4ab20`) — pure `formatError()` in `src/core/error-format.ts` maps `ENOENT` (spawn vs fs), `EACCES`/`EPERM`, `EADDRINUSE` (with port), `ECONNREFUSED`, Fastify `statusCode` (409 / 404 / 5xx get tailored hints), and `ZodError` to `{ kind, title, detail, hint }`. Wired into the Fastify error handler (response now includes `kind`/`title`/`hint`; failures recorded into the issues stream via `toIssueInput()`), the CLI top-level handler (prints title / detail / hint), the panel's `task-actions.ts` (toasts use `formatErrorLine()`), and `src/ui/lib/api.ts`'s `readErrorMessage` (prefers `title — hint`). 9 new tests in `tests/error-format.test.ts`.
 - [x] Auto-start scheduler on queue + right-click context menus + simpler metrics (`80dd9a8`) — `ensureSchedulerRunning()` (idempotent: respects an explicit pause, surfaces `already-live` / `paused` / `spawned` / `spawn-failed` to the caller) wired into POST `/api/tasks/:id/queue` and the panel's `queueTask`; reusable `ContextMenuTrigger` (render-prop, fixed-positioned, Esc / outside-click) wired into Mission Control run cards (open · pause · resume · abort · copy id · copy CLI: status / replay · copy worktree) and queued-task rows (open · copy id · copy CLI: queue add / tasks run); `MetricsDashboard` hides empty totals + collapses "Not reported" cells to "—" and shows a single explanation line when no totals exist.
-- [x] Run Replay concept finish — client-side filter bar (text search over `ev.type + ev.message`, multi-select phase chips, clear, visible/total counts, "no matches" empty state) backed by pure `filterReplayEvents` in `src/ui/components/replay/replay-filter.ts` (9 new tests); permalink button on the selected-event card that copies `?replayEvent=<n>` to clipboard; keyboard scrubbing (`↑`/`k`, `↓`/`j`, `Home`, `End`, disabled while the search input is focused); CLI `amaco replay <runId>` with text summary + `--json` (`src/cli/commands/replay.ts`) sharing the same `buildRunReplay` projection as the UI; README updated with the deep-link + CLI surface area.
+- [x] Run Replay concept finish — client-side filter bar (text search over `ev.type + ev.message`, multi-select phase chips, clear, visible/total counts, "no matches" empty state) backed by pure `filterReplayEvents` in `src/ui/components/replay/replay-filter.ts` (9 new tests); permalink button on the selected-event card that copies `?replayEvent=<n>` to clipboard; keyboard scrubbing (`↑`/`k`, `↓`/`j`, `Home`, `End`, disabled while the search input is focused); CLI `vibestrate replay <runId>` with text summary + `--json` (`src/cli/commands/replay.ts`) sharing the same `buildRunReplay` projection as the UI; README updated with the deep-link + CLI surface area.
 
 ## Larger scope (deliberately deferred)
 
-- [x] Pause / resume active runs from CLI + UI — state-machine extension (`paused` status + `pauseRequested` + `pausedAtStatus`), orchestrator pause gates at the major stage boundaries, `amaco pause` / `amaco resume` CLI, `POST /api/runs/:id/{pause,resume}` routes, dashboard Pause/Resume buttons; see Shipped Phases below
+- [x] Pause / resume active runs from CLI + UI — state-machine extension (`paused` status + `pauseRequested` + `pausedAtStatus`), orchestrator pause gates at the major stage boundaries, `vibestrate pause` / `vibestrate resume` CLI, `POST /api/runs/:id/{pause,resume}` routes, dashboard Pause/Resume buttons; see Shipped Phases below
 - [ ] Custom workflow DAGs and parallel agents within a single task
 - [ ] Docker / cloud execution backends
 - [ ] GitHub / GitLab PR creation behind explicit user authorization
 - [ ] Real WhatsApp adapter (Twilio / WhatsApp Cloud API)
-- [x] Secret scanning + policy plugins + run replay UI — patch-content secret scan (`scanPatchContentForSecrets`), YAML-based user policy plugins (`.amaco/policies/*.yml`, `suggestion-apply` + `bundle-apply` surfaces, block-only, regex + glob matchers, CLI + dashboard, no JS plugins), and the read-only Run Replay tab (`GET /api/runs/:id/replay` + `LazyReplayPanel`) all shipped
+- [x] Secret scanning + policy plugins + run replay UI — patch-content secret scan (`scanPatchContentForSecrets`), YAML-based user policy plugins (`.vibestrate/policies/*.yml`, `suggestion-apply` + `bundle-apply` surfaces, block-only, regex + glob matchers, CLI + dashboard, no JS plugins), and the read-only Run Replay tab (`GET /api/runs/:id/replay` + `LazyReplayPanel`) all shipped
 - [x] Interactive terminal in the dashboard — opt-in per-run shell behind `policies.allowInteractiveTerminal` (default false). PTY I/O over WebSocket only; no command string crosses HTTP. CWD restricted to known run worktrees, project root refused. node-pty is optional; missing native module → honest disabled state in the panel.
 
 ---

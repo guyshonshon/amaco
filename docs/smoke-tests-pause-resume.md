@@ -2,12 +2,12 @@
 
 Tick-able checklist for the pause/resume phase landed on
 `feature/replay-filter-search` (`pauseRequested` + `pausedAtStatus`,
-orchestrator pause gates, `amaco pause` / `amaco resume`,
+orchestrator pause gates, `vibestrate pause` / `vibestrate resume`,
 `POST /api/runs/:id/{pause,resume}`, RunHeader buttons).
 
-> Setup: an `amaco init`-ed project, a real long-running provider
+> Setup: an `vibestrate init`-ed project, a real long-running provider
 > configured (so you can pause between stages and see the round-trip),
-> and the dashboard running via `amaco ui`.
+> and the dashboard running via `vibestrate ui`.
 
 ---
 
@@ -45,13 +45,13 @@ Spot-check what the assertions actually cover:
 
 ## 2. CLI
 
-- [ ] `amaco pause <runId>` on an in-flight run prints "Pause requested for …" and exits 0. Re-running it is idempotent — same exit, no error.
-- [ ] `amaco resume <runId>` on a paused run prints "Resume requested for …" and exits 0.
-- [ ] `amaco resume <runId>` on a still-running run with a pending pause request also exits 0 (cancels the pending pause).
-- [ ] `amaco pause` on a terminal run prints "Run is in terminal state … pause has no effect." and exits 2.
-- [ ] `amaco pause` on a non-existent run prints "Run not found: …" and exits 1.
-- [ ] `amaco resume` on a non-paused, non-pending run prints "Run is not paused and has no pending pause request …" and exits 2.
-- [ ] After `amaco pause <runId>`, `events.ndjson` for that run grows by exactly one `run.pause_requested` row (verify with `tail -n 1`).
+- [ ] `vibestrate pause <runId>` on an in-flight run prints "Pause requested for …" and exits 0. Re-running it is idempotent — same exit, no error.
+- [ ] `vibestrate resume <runId>` on a paused run prints "Resume requested for …" and exits 0.
+- [ ] `vibestrate resume <runId>` on a still-running run with a pending pause request also exits 0 (cancels the pending pause).
+- [ ] `vibestrate pause` on a terminal run prints "Run is in terminal state … pause has no effect." and exits 2.
+- [ ] `vibestrate pause` on a non-existent run prints "Run not found: …" and exits 1.
+- [ ] `vibestrate resume` on a non-paused, non-pending run prints "Run is not paused and has no pending pause request …" and exits 2.
+- [ ] After `vibestrate pause <runId>`, `events.ndjson` for that run grows by exactly one `run.pause_requested` row (verify with `tail -n 1`).
 - [ ] No git operation, no provider call, no worktree write happens as a side effect of pause/resume — `git status` / file mtimes in the worktree are unchanged.
 
 ---
@@ -75,16 +75,16 @@ In the dashboard or via `curl`:
 Start an actual run with a non-trivial provider (so stages take long enough to observe pause):
 
 ```bash
-amaco run "make a tiny script that prints hello"
+vibestrate run "make a tiny script that prints hello"
 ```
 
 In a second terminal:
 
-- [ ] `amaco pause <runId>` while the run is in `planning`. The orchestrator's progress prints in terminal #1 continue *until the current stage finishes*, then stop. The run's status transitions to `paused` and `events.ndjson` records `run.paused`.
+- [ ] `vibestrate pause <runId>` while the run is in `planning`. The orchestrator's progress prints in terminal #1 continue *until the current stage finishes*, then stop. The run's status transitions to `paused` and `events.ndjson` records `run.paused`.
 - [ ] `state.json` shows `pausedAtStatus: "planned"` (or whichever stage was about to start).
-- [ ] `amaco resume <runId>`. The orchestrator picks up within ~1.5s (the default poll interval). Status transitions back to `pausedAtStatus`, `events.ndjson` records `run.resumed`, and the next stage runs.
-- [ ] Pause then abort (`amaco abort <runId>` while paused). The orchestrator observes the terminal state and exits cleanly with the right final report (no `run.resumed` row written after the abort).
-- [ ] Pause before the run starts: `amaco run …` in one terminal, immediately `amaco pause <runId>` (or use `--task` and pre-stage the pause). The very first pause gate fires and the run pauses at `created` without running any agent.
+- [ ] `vibestrate resume <runId>`. The orchestrator picks up within ~1.5s (the default poll interval). Status transitions back to `pausedAtStatus`, `events.ndjson` records `run.resumed`, and the next stage runs.
+- [ ] Pause then abort (`vibestrate abort <runId>` while paused). The orchestrator observes the terminal state and exits cleanly with the right final report (no `run.resumed` row written after the abort).
+- [ ] Pause before the run starts: `vibestrate run …` in one terminal, immediately `vibestrate pause <runId>` (or use `--task` and pre-stage the pause). The very first pause gate fires and the run pauses at `created` without running any agent.
 
 ---
 

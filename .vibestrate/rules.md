@@ -1,6 +1,6 @@
-# Project Rules for Amaco
+# Project Rules for Vibestrate
 
-These rules are provided to local agent CLIs during Amaco runs.
+These rules are provided to local agent CLIs during Vibestrate runs.
 
 ## Project Overview
 

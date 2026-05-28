@@ -2,7 +2,7 @@
 
 Drop reusable instruction bundles here as Markdown files. Each filename stem
 (e.g. `security.md` → `security`) is the name you reference in
-`.amaco/project.yml` under `agents.<agent>.skills`.
+`.vibestrate/project.yml` under `agents.<agent>.skills`.
 
 Examples:
 

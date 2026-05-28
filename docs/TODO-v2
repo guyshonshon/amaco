@@ -20,9 +20,9 @@ and a brief explaination about usage and how it could've been done via cli (i.e 
 a task with low effort, codex...)
 
 
-V Amaco should be some interactive shell, so it is more dynamic than just commands on terminal,
+V Vibestrate should be some interactive shell, so it is more dynamic than just commands on terminal,
 that way, we can have a much more resilient and functional terminal shell with ongoing commands,
-as amaco cli should be an interactive panel, so it should also show orchestrator, current task, agent, effort, skill using now
+as vibestrate cli should be an interactive panel, so it should also show orchestrator, current task, agent, effort, skill using now
 etc, and it should obviously reflect real thing, and with the panel we should have easy control over all stuff
 such as pause, resume, inspect or whatever other stuff we have.
 
@@ -37,7 +37,7 @@ Implement: Claude
 Review: Codex
 Challenge/Respond: Claude
 Second Review: Codex/GPT
-Decision Summary: Amaco
+Decision Summary: Vibestrate
 
 That’s not just “multi-agent hype” — it gives you a repeatable way to compare model judgment, catch polished-but-wrong code, and build a dataset of which model is better at which task.
 

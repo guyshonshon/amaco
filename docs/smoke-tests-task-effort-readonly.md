@@ -4,8 +4,8 @@ Tick-able checklist for the Phase A + Phase B work landed on
 `feature/task-effort-and-readonly` (task effort + provider override +
 read-only investigation-only runs).
 
-> Setup: `amaco init` in a project, two providers configured (e.g.
-> `claude` + `codex`), and the dashboard running via `amaco ui`. For
+> Setup: `vibestrate init` in a project, two providers configured (e.g.
+> `claude` + `codex`), and the dashboard running via `vibestrate ui`. For
 > `effortMap` checks add an `effortMap:` block under your top-level
 > config in `project.yml`.
 
@@ -37,12 +37,12 @@ Trust the 7 unit tests in `tests/effort-resolver.test.ts`, or spot-check:
 
 ## 2. CLI for effort + provider
 
-- [ ] `amaco run "tiny task" --effort low` starts a run; `state.json` carries `effort: "low"`. If `effortMap.low` is set, `resolvedProviderId` matches; otherwise `null` and a `policy.warning` row in `events.ndjson` explains the fallback.
-- [ ] `amaco run "tiny task" --provider codex` starts a run; `state.providerOverride === "codex"`, `state.resolvedProviderId === "codex"`. Agent invocations use `codex` regardless of `agents.<id>.provider`.
-- [ ] `amaco run "tiny task" --effort low --provider codex` → `providerOverride` wins, `resolvedProviderId === "codex"`.
-- [ ] `amaco run "x" --effort huge` rejects with exit 2 and a clear message ("must be one of low|medium|high").
-- [ ] `amaco tasks add "..." --effort low --provider codex --read-only` creates a task carrying all three fields. Verify with `amaco tasks show <id> --json`.
-- [ ] `amaco run "..." --task <id>` inherits effort/provider/read-only from the task when the CLI doesn't pass its own flags.
+- [ ] `vibestrate run "tiny task" --effort low` starts a run; `state.json` carries `effort: "low"`. If `effortMap.low` is set, `resolvedProviderId` matches; otherwise `null` and a `policy.warning` row in `events.ndjson` explains the fallback.
+- [ ] `vibestrate run "tiny task" --provider codex` starts a run; `state.providerOverride === "codex"`, `state.resolvedProviderId === "codex"`. Agent invocations use `codex` regardless of `agents.<id>.provider`.
+- [ ] `vibestrate run "tiny task" --effort low --provider codex` → `providerOverride` wins, `resolvedProviderId === "codex"`.
+- [ ] `vibestrate run "x" --effort huge` rejects with exit 2 and a clear message ("must be one of low|medium|high").
+- [ ] `vibestrate tasks add "..." --effort low --provider codex --read-only` creates a task carrying all three fields. Verify with `vibestrate tasks show <id> --json`.
+- [ ] `vibestrate run "..." --task <id>` inherits effort/provider/read-only from the task when the CLI doesn't pass its own flags.
 - [ ] When the CLI passes `--effort high`, it overrides what the task carries.
 
 ---
@@ -53,7 +53,7 @@ Trust the 7 unit tests in `tests/effort-resolver.test.ts`, or spot-check:
 - [ ] Change effort from "— none —" to "low" → task updates immediately; reload shows the new value persisted.
 - [ ] Type a provider id, blur the input → PATCH fires and the chip appears.
 - [ ] Clear the provider input, blur → PATCH sets it to null.
-- [ ] An unknown provider id is accepted by the PATCH (validation happens at run start, not at PATCH time). When you later `amaco run --task <id>`, the run logs the honest fallback warning.
+- [ ] An unknown provider id is accepted by the PATCH (validation happens at run start, not at PATCH time). When you later `vibestrate run --task <id>`, the run logs the honest fallback warning.
 - [ ] Run a task that has effort/provider set. The run header shows the effort chip (`Zap` icon) and the resolved-provider chip (`Cpu` icon, accent tint).
 - [ ] A run with `state.providerOverride` set but no resolution (e.g. typo) shows the effort chip but no resolved-provider chip. The replay tab carries the `policy.warning` row with the explanation.
 
@@ -61,8 +61,8 @@ Trust the 7 unit tests in `tests/effort-resolver.test.ts`, or spot-check:
 
 ## 4. CLI for read-only
 
-- [ ] `amaco run "audit the login flow" --read-only` starts a run. `state.readOnly === true`. `events.ndjson` carries the "Read-only run: …" `policy.warning` line at startup.
-- [ ] The run stages stay within: created → planning → planned → architecting → architected → reviewing → merge_ready / blocked. No `executing`, no `validating`, no `fixing`, no `verifying`. Confirm with `amaco replay <runId>`.
+- [ ] `vibestrate run "audit the login flow" --read-only` starts a run. `state.readOnly === true`. `events.ndjson` carries the "Read-only run: …" `policy.warning` line at startup.
+- [ ] The run stages stay within: created → planning → planned → architecting → architected → reviewing → merge_ready / blocked. No `executing`, no `validating`, no `fixing`, no `verifying`. Confirm with `vibestrate replay <runId>`.
 - [ ] No files in the worktree are modified during the run. `git status` in the run worktree before and after is unchanged (empty).
 - [ ] Reviewer reads `plan + architecture` priors only (no execution artifact).
 - [ ] A `CHANGES_REQUESTED` review on a read-only run flips to `BLOCKED` (no fix loop possible).
@@ -99,7 +99,7 @@ In the dashboard or via curl against a known read-only run:
 
 ## 7. Permission profile override
 
-- [ ] Open `.amaco/project.yml` and confirm `permissions.profiles.readOnly` exists (Amaco's default templates ship it). Read-only runs depend on this profile.
+- [ ] Open `.vibestrate/project.yml` and confirm `permissions.profiles.readOnly` exists (Vibestrate's default templates ship it). Read-only runs depend on this profile.
 - [ ] Start a read-only run that asks the planner to do something that would normally write (e.g. "create a new file …"). The planner's prompt is built under `readOnly` permissions; the planner's output should be a recommendation only.
 - [ ] If `permissions.profiles.readOnly` is absent from the project, the run fails fast at the planner stage with a clear "no profile named 'readOnly'" error — not a silent permission downgrade.
 
@@ -114,13 +114,13 @@ Trust the 11 unit tests in `tests/effort-heuristic.test.ts`, or spot-check:
 
 CLI surface:
 
-- [ ] `amaco tasks add "fix a typo in the README" --files README.md` prints, after the "✓ Task added" header, a line: `effort: (none) — suggested low @ 1; pass --auto-effort or --effort low to apply` plus up to three reason bullets ("Short task …", "Low-effort keyword: typo.", "All targeted files are docs …").
-- [ ] `amaco tasks add "..." --effort low` shows `(matches suggestion @ N)` when the heuristic agrees.
-- [ ] `amaco tasks add "refactor scheduler architecture" --files src/scheduler/scheduler.ts --effort low` shows `(suggested high @ N)` — the user's explicit choice still wins; the line is honest about the disagreement.
-- [ ] `amaco tasks add "..." --auto-effort` (no `--effort`) applies the heuristic verdict; the saved task carries it.
-- [ ] `amaco run "fix typo"` (no `--task`) prints the same verdict line before kickoff.
-- [ ] `amaco run "fix typo" --auto-effort` runs with the heuristic-picked effort; `state.json` shows it.
-- [ ] An LLM is **never** called. Verify with `grep provider.started .amaco/runs/<runId>/events.ndjson` — heuristic output happens before any provider invocation.
+- [ ] `vibestrate tasks add "fix a typo in the README" --files README.md` prints, after the "✓ Task added" header, a line: `effort: (none) — suggested low @ 1; pass --auto-effort or --effort low to apply` plus up to three reason bullets ("Short task …", "Low-effort keyword: typo.", "All targeted files are docs …").
+- [ ] `vibestrate tasks add "..." --effort low` shows `(matches suggestion @ N)` when the heuristic agrees.
+- [ ] `vibestrate tasks add "refactor scheduler architecture" --files src/scheduler/scheduler.ts --effort low` shows `(suggested high @ N)` — the user's explicit choice still wins; the line is honest about the disagreement.
+- [ ] `vibestrate tasks add "..." --auto-effort` (no `--effort`) applies the heuristic verdict; the saved task carries it.
+- [ ] `vibestrate run "fix typo"` (no `--task`) prints the same verdict line before kickoff.
+- [ ] `vibestrate run "fix typo" --auto-effort` runs with the heuristic-picked effort; `state.json` shows it.
+- [ ] An LLM is **never** called. Verify with `grep provider.started .vibestrate/runs/<runId>/events.ndjson` — heuristic output happens before any provider invocation.
 
 Server route:
 
@@ -145,7 +145,7 @@ Posture:
 ## 8. Effort × read-only interactions
 
 - [ ] A task with both `effort: low` and `readOnly: true` runs as read-only AND with the resolved low-effort provider on every agent.
-- [ ] `amaco run "..." --effort low --read-only` similarly carries both.
+- [ ] `vibestrate run "..." --effort low --read-only` similarly carries both.
 - [ ] The README's "Pause and resume" still works on a read-only run — it pauses between stages and resumes as before.
 
 ---
@@ -154,7 +154,7 @@ Posture:
 
 - [ ] Pause/resume + effort + read-only never call any provider on metadata writes. Spot-check `events.ndjson` for the targeted run: only the resolver's `policy.warning`, no `provider.started`.
 - [ ] Cross-tab navigation from the task detail page back to a run preserves effort/read-only state in the URL chips.
-- [ ] No new file paths read or written beyond `state.json` + `events.ndjson` + `.amaco/roadmap/tasks/<id>.json`.
+- [ ] No new file paths read or written beyond `state.json` + `events.ndjson` + `.vibestrate/roadmap/tasks/<id>.json`.
 - [ ] `assertSafeRunId` still fires on path traversal in the new routes (covered by the existing route-security tests).
 
 ---

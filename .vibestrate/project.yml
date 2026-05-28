@@ -1,11 +1,11 @@
 project:
-  name: "amaco"
+  name: "vibestrate"
   type: generic
 
 git:
   mainBranch: main
-  branchPrefix: amaco/
-  worktreeDir: ../.amaco-worktrees
+  branchPrefix: vibestrate/
+  worktreeDir: ../.vibestrate-worktrees
   requireCleanMain: false
   allowAutoMerge: false
   allowAutoPush: false
@@ -25,42 +25,48 @@ providers:
     args:
       - -p
     input: stdin
+  codex:
+    type: cli
+    command: codex
+    args:
+      - exec
+    input: stdin
 
 roles:
   planner:
-    provider: claude
-    prompt: .amaco/roles/planner.md
+    provider: codex
+    prompt: .vibestrate/roles/planner.md
     permissions: read_only
     skills:
       - impeccable
 
   architect:
-    provider: claude
-    prompt: .amaco/roles/architect.md
+    provider: codex
+    prompt: .vibestrate/roles/architect.md
     permissions: read_only
     skills: []
 
   executor:
-    provider: claude
-    prompt: .amaco/roles/executor.md
+    provider: codex
+    prompt: .vibestrate/roles/executor.md
     permissions: code_write
     skills: []
 
   fixer:
-    provider: claude
-    prompt: .amaco/roles/fixer.md
+    provider: codex
+    prompt: .vibestrate/roles/fixer.md
     permissions: code_write
     skills: []
 
   reviewer:
-    provider: claude
-    prompt: .amaco/roles/reviewer.md
+    provider: codex
+    prompt: .vibestrate/roles/reviewer.md
     permissions: read_only
     skills: []
 
   verifier:
-    provider: claude
-    prompt: .amaco/roles/verifier.md
+    provider: codex
+    prompt: .vibestrate/roles/verifier.md
     permissions: read_only
     skills: []
 
@@ -94,13 +100,13 @@ policies:
   forbidAutoPush: true
   forbidAutoMerge: true
   preserveArtifacts: true
-  # Stages where Amaco MUST pause for human approval before continuing.
+  # Stages where Vibestrate MUST pause for human approval before continuing.
   # Allowed values: planning, architecting, executing, validating, reviewing, fixing, verifying.
   # Example: requireApprovalAtStages: ["architecting", "verifying"]
   requireApprovalAtStages: []
 
 scheduler:
-  # Concurrency for the local task scheduler (`amaco queue run`).
+  # Concurrency for the local task scheduler (`vibestrate queue run`).
   # Default 1 = one task run at a time. Increase to opt in to parallel runs;
   # each task still gets its own branch and worktree.
   maxConcurrentRuns: 1

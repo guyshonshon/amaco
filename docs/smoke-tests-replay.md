@@ -9,12 +9,12 @@ Render this file in any markdown viewer that supports GFM task lists
 
 > All steps assume:
 >
-> - a project initialized with `amaco init` (`.amaco/` present),
-> - at least one finished run under `.amaco/runs/`,
-> - the dashboard started with `amaco ui` (or `pnpm dev` in dev),
+> - a project initialized with `vibestrate init` (`.vibestrate/` present),
+> - at least one finished run under `.vibestrate/runs/`,
+> - the dashboard started with `vibestrate ui` (or `pnpm dev` in dev),
 > - the latest commit of `feature/replay-filter-search` checked out.
 >
-> Whenever you see `<runId>`, use a real id from `.amaco/runs/`.
+> Whenever you see `<runId>`, use a real id from `.vibestrate/runs/`.
 
 ---
 
@@ -30,19 +30,19 @@ section starts. If you trust the last CI / local run, leave them ticked.
 
 ---
 
-## 1. CLI: `amaco replay <runId>`
+## 1. CLI: `vibestrate replay <runId>`
 
-- [ ] `amaco replay <runId>` prints a `Run …` header line, status, branch, worktree, event count.
+- [ ] `vibestrate replay <runId>` prints a `Run …` header line, status, branch, worktree, event count.
 - [ ] Phase section is present when the run has events; numbers per phase look plausible.
 - [ ] Approvals / Suggestions / Bundles / Policy refusals / Notifications / Terminal sessions sections appear only when non-empty.
-- [ ] Terminal sessions section ends with the "Metadata only — Amaco never persists terminal stdout/stderr." dim note.
+- [ ] Terminal sessions section ends with the "Metadata only — Vibestrate never persists terminal stdout/stderr." dim note.
 - [ ] Runtime metrics section shows duration, provider calls, review loops; files-changed / +/- line if available.
 - [ ] If the run has truncation, the count line shows the yellow `(truncated from N)` suffix.
 - [ ] If the run is missing optional files, a yellow `Skipped N file(s)…` block lists them with reasons.
 - [ ] Last line is the dim hint pointing at `#/runs/<runId>?tab=replay`.
-- [ ] `amaco replay <runId> --json` emits parseable JSON; piping to `jq '.events | length'` returns a number.
-- [ ] `amaco replay does-not-exist` prints `Run not found: …` in red and exits with code **1** (`echo $?`).
-- [ ] `amaco replay <runId>` does **not** touch the worktree or run any provider (no new commits, no `.env` reads, no shell exec beyond the projection's reads). Spot-check with `git status` in the run worktree before / after.
+- [ ] `vibestrate replay <runId> --json` emits parseable JSON; piping to `jq '.events | length'` returns a number.
+- [ ] `vibestrate replay does-not-exist` prints `Run not found: …` in red and exits with code **1** (`echo $?`).
+- [ ] `vibestrate replay <runId>` does **not** touch the worktree or run any provider (no new commits, no `.env` reads, no shell exec beyond the projection's reads). Spot-check with `git status` in the run worktree before / after.
 
 ---
 
@@ -130,10 +130,10 @@ Inside the Replay tab, with focus *outside* the search input:
 
 - [ ] Open Replay on a brand-new run that has only one or two events — the panel still loads, no errors, default selection lands on the last event.
 - [ ] Open Replay on a `blocked` or `aborted` run — phase grouping still renders; the `Other` bucket may carry the lion's share, which is fine.
-- [ ] Open Replay on a run whose `.amaco/runs/<id>/runtime-metrics.json` does **not** exist (an old run). The "Runtime metrics" summary card is empty / absent; the projection still renders; the file is listed under "Skipped N file(s)…" with `reason: not present`.
+- [ ] Open Replay on a run whose `.vibestrate/runs/<id>/runtime-metrics.json` does **not** exist (an old run). The "Runtime metrics" summary card is empty / absent; the projection still renders; the file is listed under "Skipped N file(s)…" with `reason: not present`.
 - [ ] If a run has a terminal session: the synthetic `terminal.session.opened` / `closed` rows appear in the timeline; the summary card lists the session id, cwd, exit code. **No** stdout/stderr field anywhere. Click `event data` → only metadata fields.
 - [ ] If a run has notifications: synthetic `notification.created` rows appear with `id` in the `data` block (open the JSON expander to verify).
-- [ ] Project-wide notifications (other run's `runId`) are filtered out — they do **not** appear in this run's Replay even if they sit in the same `.amaco/notifications/notifications.json`.
+- [ ] Project-wide notifications (other run's `runId`) are filtered out — they do **not** appear in this run's Replay even if they sit in the same `.vibestrate/notifications/notifications.json`.
 
 ---
 
@@ -146,7 +146,7 @@ These are sanity checks; none should ever pass against a malicious link.
 - [ ] The Replay panel never reads `.env` content (open a run worktree that has a `.env` file with secrets; the value never appears in the timeline, in the right-side card, or in the JSON of any event).
 - [ ] `GET /api/runs/../../etc/passwd/replay` returns 400 (path traversal refused at the route guard).
 - [ ] `GET /api/runs/unknown-id/replay` returns 404 with the `RunReplayError` shape.
-- [ ] `amaco replay <runId>` and `amaco replay <runId> --json` do not touch `git`, do not run validation, do not call providers (check `git reflog` / process tree if in doubt).
+- [ ] `vibestrate replay <runId>` and `vibestrate replay <runId> --json` do not touch `git`, do not run validation, do not call providers (check `git reflog` / process tree if in doubt).
 - [ ] Permalink URL contains only the runId and the event index — no event payload, no project path, no secret leaks. Inspect any generated permalink before sharing.
 
 ---
