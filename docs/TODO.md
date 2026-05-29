@@ -69,8 +69,11 @@ pile on. Design: `design/policy-enforcement-assurance.md` (issue #7).
   wired through it in the orchestrator (fail-closed, default-allow). Pending: the
   remaining effect kinds (`command.run`, `file.patch`/`write`, `terminal.create`,
   suggestion/bundle apply, `run.complete`) route through as their slices land.
-- [ ] **S1 — Language cleanup** — reserve "policy enforcement" for code-enforced
-  gates; call prompt-injected rules "instructions" in docs/UI.
+- [x] **S1 — Language cleanup** — reserve "policy enforcement" for code-enforced
+  gates; call prompt-injected rules "instructions" in docs/UI. Glossary defines
+  Instructions (`rules.md`, advisory) vs Policy (code-enforced) vs Action Broker;
+  `vibe init` template + default-rules fallback reworded to "Project Instructions"
+  with an up-front advisory note. Audit found the rest of docs/UI already correct.
 - [ ] **S2 — Policy engine V2** — policies on `run.preflight`, `provider.spawn`,
   `agent.turn.diff`, `suggestion.apply`, `bundle.apply`, `terminal.create`,
   `run.complete`; effects `deny` / `require_approval`.
