@@ -45,9 +45,10 @@ internal steps end-to-end without stopping, full final report. Spec:
   `PATCH /api/profiles/:id`; new resolve payload; dropped `/api/roles`/`slotProviders`
 - [x] UI: web dashboard rewired — Crew page (roster + seat coverage), new
   Profiles page, Mission Control Seat→Role→Profile allocation table, Flow
-  Builder (Seat not slot). (Branch `feature/ui-crew-model`.) Known gap: run-time
-  seat→role disambiguation for ambiguous seats isn't threaded into the run path
-  yet — the UI surfaces it as a crew-fix instead.
+  Builder (Seat not slot). (Branch `feature/ui-crew-model`.)
+- [x] Run-time seat disambiguation: `seatRoleOverrides` threaded end to end
+  (CLI `--seat-role`, `/api/runs`, orchestrator, run state); the allocation
+  table picks a role inline for ambiguous seats.
 - [x] TUI shell: `agents` page id → Crew (lists the default crew's roles)
 - [x] Docs rewrite (plain-language concept pages) + regenerated `docs/generated/*`
 - [x] Tests migrated to the new model; `pnpm typecheck && pnpm build` green
