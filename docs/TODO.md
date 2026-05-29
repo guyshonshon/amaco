@@ -43,9 +43,11 @@ internal steps end-to-end without stopping, full final report. Spec:
   providers only; flow-run wizard picks per-step Profiles
 - [x] Server: `/api/crews`, `/api/crews/:id`, crew-oriented PATCH, `/api/profiles`,
   `PATCH /api/profiles/:id`; new resolve payload; dropped `/api/roles`/`slotProviders`
-- [~] UI: web dashboard pages (Provider/Profile/Crew/Flow + Mission Control
-  Seat→Role→Profile table) **not yet rewired** — follow-up. UI still
-  compiles/builds but targets the pre-rewrite API; needs a dedicated pass.
+- [x] UI: web dashboard rewired — Crew page (roster + seat coverage), new
+  Profiles page, Mission Control Seat→Role→Profile allocation table, Flow
+  Builder (Seat not slot). (Branch `feature/ui-crew-model`.) Known gap: run-time
+  seat→role disambiguation for ambiguous seats isn't threaded into the run path
+  yet — the UI surfaces it as a crew-fix instead.
 - [x] TUI shell: `agents` page id → Crew (lists the default crew's roles)
 - [x] Docs rewrite (plain-language concept pages) + regenerated `docs/generated/*`
 - [x] Tests migrated to the new model; `pnpm typecheck && pnpm build` green

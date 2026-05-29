@@ -5,37 +5,30 @@ description: The standard plan → architect → implement → validate → revi
   workflow. Review loops back to fix and re-validate until it passes or the
   bound is hit, then a verify gate decides merge-readiness. Runs when no other
   flow is picked.
-slots:
+seats:
   planner:
     label: Planner
     description: Turns the task into a plan.
-    defaultRole: planner
   architect:
     label: Architect
     description: Designs the approach from the plan.
-    defaultRole: architect
-  executor:
-    label: Executor
+  implementer:
+    label: Implementer
     description: Implements the plan and architecture.
-    defaultRole: executor
   reviewer:
     label: Reviewer
     description: Reviews the diff and decides whether changes are needed.
-    defaultRole: reviewer
   fixer:
     label: Fixer
     description: Addresses review findings.
-    defaultRole: fixer
   verifier:
     label: Verifier
     description: Independently verifies the approved result.
-    defaultRole: verifier
 steps:
   - id: plan
     label: Plan
     kind: agent-turn
-    slot: planner
-    roleId: planner
+    seat: planner
     inputs:
       - task-brief
     outputs:
@@ -46,8 +39,7 @@ steps:
   - id: architecture
     label: Architecture
     kind: agent-turn
-    slot: architect
-    roleId: architect
+    seat: architect
     inputs:
       - task-brief
       - plan
@@ -59,8 +51,7 @@ steps:
   - id: implement
     label: Implement
     kind: agent-turn
-    slot: executor
-    roleId: executor
+    seat: implementer
     inputs:
       - task-brief
       - plan
@@ -84,8 +75,7 @@ steps:
   - id: review
     label: Review
     kind: review-turn
-    slot: reviewer
-    roleId: reviewer
+    seat: reviewer
     inputs:
       - task-brief
       - plan
@@ -101,8 +91,7 @@ steps:
   - id: fix
     label: Fix
     kind: response-turn
-    slot: fixer
-    roleId: fixer
+    seat: fixer
     inputs:
       - task-brief
       - plan
@@ -129,8 +118,7 @@ steps:
   - id: verify
     label: Verify
     kind: summary-turn
-    slot: verifier
-    roleId: verifier
+    seat: verifier
     inputs:
       - task-brief
       - plan
