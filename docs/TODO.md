@@ -61,9 +61,14 @@ Hard, code-enforced gates — Vibestrate's durable value over "prompt automation
 with nice UI." Lay the core path down right after the rewrite, before features
 pile on. Design: `design/policy-enforcement-assurance.md` (issue #7).
 
-- [ ] **S0 — Action Broker** — one Vibestrate-owned boundary every real effect
+- [~] **S0 — Action Broker** — one Vibestrate-owned boundary every real effect
   crosses (provider spawn, command run, file patch/write, terminal create,
   suggestion/bundle apply, run completion). Do this early so policy is one path.
+  Landed: `src/safety/action-broker.ts` (`decide`/`record`/`readActionLog`,
+  evaluator chain, `runs/<id>/actions.ndjson` evidence log) + **`provider.spawn`**
+  wired through it in the orchestrator (fail-closed, default-allow). Pending: the
+  remaining effect kinds (`command.run`, `file.patch`/`write`, `terminal.create`,
+  suggestion/bundle apply, `run.complete`) route through as their slices land.
 - [ ] **S1 — Language cleanup** — reserve "policy enforcement" for code-enforced
   gates; call prompt-injected rules "instructions" in docs/UI.
 - [ ] **S2 — Policy engine V2** — policies on `run.preflight`, `provider.spawn`,
