@@ -27,27 +27,30 @@ Provider`. Breaking change, no users to preserve. **This completes Epic D** (it
 internal steps end-to-end without stopping, full final report. Spec:
 `CLAUDE_CORE_MODEL_REWRITE.md`.
 
-- [ ] Config schemas: `profiles`, `crews`, `defaultCrew`; remove top-level
-  `roles` + `effortMap`; **provider-specific `power`** (don't fake one global
-  enum — a Profile stores the real effort level its provider supports; UI shows
-  only valid levels, hides the field when the provider has none)
-- [ ] Flow schema: `slots`→`seats`, `step.slot`→`step.seat`, drop `step.roleId`;
-  `slotProviders`/`stepProviders` → `seatProfileOverrides`/`stepProfileOverrides`
-- [ ] Resolver: `step.seat` → crew role (via `fills`) → profile → provider;
-  clear failures on missing/ambiguous seat fill; persist resolved snapshot
-- [ ] **Unify the two runners** (`run()` + `runFlowSequence()`) so the default
-  workflow executes as an actual flow (Epic D2 Phase B — highest-risk core change)
-- [ ] Orchestrator/provider path runs from resolved Profile→Provider
-- [ ] CLI: `--profile` / `--step-profile` / `--crew`; `profile` + `crew` command
-  groups; provider commands manage raw providers only
-- [ ] Server: `/api/crews`, `/api/profiles`, crew-oriented PATCH; new resolve payload
-- [ ] UI: Provider / Profile / Crew / Flow pages + Mission Control (Seat→Role→
-  Profile table); hide `kind/stage/inputs/outputs/approval-gate` in normal view
-- [ ] TUI shell: rename the `agents` page id → Crew (web already renamed)
-- [ ] Docs rewrite (plain-language concept pages) + regenerate `docs/generated/*`
-- [ ] Tests per the rewrite's test list; `pnpm typecheck && pnpm test && pnpm build`
-- [ ] **Vocab freeze:** `Step` = a Flow phase. Don't reuse it for the Phase-3
-  card **Checklist / items** (the task breakdown) — see design doc §1.
+- [x] Config schemas: `profiles`, `crews`, `defaultCrew`; removed top-level
+  `roles` + `effortMap`; **provider-specific `power`** (free string, not a forced
+  global enum)
+- [x] Flow schema: `slots`→`seats`, `step.slot`→`step.seat`, dropped `step.roleId`;
+  resolve payload → `crewId`/`profileOverride`/`stepProfileOverrides`
+- [x] Resolver: `step.seat` → crew role (via `fills`) → profile → provider;
+  clear failures on missing/ambiguous seat fill; persists resolved snapshot
+  (incl. `crewId` + per-step `seat`/`resolvedRoleId`/`profileId`/`providerId`)
+- [x] **Unified runner** — every run resolves a Flow and executes through the one
+  `runFlowSequence` runner (landed pre-Phase-0; preserved through the rewrite)
+- [x] Orchestrator/provider path runs from resolved Profile→Provider; budget
+  downgrade is stop-only for now (TODO: `budget.fallbackProfile`)
+- [x] CLI: `--profile` / `--step-profile` / `--crew`; provider commands manage raw
+  providers only; flow-run wizard picks per-step Profiles
+- [x] Server: `/api/crews`, `/api/crews/:id`, crew-oriented PATCH, `/api/profiles`,
+  `PATCH /api/profiles/:id`; new resolve payload; dropped `/api/roles`/`slotProviders`
+- [~] UI: web dashboard pages (Provider/Profile/Crew/Flow + Mission Control
+  Seat→Role→Profile table) **not yet rewired** — follow-up. UI still
+  compiles/builds but targets the pre-rewrite API; needs a dedicated pass.
+- [x] TUI shell: `agents` page id → Crew (lists the default crew's roles)
+- [x] Docs rewrite (plain-language concept pages) + regenerated `docs/generated/*`
+- [x] Tests migrated to the new model; `pnpm typecheck && pnpm build` green
+- [x] **Vocab freeze:** `Step` = a Flow phase only (kept free for the Phase-3 card
+  Checklist / items)
 
 ## Phase 1 — Safety pillar (Epic S)
 
