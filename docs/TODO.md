@@ -207,10 +207,13 @@ to ship *unverified* flag presets).
 
 ## ⬜ Phase 5 — Parallel integration + hub
 
-- [ ] ⬜ **Integration / merge-preview** — `git merge --no-commit` dry-runs for
-  `merge_ready` runs → conflict preview → gated sequential integrate into a
-  dedicated **integration branch** (never main, never push/auto-merge). Parallel
-  execution already works via the scheduler. (design §3)
+- [x] ✅ **Integration / merge-preview** — `src/integration/`: `mergePreview`
+  cumulative `git merge --no-ff --no-commit` dry-runs in a throwaway scratch
+  worktree (surfaces branch-vs-branch conflicts + files); `integrate` merges
+  selected merge-ready branches into a **fresh, dedicated** branch (refuses
+  main/existing, stops on first conflict, never pushes). `vibe integrate
+  list|preview|apply --into`, `GET/POST /api/integration*`, an Integration panel
+  on the Runs page. Parallel execution already worked via the scheduler. (design §3)
 - [ ] ⬜ **Guides hub** — browsable curated index (JSON manifest in a community git
   repo → raw URLs); one-click fetch + validate. (design §5, `design/flows-hub.md`)
 - [ ] ⬜ **Skill fetching + AI-overview** — fetch skill folders; read-only assist
