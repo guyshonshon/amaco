@@ -77,9 +77,13 @@ pile on. Design: `design/policy-enforcement-assurance.md` (issue #7).
   Instructions (`rules.md`, advisory) vs Policy (code-enforced) vs Action Broker;
   `vibe init` template + default-rules fallback reworded to "Project Instructions"
   with an up-front advisory note. Audit found the rest of docs/UI already correct.
-- [ ] **S2 — Policy engine V2** — policies on `run.preflight`, `provider.spawn`,
-  `agent.turn.diff`, `suggestion.apply`, `bundle.apply`, `terminal.create`,
-  `run.complete`; effects `deny` / `require_approval`.
+- [x] **S2 — Policy engine V2** — `actions:` policies in
+  `.vibestrate/policies/*.yml` gate broker effect kinds (`provider.spawn`,
+  `command.run`, `file.patch`, `file.write`, `terminal.create`, `run.complete`)
+  with `deny` / `require_approval`, matched by provider id / command regex /
+  path glob / run status. Compiled to evaluators, lazy-loaded into every broker
+  via `createActionBroker`; surfaced in CLI + API + dashboard. (`run.preflight` /
+  `agent.turn.diff` surfaces land with S3.)
 - [ ] **S3 — Post-turn diff gate** — snapshot before each write-capable role,
   run, diff after, evaluate policies → accept / request approval / rollback+block.
 - [ ] **S4 — Strict apply-only mode** — optional high-assurance mode: agents
