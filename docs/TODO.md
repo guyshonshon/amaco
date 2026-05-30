@@ -67,9 +67,11 @@ pile on. Design: `design/policy-enforcement-assurance.md` (issue #7).
   Landed: `src/safety/action-broker.ts` (`decide`/`record`/`readActionLog`,
   evaluator chain, `runs/<id>/actions.ndjson` evidence log) + `createActionBroker`
   factory + `gateAction` helper. Wired through it: **`provider.spawn`** (orchestrator)
-  and **`file.patch`** for single-suggestion apply/revert (`ReviewSuggestionService`,
-  fail-closed). Pending: `file.patch` for **bundle** apply/smartApply/revert, then
-  `command.run`, `file.write`, `terminal.create`, `run.complete` as their slices land.
+  and **`file.patch`** for all patch application — single-suggestion apply/revert
+  (`ReviewSuggestionService`) and bundle apply/smartApply/revert
+  (`SuggestionBundleService`), all fail-closed with allow/deny + ok/fail evidence.
+  Pending: `command.run`, `file.write`, `terminal.create`, `run.complete` as their
+  slices land.
 - [x] **S1 — Language cleanup** — reserve "policy enforcement" for code-enforced
   gates; call prompt-injected rules "instructions" in docs/UI. Glossary defines
   Instructions (`rules.md`, advisory) vs Policy (code-enforced) vs Action Broker;
