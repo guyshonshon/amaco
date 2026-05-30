@@ -15,11 +15,13 @@ archived under `docs/archive/` (gitignored).
 - Hub: [`design/flows-hub.md`](./design/flows-hub.md)
 - SEO/GEO ops: [`SEO_GEO_INDEXING_PLAN.md`](../SEO_GEO_INDEXING_PLAN.md)
 
-Legend: `[ ]` not started · `[~]` partial · 🔬 = design spike first.
+**Legend** — phase status (in each heading): ✅ done · 🟡 in progress · ⬜ not
+started. Item ticks: `[x]` done · `[~]` partial · `[ ]` not started · 🔬 =
+design-spike first.
 
 ---
 
-## Phase 0 — Core model rewrite (do this first)
+## ✅ Phase 0 — Core model rewrite (do this first)
 
 `Task + Flow + Crew = Run`; nouns `Flow / Step / Seat / Crew / Role / Profile /
 Provider`. Breaking change, no users to preserve. **This completes Epic D** (it
@@ -55,7 +57,7 @@ internal steps end-to-end without stopping, full final report. Spec:
 - [x] **Vocab freeze:** `Step` = a Flow phase only (kept free for the Phase-3 card
   Checklist / items)
 
-## Phase 1 — Safety pillar (Epic S)
+## 🟡 Phase 1 — Safety pillar (Epic S)
 
 Hard, code-enforced gates — Vibestrate's durable value over "prompt automation
 with nice UI." Lay the core path down right after the rewrite, before features
@@ -91,7 +93,7 @@ pile on. Design: `design/policy-enforcement-assurance.md` (issue #7).
   forbidden-path guarantees become process-level (ties to the deferred Docker
   execution backend).
 
-## Phase 2 — API contract + flow portability
+## ⬜ Phase 2 — API contract + flow portability
 
 - [ ] **API hardening** — version `/api/v1`, document the existing endpoints,
   optional bearer token for non-loopback binds (loopback stays no-auth). No new
@@ -102,7 +104,7 @@ pile on. Design: `design/policy-enforcement-assurance.md` (issue #7).
 - [ ] **Flow creator API** — there's no programmatic flow-creation surface today;
   add one (create/update flow definitions via API, matching the builder UI).
 
-## Phase 3 — Planning board
+## ⬜ Phase 3 — Planning board
 
 Board = planning only; execution lifecycle + concurrency stay in Mission/Runs
 (separate nav tabs — keep apart). Three altitudes: macro (proposal → cards) ·
@@ -135,7 +137,7 @@ design: `design/roadmap-and-sequencing.md` §1.
   effort heuristic), give flows a target complexity, warn when a heavy flow is
   overkill ("this flow might be too much — try a simpler one").
 
-## Phase 4 — Context & providers
+## ⬜ Phase 4 — Context & providers
 
 - [ ] **Context sources** — per-run/task `ContextSource[]` (`file`/`url`/`pdf`)
   materialized into `runs/<id>/context/` + injected via `PriorArtifact`; reuse
@@ -150,7 +152,7 @@ design: `design/roadmap-and-sequencing.md` §1.
   adapters like Claude's, so tokens/cost are real not `est.` (issue #5).
 - [~] **Provider presets** — Codex + Ollama shipped; OpenCode + Aider deferred.
 
-## Phase 5 — Parallel integration + hub
+## ⬜ Phase 5 — Parallel integration + hub
 
 - [ ] **Integration / merge-preview** — `git merge --no-commit` dry-runs for
   `merge_ready` runs → conflict preview → gated sequential integrate into a
@@ -161,7 +163,7 @@ design: `design/roadmap-and-sequencing.md` §1.
 - [ ] **Skill fetching + AI-overview** — fetch skill folders; read-only assist
   run judges helpful / already-present / conflicting against the local crew.
 
-## Phase 6 — Observability (opt-in)
+## ⬜ Phase 6 — Observability (opt-in)
 
 - [ ] **A6 — Webhooks** — POST on approve / merge / cap-hit via `src/notifications/`.
 - [ ] **OTel/Langfuse exporter** — map existing events/metrics (now with per-step
