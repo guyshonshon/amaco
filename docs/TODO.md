@@ -88,9 +88,11 @@ pile on. Design: `design/policy-enforcement-assurance.md` (issue #7).
   run, diff after, evaluate policies → accept / request approval / rollback+block.
 - [ ] **S4 — Strict apply-only mode** — optional high-assurance mode: agents
   propose patches, Vibestrate applies through the gateway; no direct writes.
-- [ ] **S5 — Run Assurance artifact** — `runs/<id>/assurance.json` with discrete
-  verdicts (`blocked`/`unsafe`/`unverified`/`partially_verified`/`verified`); no
-  fake confidence %.
+- [x] **S5 — Run Assurance artifact** — `runs/<id>/assurance.json` with discrete
+  verdicts (`blocked`/`unsafe`/`unverified`/`partially_verified`/`verified`), no
+  fake confidence %. Derived at every terminal state from the broker log +
+  review/verification (`src/safety/run-assurance.ts`); surfaced via
+  `vibe assurance`, `GET /api/runs/:id/assurance`, and a run-detail badge.
 - [ ] **S6 — OS sandbox path** — tie into the Docker/sandbox backend so
   forbidden-path guarantees become process-level (ties to the deferred Docker
   execution backend).
