@@ -178,7 +178,13 @@ design: `design/roadmap-and-sequencing.md` §1.
   `vibe run`, returned as `flowAdvice` from `POST /api/runs`. Built-ins: default
   + quality-arbitration = high, pickup = medium.
 
-## ⬜ Phase 4 — Context & providers
+## 🟡 Phase 4 — Context & providers
+
+Context sources + non-CLI providers shipped (the latter also gives real metrics
+for cloud/localhost). The two remaining items are blocked on real CLIs we can't
+fake per the test policy: **A7 CLI metrics** (Codex/Gemini structured output —
+needs each CLI's real format) and **OpenCode/Aider presets** (the repo refuses
+to ship *unverified* flag presets).
 
 - [x] ✅ **Context sources** — per-run/task `ContextSource[]` (`file`/`url`)
   materialized once at run start into `runs/<id>/artifacts/context/` and injected
