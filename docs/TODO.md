@@ -145,13 +145,15 @@ design: `design/roadmap-and-sequencing.md` §1.
   (not rewording). `src/assist/enhance.ts` (propose = dry-run, apply = append) +
   `vibe tasks enhance [--apply]` + `POST /api/tasks/:id/enhance` + checklist-panel
   "Enhance" button (preview → Add all). Macro proposals still create separate cards.
-- [ ] ⬜ **Pick-up execution (continuous-mode, locked)** — every run iterates a
-  checklist (instant task = synthetic 1 item); depth-per-item = the Flow's
-  **`checklistSegment`**; holistic-plan → per-item band (micro-plan · implement ·
-  check · commit · compact summary · between-item gate) → holistic review/verify.
-  **Continuous** or **Step-by-step** (gate reuses pause/resume). Linear +
-  stop-on-failure. **Build first:** the per-item compact-summary forward-carry on
-  a 3-item card — the make-or-break for context, not the loop. (design §1)
+- [x] ✅ **Pick-up execution (continuous-mode, locked)** — flow `checklistSegment`
+  repeats once per item in one worktree; holistic-plan → per-item band
+  (micro-plan · implement · commit · compact-summary forward-carry · between-item
+  gate) → holistic review. **Continuous** or **Step-by-step** (gate reuses
+  pause/resume). Linear + stop-on-failure. Per-item commits (id trailer) + status
+  write-back. Built-in `pickup` flow; `vibe tasks pickup`, `--checklist`,
+  `POST /api/runs {checklistMode}`, "Run checklist" button. The forward-carry was
+  built + tested first (`src/pickup/item-summary.ts`), then the loop. (design §1)
+  *Deferred: per-item bounded retries; resume-from-item; mid-loop profile downgrade.*
 - [ ] ⬜ **"Needs testing"** — non-blocking *advisory* state (human should eyeball,
   e.g. visual/3D/UX the model can't perceive); verdict routes Completed or back.
 - [ ] ⬜ **Promote item → card** — checklist item graduates to its own card with a
