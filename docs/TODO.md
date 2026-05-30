@@ -241,22 +241,18 @@ to ship *unverified* flag presets).
 
 ## Backlog (larger / deferred)
 
-- [ ] 🧭 **Multi-project / workspace — switch + run many projects at once** (own
-  phase; scope first). Today the dashboard is single-project: `vibe ui` pins one
-  `projectRoot` at start and every route/store reads it; the TopBar only *shows*
-  the current project label + a read-only Project page (no real switcher). Want:
-  pick from recent projects and switch instantly, and have runs across several
-  projects executing + visible at once. Open questions to expand later —
-  **(a)** a persisted project registry / "recent projects" (where: a user-level
-  `~/.vibestrate/workspace.json`?); **(b)** server shape: one server serving N
-  roots (route/store keyed by project) vs. a thin workspace server that
-  proxies/launches a per-project server; **(c)** run isolation + a cross-project
-  aggregated Mission Control / board (each run already carries its `projectRoot`);
-  **(d)** the scheduler — per-project today; a workspace-level queue or N
-  schedulers; **(e)** UI: project switcher in the TopBar, an "all projects"
-  overview, per-project nav scoping; **(f)** safety: path guards + the Action
-  Broker stay bounded **per project root** (no cross-project reads/writes). Keep
-  local-first — no hosted backend.
+- [~] 🟡 **Multi-project / workspace — switch + run many projects at once.**
+  **v1 shipped (sub-item a + e):** a user-level registry
+  (`~/.vibestrate/workspace.json`, `src/workspace/workspace-store.ts`) that each
+  `vibe ui` auto-registers with its bound port; `vibe workspace list|add|remove|
+  open`; `GET /api/workspace` (served project marked `current`); a TopBar project
+  switcher that opens another project's dashboard (its own `vibe ui`/port) — true
+  local-first "run many at once" via independent per-project dashboards. **Still
+  open (later slices):** (b) one-server-serves-N-roots vs workspace server; (c)
+  cross-project aggregated Mission Control / board; (d) workspace-level scheduler;
+  (f) the per-root safety review for a shared server. Decision so far: keep the
+  server single-project; switch = hop between dashboards (no shared-server
+  refactor, no hosted backend).
 - [ ] ⬜ **Rewind phase 2** — resume at review/verify/fix (needs per-phase worktree
   snapshots — commit/tag each phase; current capture only keeps the final tree).
 - [ ] ⬜ **Custom workflow DAGs + parallel agents within a single task** (also the
