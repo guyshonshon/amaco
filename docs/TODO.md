@@ -154,8 +154,10 @@ design: `design/roadmap-and-sequencing.md` §1.
   `POST /api/runs {checklistMode}`, "Run checklist" button. The forward-carry was
   built + tested first (`src/pickup/item-summary.ts`), then the loop. (design §1)
   *Deferred: per-item bounded retries; resume-from-item; mid-loop profile downgrade.*
-- [ ] ⬜ **"Needs testing"** — non-blocking *advisory* state (human should eyeball,
-  e.g. visual/3D/UX the model can't perceive); verdict routes Completed or back.
+- [x] ✅ **"Needs testing"** — non-blocking advisory: reviewer/verifier emit
+  `HUMAN_REVIEW: ADVISORY` (parsed like decision markers but non-blocking) →
+  card flagged `needsTesting` + reason; human verdict (`pass`→done / `fail`→
+  reopen) via API + task banner + board badge. Run keeps its real verdict.
 - [ ] ⬜ **Promote item → card** — checklist item graduates to its own card with a
   **"derived from"** link back (relation, not reparent).
 - [ ] ⬜ **Suggest-next** — pure ranker over the *backlog* (priority +
