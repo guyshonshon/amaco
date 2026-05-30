@@ -205,7 +205,7 @@ to ship *unverified* flag presets).
   still need their own structured-output adapters → deferred.
 - [~] 🟡 **Provider presets** — Codex + Ollama shipped; OpenCode + Aider deferred.
 
-## ⬜ Phase 5 — Parallel integration + hub
+## ✅ Phase 5 — Parallel integration + hub
 
 - [x] ✅ **Integration / merge-preview** — `src/integration/`: `mergePreview`
   cumulative `git merge --no-ff --no-commit` dry-runs in a throwaway scratch
@@ -220,8 +220,11 @@ to ship *unverified* flag presets).
   writer. `vibe flows hub list|install`, `GET /api/flows/hub` +
   `POST /api/flows/hub/install`. No backend — static raw URLs. (design §5)
   *(A dashboard hub-browser UI is a follow-up; api client is wired.)*
-- [ ] ⬜ **Skill fetching + AI-overview** — fetch skill folders; read-only assist
-  run judges helpful / already-present / conflicting against the local crew.
+- [x] ✅ **Skill fetching + AI-overview** — `src/skills/skill-fetch.ts`:
+  `installSkillFromUrl` (guarded/bounded fetch → secret-redact → write
+  `.vibestrate/skills/<name>.md`, path-guarded); `assessSkill` is a read-only
+  assist run judging **helpful / already_present / conflicting** vs the local
+  skills. `vibe skills fetch <url> [--assess]`, `POST /api/skills/fetch`.
 
 ## ⬜ Phase 6 — Observability (opt-in)
 
