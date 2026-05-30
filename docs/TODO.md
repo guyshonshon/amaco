@@ -180,10 +180,14 @@ design: `design/roadmap-and-sequencing.md` §1.
 
 ## ⬜ Phase 4 — Context & providers
 
-- [ ] ⬜ **Context sources** — per-run/task `ContextSource[]` (`file`/`url`/`pdf`)
-  materialized into `runs/<id>/context/` + injected via `PriorArtifact`; reuse
-  flow token budgeting. URL fetch opt-in + redacted before prompt. Web search
-  stays a per-Profile capability (not faked). (design §2)
+- [x] ✅ **Context sources** — per-run/task `ContextSource[]` (`file`/`url`)
+  materialized once at run start into `runs/<id>/artifacts/context/` and injected
+  into **every** agent prompt via `PriorArtifact`. Files path-guarded (secret
+  paths refused) + secret-content redacted; URLs SSRF-guarded + bounded +
+  redacted (`src/core/guarded-fetch.ts`). `vibe run --context-file/--context-url`,
+  task-level sources (`POST /api/tasks/:id/context` + panel) inherited by runs.
+  Web search stays a per-Profile capability (not faked). *(pdf deferred — needs a
+  local parser.)* (design §2)
 - [x] ✅ **Non-CLI providers** — `http-api` (cloud: Anthropic/OpenAI, key via env
   ref ONLY, https + non-loopback) and `localhost-proxy` (Ollama/LM Studio/vLLM,
   loopback only ⇒ no egress). `src/providers/http-api-provider.ts` (one request
