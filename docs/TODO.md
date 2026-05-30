@@ -124,16 +124,19 @@ docs: [`content/architecture/http-api.md`](./content/architecture/http-api.md).
   a full definition (same guarded writer); dashboard Flows page gains Export /
   Import / New-flow controls (UI⇄CLI parity).
 
-## 🟡 Phase 3 — Planning board
+## ✅ Phase 3 — Planning board
 
 Board = planning only; execution lifecycle + concurrency stay in Mission/Runs
 (separate nav tabs — keep apart). Three altitudes: macro (proposal → cards) ·
 meso (enhance → in-card checklist) · micro (Planner Role → impl plan). Full
 design: `design/roadmap-and-sequencing.md` §1.
 
-- [ ] ⬜ **Board as a Trello of cards** — cards = Tasks; coarse columns
-  `Planned · In-progress · Needs testing · Completed · Archived` (auto-nudged,
-  *not* the orchestrator's fine stages). No `parentTaskId`.
+- [x] ✅ **Board as a Trello of cards** — coarse columns `Planned · In-progress ·
+  Needs testing · Completed · Archived`, derived from status + the needs-testing
+  / archived overlays (`coarseColumn` in roadmap-types). Auto-nudged as status
+  changes. New `archived` flag + `setArchived` (refuses while a run is active),
+  `vibe tasks archive|unarchive`, `POST /api/tasks/:id/archive`, archive button
+  on the task. No `parentTaskId`. (Mission Control keeps the fine stages.)
 - [x] ✅ **Card Checklist** — a card holds an ordered **Checklist** of **items**,
   kept inside the card. New Task-model field (`checklist`) + service CRUD/reorder
   + `vibe tasks checklist …` + `/api/tasks/:id/checklist*` + task-detail panel.
