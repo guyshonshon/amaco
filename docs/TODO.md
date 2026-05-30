@@ -168,9 +168,12 @@ design: `design/roadmap-and-sequencing.md` §1.
   backlog (status backlog/ready): ready-first → priority → fewer open blockers →
   oldest. `vibe tasks suggest [--all]`, `GET /api/tasks/suggest`, a "next:" pill
   on the board. Unknown deps count as open; done deps don't block.
-- [ ] ⬜ **C1 — Flow-complexity warning** — estimate task complexity (mirror the
-  effort heuristic), give flows a target complexity, warn when a heavy flow is
-  overkill ("this flow might be too much — try a simpler one").
+- [x] ✅ **C1 — Flow-complexity warning** — flows declare a `complexity` (or it's
+  inferred from agent-turn count); task effort comes from the effort heuristic;
+  `flowComplexityAdvice` warns when the flow is heavier than the task (gap 1 =
+  gentle "consider", gap 2 = "might be too much"). Non-blocking: printed by
+  `vibe run`, returned as `flowAdvice` from `POST /api/runs`. Built-ins: default
+  + quality-arbitration = high, pickup = medium.
 
 ## ⬜ Phase 4 — Context & providers
 
