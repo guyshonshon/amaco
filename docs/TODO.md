@@ -137,10 +137,14 @@ design: `design/roadmap-and-sequencing.md` §1.
 - [x] ✅ **Card Checklist** — a card holds an ordered **Checklist** of **items**,
   kept inside the card. New Task-model field (`checklist`) + service CRUD/reorder
   + `vibe tasks checklist …` + `/api/tasks/:id/checklist*` + task-detail panel.
-- [ ] ⬜ **Assist primitive** — one internal one-shot, read-only, structured-output
-  run; reused by enhance / overview / suggest. (= the "AI helpers / claude -p" note)
-- [ ] ⬜ **"Enhance"** — assist run that *decomposes* a card into its Checklist
-  (not rewording). Macro proposals still create separate cards (existing pipeline).
+- [x] ✅ **Assist primitive** — one internal one-shot, read-only, structured-output
+  run; reused by enhance / overview / suggest. `src/assist/assist-runner.ts`:
+  resolve profile (crew planner) → broker-gated `provider.spawn` → parse +
+  Zod-validate JSON (1 reprompt on failure). Audit bucket `runs/assist/`.
+- [x] ✅ **"Enhance"** — assist run that *decomposes* a card into its Checklist
+  (not rewording). `src/assist/enhance.ts` (propose = dry-run, apply = append) +
+  `vibe tasks enhance [--apply]` + `POST /api/tasks/:id/enhance` + checklist-panel
+  "Enhance" button (preview → Add all). Macro proposals still create separate cards.
 - [ ] ⬜ **Pick-up execution (continuous-mode, locked)** — every run iterates a
   checklist (instant task = synthetic 1 item); depth-per-item = the Flow's
   **`checklistSegment`**; holistic-plan → per-item band (micro-plan · implement ·
