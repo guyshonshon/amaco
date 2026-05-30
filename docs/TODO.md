@@ -84,8 +84,12 @@ pile on. Design: `design/policy-enforcement-assurance.md` (issue #7).
   path glob / run status. Compiled to evaluators, lazy-loaded into every broker
   via `createActionBroker`; surfaced in CLI + API + dashboard. (`run.preflight` /
   `agent.turn.diff` surfaces land with S3.)
-- [ ] **S3 — Post-turn diff gate** — snapshot before each write-capable role,
-  run, diff after, evaluate policies → accept / request approval / rollback+block.
+- [x] **S3 — Post-turn diff gate** — snapshot each write-capable turn
+  (`git write-tree`), diff after, evaluate built-in secret/path safety +
+  `file.patch` policies → accept / require_approval (block fail-closed) /
+  deny→rollback (`read-tree`+`checkout-index`+`clean`)+block. In the orchestrator
+  role path; `src/safety/diff-gate.ts`. (Interactive mid-turn approval pause is a
+  follow-up; require_approval currently blocks.)
 - [ ] **S4 — Strict apply-only mode** — optional high-assurance mode: agents
   propose patches, Vibestrate applies through the gateway; no direct writes.
 - [x] **S5 — Run Assurance artifact** — `runs/<id>/assurance.json` with discrete
