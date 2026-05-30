@@ -201,6 +201,22 @@ design: `design/roadmap-and-sequencing.md` §1.
 
 ## Backlog (larger / deferred)
 
+- [ ] 🧭 **Multi-project / workspace — switch + run many projects at once** (own
+  phase; scope first). Today the dashboard is single-project: `vibe ui` pins one
+  `projectRoot` at start and every route/store reads it; the TopBar only *shows*
+  the current project label + a read-only Project page (no real switcher). Want:
+  pick from recent projects and switch instantly, and have runs across several
+  projects executing + visible at once. Open questions to expand later —
+  **(a)** a persisted project registry / "recent projects" (where: a user-level
+  `~/.vibestrate/workspace.json`?); **(b)** server shape: one server serving N
+  roots (route/store keyed by project) vs. a thin workspace server that
+  proxies/launches a per-project server; **(c)** run isolation + a cross-project
+  aggregated Mission Control / board (each run already carries its `projectRoot`);
+  **(d)** the scheduler — per-project today; a workspace-level queue or N
+  schedulers; **(e)** UI: project switcher in the TopBar, an "all projects"
+  overview, per-project nav scoping; **(f)** safety: path guards + the Action
+  Broker stay bounded **per project root** (no cross-project reads/writes). Keep
+  local-first — no hosted backend.
 - [ ] ⬜ **Rewind phase 2** — resume at review/verify/fix (needs per-phase worktree
   snapshots — commit/tag each phase; current capture only keeps the final tree).
 - [ ] ⬜ **Custom workflow DAGs + parallel agents within a single task** (also the
