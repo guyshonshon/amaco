@@ -184,13 +184,15 @@ design: `design/roadmap-and-sequencing.md` §1.
   materialized into `runs/<id>/context/` + injected via `PriorArtifact`; reuse
   flow token budgeting. URL fetch opt-in + redacted before prompt. Web search
   stays a per-Profile capability (not faked). (design §2)
-- [ ] ⬜ **Non-CLI providers** — two new provider types fronted by Profiles:
-  localhost proxy (Ollama serve / LM Studio / vLLM, no egress) and **cloud-API**
-  (`http-api` → api.anthropic.com/api.openai.com, user's own key via env ref,
-  destination marked external in UI). Local-first = no Vibestrate-operated
-  backend, *not* "no egress" (design §6).
-- [ ] ⬜ **A7 — Real metrics for Codex / Gemini / Ollama** — structured output
-  adapters like Claude's, so tokens/cost are real not `est.` (issue #5).
+- [x] ✅ **Non-CLI providers** — `http-api` (cloud: Anthropic/OpenAI, key via env
+  ref ONLY, https + non-loopback) and `localhost-proxy` (Ollama/LM Studio/vLLM,
+  loopback only ⇒ no egress). `src/providers/http-api-provider.ts` (one request
+  per turn, key never logged/redacted, abort+timeout). Capabilities report real
+  token usage; dashboard lists them + marks cloud **external**; doctor + safe-test
+  handle them (cloud test = key-set check, no surprise spend). (design §6)
+- [~] 🟡 **A7 — Real metrics** — cloud/localhost http-api providers now report
+  **real** token usage from the response (above). CLI providers (Codex/Gemini)
+  still need their own structured-output adapters → deferred.
 - [~] 🟡 **Provider presets** — Codex + Ollama shipped; OpenCode + Aider deferred.
 
 ## ⬜ Phase 5 — Parallel integration + hub
