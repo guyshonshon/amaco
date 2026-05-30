@@ -106,16 +106,23 @@ pile on. Design: `design/policy-enforcement-assurance.md` (issue #7).
   forbidden-path guarantees become process-level (ties to the deferred Docker
   execution backend). *Blocked: needs the Docker execution backend first.*
 
-## ⬜ Phase 2 — API contract + flow portability
+## ✅ Phase 2 — API contract + flow portability
 
-- [ ] ⬜ **API hardening** — version `/api/v1`, document the existing endpoints,
-  optional bearer token for non-loopback binds (loopback stays no-auth). No new
-  core; detached-spawn + structured payload already exist. (design §4)
-- [ ] ⬜ **Single-flow import/export** — fetch a flow YAML (URL or file),
-  schema-validate + shell-metachar/secret guard, drop into `.vibestrate/flows/`.
-  First slice of the hub; unblocked by Phase 0's portable seats. (design §5)
-- [ ] ⬜ **Flow creator API** — there's no programmatic flow-creation surface today;
-  add one (create/update flow definitions via API, matching the builder UI).
+Design deep-dive: [`design/api-contract.md`](./design/api-contract.md); user
+docs: [`content/architecture/http-api.md`](./content/architecture/http-api.md).
+
+- [x] ✅ **API hardening** — versioned `/api/v1` (aliased to `/api` via Fastify
+  `rewriteUrl` — one seam, no route refactor); optional bearer-token auth
+  (`VIBESTRATE_API_TOKEN`, constant-time) gating every `/api/*`; `vibe ui --host`
+  for non-loopback binds, which **refuse to start without a token** (fail-closed).
+  Endpoints documented in the new HTTP API page. (design §4)
+- [x] ✅ **Single-flow import/export** — `vibe flows export/import` (file or URL),
+  `GET /api/v1/flows/:id/export`, `POST /api/v1/flows/import`. Schema-validate +
+  secret refusal + control-char/size guard + SSRF guard on URLs + overwrite
+  policy + atomic write, all through one guarded writer. (design §5)
+- [x] ✅ **Flow creator API** — `POST /api/v1/flows` writes a new project flow from
+  a full definition (same guarded writer); dashboard Flows page gains Export /
+  Import / New-flow controls (UI⇄CLI parity).
 
 ## ⬜ Phase 3 — Planning board
 
