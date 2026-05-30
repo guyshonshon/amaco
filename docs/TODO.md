@@ -90,8 +90,12 @@ pile on. Design: `design/policy-enforcement-assurance.md` (issue #7).
   deny→rollback (`read-tree`+`checkout-index`+`clean`)+block. In the orchestrator
   role path; `src/safety/diff-gate.ts`. (Interactive mid-turn approval pause is a
   follow-up; require_approval currently blocks.)
-- [ ] **S4 — Strict apply-only mode** — optional high-assurance mode: agents
-  propose patches, Vibestrate applies through the gateway; no direct writes.
+- [x] **S4 — Strict apply-only mode** — `policies.strictApplyOnly`: write roles
+  run read-only and propose a unified diff; Vibestrate applies it through the
+  broker gateway (`src/safety/apply-gateway.ts`: secret/path safety → file.patch
+  policy → audited `git apply`), refusal blocks the run. Prompt instructs the
+  agent to emit a ```diff block. (End-to-end efficacy is prompt-guided; the
+  gateway + refusal paths are fully tested.)
 - [x] **S5 — Run Assurance artifact** — `runs/<id>/assurance.json` with discrete
   verdicts (`blocked`/`unsafe`/`unverified`/`partially_verified`/`verified`), no
   fake confidence %. Derived at every terminal state from the broker log +
