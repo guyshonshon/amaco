@@ -158,8 +158,12 @@ design: `design/roadmap-and-sequencing.md` §1.
   `HUMAN_REVIEW: ADVISORY` (parsed like decision markers but non-blocking) →
   card flagged `needsTesting` + reason; human verdict (`pass`→done / `fail`→
   reopen) via API + task banner + board badge. Run keeps its real verdict.
-- [ ] ⬜ **Promote item → card** — checklist item graduates to its own card with a
-  **"derived from"** link back (relation, not reparent).
+- [x] ✅ **Promote item → card** — `promoteChecklistItem` creates a new card with a
+  `derivedFrom` back-pointer + stamps the item's `promotedTaskId` (relation, not
+  reparent — item stays, inherits the parent's roadmap item). Guards double-
+  promote, allows re-promote after the card is deleted, and `deleteTask` clears
+  the dangling pointer. `vibe tasks checklist promote`, `POST …/checklist/:id/
+  promote`, ↗ button + "derived from" link in the task panel.
 - [ ] ⬜ **Suggest-next** — pure ranker over the *backlog* (priority +
   dependency-readiness; sibling to `pickNextEntry`).
 - [ ] ⬜ **C1 — Flow-complexity warning** — estimate task complexity (mirror the
