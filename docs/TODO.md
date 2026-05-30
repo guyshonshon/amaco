@@ -124,7 +124,7 @@ docs: [`content/architecture/http-api.md`](./content/architecture/http-api.md).
   a full definition (same guarded writer); dashboard Flows page gains Export /
   Import / New-flow controls (UI⇄CLI parity).
 
-## ⬜ Phase 3 — Planning board
+## 🟡 Phase 3 — Planning board
 
 Board = planning only; execution lifecycle + concurrency stay in Mission/Runs
 (separate nav tabs — keep apart). Three altitudes: macro (proposal → cards) ·
@@ -134,8 +134,9 @@ design: `design/roadmap-and-sequencing.md` §1.
 - [ ] ⬜ **Board as a Trello of cards** — cards = Tasks; coarse columns
   `Planned · In-progress · Needs testing · Completed · Archived` (auto-nudged,
   *not* the orchestrator's fine stages). No `parentTaskId`.
-- [ ] ⬜ **Card Checklist** — a card holds an ordered **Checklist** of **items**,
-  kept inside the card (stack-of-cards UI). New Task-model field.
+- [x] ✅ **Card Checklist** — a card holds an ordered **Checklist** of **items**,
+  kept inside the card. New Task-model field (`checklist`) + service CRUD/reorder
+  + `vibe tasks checklist …` + `/api/tasks/:id/checklist*` + task-detail panel.
 - [ ] ⬜ **Assist primitive** — one internal one-shot, read-only, structured-output
   run; reused by enhance / overview / suggest. (= the "AI helpers / claude -p" note)
 - [ ] ⬜ **"Enhance"** — assist run that *decomposes* a card into its Checklist
