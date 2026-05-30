@@ -214,8 +214,12 @@ to ship *unverified* flag presets).
   main/existing, stops on first conflict, never pushes). `vibe integrate
   list|preview|apply --into`, `GET/POST /api/integration*`, an Integration panel
   on the Runs page. Parallel execution already worked via the scheduler. (design §3)
-- [ ] ⬜ **Guides hub** — browsable curated index (JSON manifest in a community git
-  repo → raw URLs); one-click fetch + validate. (design §5, `design/flows-hub.md`)
+- [x] ✅ **Guides hub** — `src/flows/hub/flow-hub.ts`: fetch + validate a curated
+  `index.json` (guarded/bounded), search it, and install a flow by downloading
+  its raw `flow.yml` through the existing validated + secret/shell-guarded import
+  writer. `vibe flows hub list|install`, `GET /api/flows/hub` +
+  `POST /api/flows/hub/install`. No backend — static raw URLs. (design §5)
+  *(A dashboard hub-browser UI is a follow-up; api client is wired.)*
 - [ ] ⬜ **Skill fetching + AI-overview** — fetch skill folders; read-only assist
   run judges helpful / already-present / conflicting against the local crew.
 
