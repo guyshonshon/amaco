@@ -226,12 +226,18 @@ to ship *unverified* flag presets).
   assist run judging **helpful / already_present / conflicting** vs the local
   skills. `vibe skills fetch <url> [--assess]`, `POST /api/skills/fetch`.
 
-## ⬜ Phase 6 — Observability (opt-in)
+## ✅ Phase 6 — Observability (opt-in)
 
-- [ ] ⬜ **A6 — Webhooks** — POST on approve / merge / cap-hit via `src/notifications/`.
-- [ ] ⬜ **OTel/Langfuse exporter** — map existing events/metrics (now with per-step
-  provider/profile) to OpenTelemetry traces. Off by default; explicit endpoint
-  only. Exporter over data we already have. (design §7)
+- [x] ✅ **A6 — Webhooks** — already delivered for **approve** (`draftApproval*`)
+  and **merge** (`draftRunCompleted`) via the existing `webhook` gateway; added
+  the missing **cap-hit** (`draftSpendCapHit`, fired from the spend-cap enforcer).
+  Any notification routes to a configured webhook URL (POST JSON).
+- [x] ✅ **OTel/Langfuse exporter** — `src/telemetry/otel-exporter.ts`:
+  dependency-free OTLP/HTTP builder mapping a run's persisted metrics → a root
+  run span + per-role-turn child spans (provider/model/seat + `gen_ai.usage.*`
+  tokens/cost), and `exportRunToOtlp` POSTs to a user-set collector (`/v1/traces`,
+  bearer via env-ref, redacted). Off by default, explicit endpoint only —
+  exporter over data we already have. `vibe telemetry trace|export`. (design §7)
 
 ## Backlog (larger / deferred)
 
