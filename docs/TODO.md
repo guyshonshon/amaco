@@ -164,8 +164,10 @@ design: `design/roadmap-and-sequencing.md` §1.
   promote, allows re-promote after the card is deleted, and `deleteTask` clears
   the dangling pointer. `vibe tasks checklist promote`, `POST …/checklist/:id/
   promote`, ↗ button + "derived from" link in the task panel.
-- [ ] ⬜ **Suggest-next** — pure ranker over the *backlog* (priority +
-  dependency-readiness; sibling to `pickNextEntry`).
+- [x] ✅ **Suggest-next** — pure ranker (`src/roadmap/suggest-next.ts`) over the
+  backlog (status backlog/ready): ready-first → priority → fewer open blockers →
+  oldest. `vibe tasks suggest [--all]`, `GET /api/tasks/suggest`, a "next:" pill
+  on the board. Unknown deps count as open; done deps don't block.
 - [ ] ⬜ **C1 — Flow-complexity warning** — estimate task complexity (mirror the
   effort heuristic), give flows a target complexity, warn when a heavy flow is
   overkill ("this flow might be too much — try a simpler one").
