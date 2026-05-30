@@ -15,9 +15,10 @@ archived under `docs/archive/` (gitignored).
 - Hub: [`design/flows-hub.md`](./design/flows-hub.md)
 - SEO/GEO ops: [`SEO_GEO_INDEXING_PLAN.md`](../SEO_GEO_INDEXING_PLAN.md)
 
-**Legend** — phase status (in each heading): ✅ done · 🟡 in progress · ⬜ not
-started. Item ticks: `[x]` done · `[~]` partial · `[ ]` not started · 🔬 =
-design-spike first.
+**Legend** — every phase heading and every step carries a status icon:
+✅ done · 🟡 in progress · ⬜ not started · 🚧 blocked (waiting on a dependency) ·
+🧭 needs design/scoping first. The `[x]`/`[~]`/`[ ]` checkbox mirrors the icon
+(done / partial / open); `🔬` flags an item that needs a design spike before code.
 
 ---
 
@@ -29,32 +30,32 @@ Provider`. Breaking change, no users to preserve. **This completes Epic D** (it
 internal steps end-to-end without stopping, full final report. Spec:
 `CLAUDE_CORE_MODEL_REWRITE.md`.
 
-- [x] Config schemas: `profiles`, `crews`, `defaultCrew`; removed top-level
+- [x] ✅ Config schemas: `profiles`, `crews`, `defaultCrew`; removed top-level
   `roles` + `effortMap`; **provider-specific `power`** (free string, not a forced
   global enum)
-- [x] Flow schema: `slots`→`seats`, `step.slot`→`step.seat`, dropped `step.roleId`;
+- [x] ✅ Flow schema: `slots`→`seats`, `step.slot`→`step.seat`, dropped `step.roleId`;
   resolve payload → `crewId`/`profileOverride`/`stepProfileOverrides`
-- [x] Resolver: `step.seat` → crew role (via `fills`) → profile → provider;
+- [x] ✅ Resolver: `step.seat` → crew role (via `fills`) → profile → provider;
   clear failures on missing/ambiguous seat fill; persists resolved snapshot
   (incl. `crewId` + per-step `seat`/`resolvedRoleId`/`profileId`/`providerId`)
-- [x] **Unified runner** — every run resolves a Flow and executes through the one
+- [x] ✅ **Unified runner** — every run resolves a Flow and executes through the one
   `runFlowSequence` runner (landed pre-Phase-0; preserved through the rewrite)
-- [x] Orchestrator/provider path runs from resolved Profile→Provider; budget
+- [x] ✅ Orchestrator/provider path runs from resolved Profile→Provider; budget
   downgrade is stop-only for now (TODO: `budget.fallbackProfile`)
-- [x] CLI: `--profile` / `--step-profile` / `--crew`; provider commands manage raw
+- [x] ✅ CLI: `--profile` / `--step-profile` / `--crew`; provider commands manage raw
   providers only; flow-run wizard picks per-step Profiles
-- [x] Server: `/api/crews`, `/api/crews/:id`, crew-oriented PATCH, `/api/profiles`,
+- [x] ✅ Server: `/api/crews`, `/api/crews/:id`, crew-oriented PATCH, `/api/profiles`,
   `PATCH /api/profiles/:id`; new resolve payload; dropped `/api/roles`/`slotProviders`
-- [x] UI: web dashboard rewired — Crew page (roster + seat coverage), new
+- [x] ✅ UI: web dashboard rewired — Crew page (roster + seat coverage), new
   Profiles page, Mission Control Seat→Role→Profile allocation table, Flow
   Builder (Seat not slot). (Branch `feature/ui-crew-model`.)
-- [x] Run-time seat disambiguation: `seatRoleOverrides` threaded end to end
+- [x] ✅ Run-time seat disambiguation: `seatRoleOverrides` threaded end to end
   (CLI `--seat-role`, `/api/runs`, orchestrator, run state); the allocation
   table picks a role inline for ambiguous seats.
-- [x] TUI shell: `agents` page id → Crew (lists the default crew's roles)
-- [x] Docs rewrite (plain-language concept pages) + regenerated `docs/generated/*`
-- [x] Tests migrated to the new model; `pnpm typecheck && pnpm build` green
-- [x] **Vocab freeze:** `Step` = a Flow phase only (kept free for the Phase-3 card
+- [x] ✅ TUI shell: `agents` page id → Crew (lists the default crew's roles)
+- [x] ✅ Docs rewrite (plain-language concept pages) + regenerated `docs/generated/*`
+- [x] ✅ Tests migrated to the new model; `pnpm typecheck && pnpm build` green
+- [x] ✅ **Vocab freeze:** `Step` = a Flow phase only (kept free for the Phase-3 card
   Checklist / items)
 
 ## 🟡 Phase 1 — Safety pillar (Epic S)
@@ -63,7 +64,7 @@ Hard, code-enforced gates — Vibestrate's durable value over "prompt automation
 with nice UI." Lay the core path down right after the rewrite, before features
 pile on. Design: `design/policy-enforcement-assurance.md` (issue #7).
 
-- [x] **S0 — Action Broker** — one Vibestrate-owned boundary every real effect
+- [x] ✅ **S0 — Action Broker** — one Vibestrate-owned boundary every real effect
   crosses. `src/safety/action-broker.ts` (`decide`/`record`/`readActionLog`,
   evaluator chain, `runs/<id>/actions.ndjson` evidence log) + `createActionBroker`
   factory + `gateAction` helper. All effect kinds now routed, fail-closed with
@@ -72,48 +73,48 @@ pile on. Design: `design/policy-enforcement-assurance.md` (issue #7).
   **`file.patch`** (suggestion + bundle apply/smartApply/revert),
   **`command.run`** (validation runner), **`file.write`** (MCP config),
   **`terminal.create`** (terminal service). Evaluators are wired in S2.
-- [x] **S1 — Language cleanup** — reserve "policy enforcement" for code-enforced
+- [x] ✅ **S1 — Language cleanup** — reserve "policy enforcement" for code-enforced
   gates; call prompt-injected rules "instructions" in docs/UI. Glossary defines
   Instructions (`rules.md`, advisory) vs Policy (code-enforced) vs Action Broker;
   `vibe init` template + default-rules fallback reworded to "Project Instructions"
   with an up-front advisory note. Audit found the rest of docs/UI already correct.
-- [x] **S2 — Policy engine V2** — `actions:` policies in
+- [x] ✅ **S2 — Policy engine V2** — `actions:` policies in
   `.vibestrate/policies/*.yml` gate broker effect kinds (`provider.spawn`,
   `command.run`, `file.patch`, `file.write`, `terminal.create`, `run.complete`)
   with `deny` / `require_approval`, matched by provider id / command regex /
   path glob / run status. Compiled to evaluators, lazy-loaded into every broker
   via `createActionBroker`; surfaced in CLI + API + dashboard. (`run.preflight` /
   `agent.turn.diff` surfaces land with S3.)
-- [x] **S3 — Post-turn diff gate** — snapshot each write-capable turn
+- [x] ✅ **S3 — Post-turn diff gate** — snapshot each write-capable turn
   (`git write-tree`), diff after, evaluate built-in secret/path safety +
   `file.patch` policies → accept / require_approval (block fail-closed) /
   deny→rollback (`read-tree`+`checkout-index`+`clean`)+block. `require_approval`
   **pauses for a human** via the standard approval flow (approve → keep changes;
   reject → rollback + block). In the orchestrator role path; `src/safety/diff-gate.ts`.
-- [x] **S4 — Strict apply-only mode** — `policies.strictApplyOnly`: write roles
+- [x] ✅ **S4 — Strict apply-only mode** — `policies.strictApplyOnly`: write roles
   run read-only and propose a unified diff; Vibestrate applies it through the
   broker gateway (`src/safety/apply-gateway.ts`: secret/path safety → file.patch
   policy → audited `git apply`), refusal blocks the run. Prompt instructs the
   agent to emit a ```diff block. (End-to-end efficacy is prompt-guided; the
   gateway + refusal paths are fully tested.)
-- [x] **S5 — Run Assurance artifact** — `runs/<id>/assurance.json` with discrete
+- [x] ✅ **S5 — Run Assurance artifact** — `runs/<id>/assurance.json` with discrete
   verdicts (`blocked`/`unsafe`/`unverified`/`partially_verified`/`verified`), no
   fake confidence %. Derived at every terminal state from the broker log +
   review/verification (`src/safety/run-assurance.ts`); surfaced via
   `vibe assurance`, `GET /api/runs/:id/assurance`, and a run-detail badge.
-- [ ] **S6 — OS sandbox path** — tie into the Docker/sandbox backend so
+- [ ] 🚧 **S6 — OS sandbox path** — tie into the Docker/sandbox backend so
   forbidden-path guarantees become process-level (ties to the deferred Docker
-  execution backend).
+  execution backend). *Blocked: needs the Docker execution backend first.*
 
 ## ⬜ Phase 2 — API contract + flow portability
 
-- [ ] **API hardening** — version `/api/v1`, document the existing endpoints,
+- [ ] ⬜ **API hardening** — version `/api/v1`, document the existing endpoints,
   optional bearer token for non-loopback binds (loopback stays no-auth). No new
   core; detached-spawn + structured payload already exist. (design §4)
-- [ ] **Single-flow import/export** — fetch a flow YAML (URL or file),
+- [ ] ⬜ **Single-flow import/export** — fetch a flow YAML (URL or file),
   schema-validate + shell-metachar/secret guard, drop into `.vibestrate/flows/`.
   First slice of the hub; unblocked by Phase 0's portable seats. (design §5)
-- [ ] **Flow creator API** — there's no programmatic flow-creation surface today;
+- [ ] ⬜ **Flow creator API** — there's no programmatic flow-creation surface today;
   add one (create/update flow definitions via API, matching the builder UI).
 
 ## ⬜ Phase 3 — Planning board
@@ -123,108 +124,108 @@ Board = planning only; execution lifecycle + concurrency stay in Mission/Runs
 meso (enhance → in-card checklist) · micro (Planner Role → impl plan). Full
 design: `design/roadmap-and-sequencing.md` §1.
 
-- [ ] **Board as a Trello of cards** — cards = Tasks; coarse columns
+- [ ] ⬜ **Board as a Trello of cards** — cards = Tasks; coarse columns
   `Planned · In-progress · Needs testing · Completed · Archived` (auto-nudged,
   *not* the orchestrator's fine stages). No `parentTaskId`.
-- [ ] **Card Checklist** — a card holds an ordered **Checklist** of **items**,
+- [ ] ⬜ **Card Checklist** — a card holds an ordered **Checklist** of **items**,
   kept inside the card (stack-of-cards UI). New Task-model field.
-- [ ] **Assist primitive** — one internal one-shot, read-only, structured-output
+- [ ] ⬜ **Assist primitive** — one internal one-shot, read-only, structured-output
   run; reused by enhance / overview / suggest. (= the "AI helpers / claude -p" note)
-- [ ] **"Enhance"** — assist run that *decomposes* a card into its Checklist
+- [ ] ⬜ **"Enhance"** — assist run that *decomposes* a card into its Checklist
   (not rewording). Macro proposals still create separate cards (existing pipeline).
-- [ ] **Pick-up execution (continuous-mode, locked)** — every run iterates a
+- [ ] ⬜ **Pick-up execution (continuous-mode, locked)** — every run iterates a
   checklist (instant task = synthetic 1 item); depth-per-item = the Flow's
   **`checklistSegment`**; holistic-plan → per-item band (micro-plan · implement ·
   check · commit · compact summary · between-item gate) → holistic review/verify.
   **Continuous** or **Step-by-step** (gate reuses pause/resume). Linear +
   stop-on-failure. **Build first:** the per-item compact-summary forward-carry on
   a 3-item card — the make-or-break for context, not the loop. (design §1)
-- [ ] **"Needs testing"** — non-blocking *advisory* state (human should eyeball,
+- [ ] ⬜ **"Needs testing"** — non-blocking *advisory* state (human should eyeball,
   e.g. visual/3D/UX the model can't perceive); verdict routes Completed or back.
-- [ ] **Promote item → card** — checklist item graduates to its own card with a
+- [ ] ⬜ **Promote item → card** — checklist item graduates to its own card with a
   **"derived from"** link back (relation, not reparent).
-- [ ] **Suggest-next** — pure ranker over the *backlog* (priority +
+- [ ] ⬜ **Suggest-next** — pure ranker over the *backlog* (priority +
   dependency-readiness; sibling to `pickNextEntry`).
-- [ ] **C1 — Flow-complexity warning** — estimate task complexity (mirror the
+- [ ] ⬜ **C1 — Flow-complexity warning** — estimate task complexity (mirror the
   effort heuristic), give flows a target complexity, warn when a heavy flow is
   overkill ("this flow might be too much — try a simpler one").
 
 ## ⬜ Phase 4 — Context & providers
 
-- [ ] **Context sources** — per-run/task `ContextSource[]` (`file`/`url`/`pdf`)
+- [ ] ⬜ **Context sources** — per-run/task `ContextSource[]` (`file`/`url`/`pdf`)
   materialized into `runs/<id>/context/` + injected via `PriorArtifact`; reuse
   flow token budgeting. URL fetch opt-in + redacted before prompt. Web search
   stays a per-Profile capability (not faked). (design §2)
-- [ ] **Non-CLI providers** — two new provider types fronted by Profiles:
+- [ ] ⬜ **Non-CLI providers** — two new provider types fronted by Profiles:
   localhost proxy (Ollama serve / LM Studio / vLLM, no egress) and **cloud-API**
   (`http-api` → api.anthropic.com/api.openai.com, user's own key via env ref,
   destination marked external in UI). Local-first = no Vibestrate-operated
   backend, *not* "no egress" (design §6).
-- [ ] **A7 — Real metrics for Codex / Gemini / Ollama** — structured output
+- [ ] ⬜ **A7 — Real metrics for Codex / Gemini / Ollama** — structured output
   adapters like Claude's, so tokens/cost are real not `est.` (issue #5).
-- [~] **Provider presets** — Codex + Ollama shipped; OpenCode + Aider deferred.
+- [~] 🟡 **Provider presets** — Codex + Ollama shipped; OpenCode + Aider deferred.
 
 ## ⬜ Phase 5 — Parallel integration + hub
 
-- [ ] **Integration / merge-preview** — `git merge --no-commit` dry-runs for
+- [ ] ⬜ **Integration / merge-preview** — `git merge --no-commit` dry-runs for
   `merge_ready` runs → conflict preview → gated sequential integrate into a
   dedicated **integration branch** (never main, never push/auto-merge). Parallel
   execution already works via the scheduler. (design §3)
-- [ ] **Guides hub** — browsable curated index (JSON manifest in a community git
+- [ ] ⬜ **Guides hub** — browsable curated index (JSON manifest in a community git
   repo → raw URLs); one-click fetch + validate. (design §5, `design/flows-hub.md`)
-- [ ] **Skill fetching + AI-overview** — fetch skill folders; read-only assist
+- [ ] ⬜ **Skill fetching + AI-overview** — fetch skill folders; read-only assist
   run judges helpful / already-present / conflicting against the local crew.
 
 ## ⬜ Phase 6 — Observability (opt-in)
 
-- [ ] **A6 — Webhooks** — POST on approve / merge / cap-hit via `src/notifications/`.
-- [ ] **OTel/Langfuse exporter** — map existing events/metrics (now with per-step
+- [ ] ⬜ **A6 — Webhooks** — POST on approve / merge / cap-hit via `src/notifications/`.
+- [ ] ⬜ **OTel/Langfuse exporter** — map existing events/metrics (now with per-step
   provider/profile) to OpenTelemetry traces. Off by default; explicit endpoint
   only. Exporter over data we already have. (design §7)
 
 ## Backlog (larger / deferred)
 
-- [ ] **Rewind phase 2** — resume at review/verify/fix (needs per-phase worktree
+- [ ] ⬜ **Rewind phase 2** — resume at review/verify/fix (needs per-phase worktree
   snapshots — commit/tag each phase; current capture only keeps the final tree).
-- [ ] **Custom workflow DAGs + parallel agents within a single task** (also the
+- [ ] ⬜ **Custom workflow DAGs + parallel agents within a single task** (also the
   home for checklist-DAG + continue-past-failure + parallel item execution).
-- [ ] **Docker / cloud execution backends** (interface exists; ties S6).
-- [ ] **GitHub / GitLab PR creation** behind explicit authorization (never auto).
-- [ ] **Real WhatsApp adapter** (Twilio / WhatsApp Cloud API).
-- [ ] **E1 — Windows support** — audit path handling, detached spawns, signals,
+- [ ] ⬜ **Docker / cloud execution backends** (interface exists; ties S6).
+- [ ] ⬜ **GitHub / GitLab PR creation** behind explicit authorization (never auto).
+- [ ] ⬜ **Real WhatsApp adapter** (Twilio / WhatsApp Cloud API).
+- [ ] ⬜ **E1 — Windows support** — audit path handling, detached spawns, signals,
   worktrees; decide supported scope.
-- [ ] **E2 — Homebrew tap** — `guyshonshon/homebrew-vibestrate` (deferred; npm +
+- [ ] ⬜ **E2 — Homebrew tap** — `guyshonshon/homebrew-vibestrate` (deferred; npm +
   `curl | sh` cover macOS/Linux).
-- [ ] **Graphy (AI context-graph) integration?** — evaluate linking an external
+- [ ] 🧭 **Graphy (AI context-graph) integration?** — evaluate linking an external
   context-graph into the system. 🔬 scope first.
 
 ## UI/UX polish
 
 Much is absorbed by the Phase-0 UI work; these are residuals from the scratch notes.
 
-- [ ] **UI⇄CLI parity for provider setup** — fixing/setting up a provider (e.g.
+- [ ] ⬜ **UI⇄CLI parity for provider setup** — fixing/setting up a provider (e.g.
   codex) must be fully doable in the UI, not only `vibe provider setup`. A
   complete advanced provider UI. (recurring principle — never tell the user to
   drop to CLI as the in-UI fix.)
-- [ ] Remove/redesign subtitles & labels that read as "made by AI."
-- [ ] Crew page: confusing label/sub-label pairs (e.g. "Fix"/"fixer").
-- [ ] Provider page: the `ON / RUNS / OK` stat-bars are unexplained — label them
+- [ ] ⬜ Remove/redesign subtitles & labels that read as "made by AI."
+- [ ] ⬜ Crew page: confusing label/sub-label pairs (e.g. "Fix"/"fixer").
+- [ ] ⬜ Provider page: the `ON / RUNS / OK` stat-bars are unexplained — label them
   or remove.
-- [ ] Provider list (Crew): dragging should drag the ghost of the draggable.
-- [ ] Provider list: animated lock/unlock SVG for locked state.
+- [ ] ⬜ Provider list (Crew): dragging should drag the ghost of the draggable.
+- [ ] ⬜ Provider list: animated lock/unlock SVG for locked state.
 
 ## Ops — SEO / GEO (final)
 
 Site-deployment hygiene for vibestrate.shonshon.com. Detail + JSON-LD snippets:
 [`SEO_GEO_INDEXING_PLAN.md`](../SEO_GEO_INDEXING_PLAN.md).
 
-- [ ] Real favicon set (ico/svg/png/apple) linked from every page (`/favicon.ico` is 404).
-- [ ] `/sitemap.xml` alias/redirect (only `/sitemap-index.xml` works today).
-- [ ] 404 pages → `noindex, follow`; redirects for stale docs URLs (e.g. `/docs/overview`).
-- [ ] Update `llms.txt` / `llms-full.txt` after the Flow/Crew/Seat/Profile rewrite.
-- [ ] Fix live-site metadata mismatch (repo Apache-2.0 / `0.1.1` vs site MIT / `0.9.2`);
+- [ ] ⬜ Real favicon set (ico/svg/png/apple) linked from every page (`/favicon.ico` is 404).
+- [ ] ⬜ `/sitemap.xml` alias/redirect (only `/sitemap-index.xml` works today).
+- [ ] ⬜ 404 pages → `noindex, follow`; redirects for stale docs URLs (e.g. `/docs/overview`).
+- [ ] ⬜ Update `llms.txt` / `llms-full.txt` after the Flow/Crew/Seat/Profile rewrite.
+- [ ] ⬜ Fix live-site metadata mismatch (repo Apache-2.0 / `0.1.1` vs site MIT / `0.9.2`);
   pick one license string, use it everywhere.
-- [ ] JSON-LD: `WebSite` (name "Vibestrate"), fix `SoftwareApplication`
+- [ ] ⬜ JSON-LD: `WebSite` (name "Vibestrate"), fix `SoftwareApplication`
   license/version, add `SoftwareSourceCode` → GitHub, `sameAs` for GitHub/npm/docs.
 
 ---
