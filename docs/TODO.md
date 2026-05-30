@@ -63,17 +63,15 @@ Hard, code-enforced gates — Vibestrate's durable value over "prompt automation
 with nice UI." Lay the core path down right after the rewrite, before features
 pile on. Design: `design/policy-enforcement-assurance.md` (issue #7).
 
-- [~] **S0 — Action Broker** — one Vibestrate-owned boundary every real effect
-  crosses (provider spawn, command run, file patch/write, terminal create,
-  suggestion/bundle apply, run completion). Do this early so policy is one path.
-  Landed: `src/safety/action-broker.ts` (`decide`/`record`/`readActionLog`,
+- [x] **S0 — Action Broker** — one Vibestrate-owned boundary every real effect
+  crosses. `src/safety/action-broker.ts` (`decide`/`record`/`readActionLog`,
   evaluator chain, `runs/<id>/actions.ndjson` evidence log) + `createActionBroker`
-  factory + `gateAction` helper. Wired through it: **`provider.spawn`** (orchestrator)
-  and **`file.patch`** for all patch application — single-suggestion apply/revert
-  (`ReviewSuggestionService`) and bundle apply/smartApply/revert
-  (`SuggestionBundleService`), all fail-closed with allow/deny + ok/fail evidence.
-  Pending: `command.run`, `file.write`, `terminal.create`, `run.complete` as their
-  slices land.
+  factory + `gateAction` helper. All effect kinds now routed, fail-closed with
+  allow/deny + ok/fail evidence: **`provider.spawn`** & **`run.complete`**
+  (orchestrator; a non-allow run.complete downgrades merge_ready→blocked),
+  **`file.patch`** (suggestion + bundle apply/smartApply/revert),
+  **`command.run`** (validation runner), **`file.write`** (MCP config),
+  **`terminal.create`** (terminal service). Evaluators are wired in S2.
 - [x] **S1 — Language cleanup** — reserve "policy enforcement" for code-enforced
   gates; call prompt-injected rules "instructions" in docs/UI. Glossary defines
   Instructions (`rules.md`, advisory) vs Policy (code-enforced) vs Action Broker;
